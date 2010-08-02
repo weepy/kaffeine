@@ -13,7 +13,14 @@
 
 <h1>Kaffeine</h1>
 
+<p>Design your own Javascript.<br/>
+Inspired by Coffee script, but works by incrementally adding new syntax features via plugins.<br/>
+Core code is ~400 lines of code, and plugins are about 10-50 lines long.
+<h2>input is editable</h2>
 
+
+
+<p style='clear:both'>Tests</p>
 
 <script type=kaffeine>
 #kaffeine indented_blocks
@@ -188,8 +195,9 @@ a + b c
 if(a(b c) == d e)
 x = a b c 
 </script>
+
 <script type=kaffeine>
-#kaffeine englify @ unless brackets brackets_for_functions implicit_vars
+#kaffeine englify @ backticks arrow unless brackets reverse_ifs brackets_for_functions implicit_vars operators implicit_return implicit_vars half_operators 
 
 unless true
 {
@@ -205,7 +213,6 @@ if x is y, return
 if @x == @@Array || @.x == @ || @@.x == @@
   return
 </script>
-
 
 </body>
 </html>

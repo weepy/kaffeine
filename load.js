@@ -23,3 +23,32 @@ $().ready(function() {
     eval($(this).val())
   })
 })
+
+function process() { 
+  var self = this
+  var output = $(this).next().next()
+  var out = Kaffeine.process($(this).val())
+  
+  $(self).trigger("autoheight")
+  $(output).val(out).trigger("autoheight")
+}
+
+$().ready(function() {
+  setTimeout(function() {
+    $(".input").keyup(function(e) {
+      if( e.which >= 37 && e.which <=40 )
+       return;
+      
+      // abort on shift, cmd, etc.
+      if( e.which >= 16 && e.which <= 18 )
+       return;
+
+      clearTimeout(this.timer)    			
+      var self = this
+      this.timer = setTimeout(function() {
+        process.call(self)
+      }, 150)
+      
+    })
+  }, 1000)
+})
