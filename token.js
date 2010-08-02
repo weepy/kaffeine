@@ -256,22 +256,6 @@ Token.preprocess = function(stream) {
     if(this.curly) this.updateBlock()
   })
 
-  // calculate closure tree
-  /*var stack = []
-  var current = null
-  stream.each(function() {   
-    if(!this.curly) return 
-    
-    if(this['function']) {
-      stack.push(this)
-      this.parent = current
-      current = this
-    } else if(this.matchingBracket['function']) {
-      stack.pop()
-      current = stack[stack.length-1];
-    }
-  })*/
-  
   return stream
 }
 

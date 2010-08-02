@@ -16,11 +16,9 @@
 <p>Design your own Javascript.<br/>
 Inspired by Coffee script, but works by incrementally adding new syntax features via plugins.<br/>
 Core code is ~400 lines of code, and plugins are about 10-50 lines long.
-<h2>input is editable</h2>
+<h2>input is live editable</h2>
 
 
-
-<p style='clear:both'>Tests</p>
 
 <script type=kaffeine>
 #kaffeine indented_blocks
@@ -176,15 +174,9 @@ if(true)
 </script>
 
 <script type=kaffeine>
-#kaffeine enum pipe
-function square(x) {
-  return x*x
-}
-function high(x) {
-  return x > 10
-}
-x = [1,2,3,4,5,6,7] | map square | detect high
-alert(x.join(" "))
+#kaffeine backticks pipe 
+
+x = [1,2,3,4,5,6,7] | map `#*#` | detect `#>10`
 </script>
 
 

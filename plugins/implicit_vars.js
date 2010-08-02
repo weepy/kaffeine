@@ -29,6 +29,8 @@ Kaffeine.plugin("implicit_vars", function(stream) {
   for(var i=0; i < closures.length; i++) {
     var vars = [], closure = closures[i]
     for(var j in closure._vars) vars.push(j)
+    if(!vars.length) return
+    
     var string = "var " + vars.join(", ") + ";"
     if(closure.block) {
       var n = closure.lastNewline()
