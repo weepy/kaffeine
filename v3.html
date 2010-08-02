@@ -13,17 +13,6 @@
 
 <h1>Kaffeine</h1>
 
-<script type=kaffeine>
-#kaffeine enum pipe
-function square(x) {
-  return x*x
-}
-function high(x) {
-  return x > 10
-}
-x = [1,2,3,4,5,6,7] | map square | detect high
-alert(x.join(" "))
-</script>
 
 
 <script type=kaffeine>
@@ -177,6 +166,18 @@ a.x = || 5
 if(true)
   xa['a'] = + 4
  
+</script>
+
+<script type=kaffeine>
+#kaffeine enum pipe
+function square(x) {
+  return x*x
+}
+function high(x) {
+  return x > 10
+}
+x = [1,2,3,4,5,6,7] | map square | detect high
+alert(x.join(" "))
 </script>
 
 
