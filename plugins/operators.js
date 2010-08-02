@@ -24,8 +24,11 @@ Kaffeine.plugin("operators", function(stream) {
       
       var ret = rbracket.next      
       this.remove(rbracket)
+
       rbracket.remove()
+
       var string = lbracket.next.allText()
+
       operators[op.op] = " "+string.trim()+" "
       return ret    
     }

@@ -200,10 +200,23 @@ Token.fn.findClosure = function() {
 
 
 Token.fn.lastNewline = function() {
-  return this.findRev(function(tok) {
-    if(tok.rbracket) return tok.matchingBracket.prev // skip behind
+  var nl = this.findRev(function(tok) {
     if(tok.newline) return true
+    if(tok.rbracket) return tok.matchingBracket.prev // skip behind
   })
+  return nl
+}
+
+Token.fn.nextNewline = function() {
+  var nl = this.find(function(tok) {
+    if(tok.newline) return true
+    if(tok.lbracket) return tok.matchingBracket.next // skip behind
+  })
+  return nl
+}
+
+Token.fn.indent = function() {
+  return this.lastNewline().text.split("\n").pop().length
 }
 
 Token.preprocess = function(stream) {
@@ -276,6 +289,7 @@ Whitespace.fn.whitespace = true
 Whitespace.regex = /\s+/g
 
 var keywords = "if for while else try catch function return var".split(" ")
+var block_keywords = "if for while else try catch function".split(" ")
 
 function Word(text) { 
   this.text = text; 

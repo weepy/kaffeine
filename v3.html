@@ -14,6 +14,50 @@
 <h1>Kaffeine</h1>
 
 <script type=kaffeine>
+#kaffeine enum pipe
+function square(x) {
+  return x*x
+}
+function high(x) {
+  return x > 10
+}
+x = [1,2,3,4,5,6,7] | map square | detect high
+alert(x.join(" "))
+</script>
+
+
+<script type=kaffeine>
+#kaffeine indented_blocks
+if(true)
+  do_something()
+  and_somemore()
+    and(some(more))
+else
+  do_more
+  for(x in A)
+    send_for_help()
+    etc
+    etc
+  if(true)
+    sayhello()
+    saygoodbye()
+  
+function(x)
+  return y
+</script>
+
+
+
+<script type=kaffeine>
+#kaffeine using
+var Alert = { shout:function(x) { alert(x + "!!!")} }
+using Alert
+shout("hello");
+
+</script>
+
+
+<script type=kaffeine>
 #kaffeine unless brackets reverse_ifs
 
 return X if(false)
@@ -32,9 +76,6 @@ x = Myage() ** power + (5\4)
 a << b
 c.x << a(x)["hello"].concat(a)
 5 == 21 \ 2
-
-
-
 </script> 
 
 <script type=kaffeine>

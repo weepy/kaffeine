@@ -19,9 +19,11 @@ Kaffeine.process = function(text) {
 
 Kaffeine.convert = function(text, plugins) {
   var stream = Token.ize(text);
-  for(var i=0; i<plugins.length; i++)
-    Kaffeine.plugins[plugins[i]](stream)
-  return stream.allText();
+  for(var i=0; i<plugins.length; i++) {
+    var plugin = plugins[i];
+    Kaffeine.plugins[plugin](stream)
+  }
+  return stream.head().allText();
 }
 
 String.prototype.trim = function() {

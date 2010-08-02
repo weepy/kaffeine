@@ -1,4 +1,4 @@
-var list = "operators backticks englify brackets unless @ brackets_for_functions half_operators arrow implicit_vars implicit_return reverse_ifs".split(" "); 
+var list = "operators backticks englify brackets unless @ brackets_for_functions half_operators arrow implicit_vars implicit_return reverse_ifs using indented_blocks enum pipe".split(" "); 
 for(var i in list) { document.write("<script src='plugins/" + list[i]+ ".js'></scr" + "ipt>") }
 
 $().ready(function() {
@@ -6,8 +6,6 @@ $().ready(function() {
   $("script[type=kaffeine]").each(function() {
     var d = new Date()
     var text = $(this).html()
-
-    
     var input = $("<textarea class=input></textarea>").val(text)
 
     text = Kaffeine.process(text)
@@ -19,5 +17,9 @@ $().ready(function() {
   })
   $("textarea").each(function() {
     $(this).autoHeight()
+  })
+  
+  $(".output").live("click", function() {
+    eval($(this).val())
   })
 })
