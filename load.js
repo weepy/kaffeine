@@ -13,7 +13,7 @@ $().ready(function() {
     $(this).after(output);  
     $(this).after(input); 
         
-    console.log(new Date - d)
+    //console.log(new Date - d)
   })
   $("textarea").each(function() {
     $(this).autoHeight()
