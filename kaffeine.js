@@ -5,7 +5,7 @@ Kaffeine.plugin = function(name, fn) {
 }
 
 Kaffeine.preprocess = function(text) {
-  return text.replace(/\t/g, "  ").replace(/\s*\n/g, "\n").replace(/\r/g,"").replace(/;([^\n])/g, function(a,b) { return ";\n"+b } )
+  return text.replace(/\t/g, "  ").replace(/\s*\n/g, "\n").replace(/\r\n|\r/g,"").replace(/;([^\n])/g, function(a,b) { return ";\n"+b } )
 }
 
 Kaffeine.process = function(text) {
@@ -20,12 +20,10 @@ Kaffeine.process = function(text) {
 Kaffeine.convert = function(text, plugins) {
   var stream = Token.ize(text);
   for(var i=0; i<plugins.length; i++) {
-    var plugin = plugins[i];
-    Kaffeine.plugins[plugin](stream)
+    var plugin = Kaffeine.plugins[plugins[i]]
+    if(!plugin) log(plugins[i] + " - not loaded") 
+    plugin.call(this, stream)
   }
-  return stream.head().allText();
+  return stream.allText();
 }
 
-String.prototype.trim = function() {
-  return this.replace(/^\s*/,"").replace(/\s*$/,"")
-}

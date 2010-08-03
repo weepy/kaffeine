@@ -14,5 +14,5 @@ Kaffeine.plugin("@", function(stream) {
       return token
     }
   })
-
 })
+

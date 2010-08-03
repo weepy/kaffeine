@@ -8,8 +8,6 @@ to
 a["b"].push(get(A))
 */
 
-
-
 Kaffeine.plugin("operators", function(stream) {
   var operators = {}
   
@@ -29,7 +27,7 @@ Kaffeine.plugin("operators", function(stream) {
 
       var string = lbracket.next.allText()
 
-      operators[op.op] = " "+string.trim()+" "
+      operators[op.op] = " "+trim(string)+" "
       return ret    
     }
     

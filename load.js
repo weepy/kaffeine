@@ -1,4 +1,4 @@
-var list = "operators backticks englify brackets unless @ brackets_for_functions half_operators arrow implicit_vars implicit_return reverse_ifs using indented_blocks enum pipe".split(" "); 
+var list = "operators backticks englify brackets unless @ brackets_for_functions half_operators arrow implicit_vars implicit_return reverse_blocks using indented_blocks enum pipe multiline_strings string_interpolation".split(" "); 
 for(var i in list) { document.write("<script src='plugins/" + list[i]+ ".js'></scr" + "ipt>") }
 
 $().ready(function() {

@@ -1,6 +1,7 @@
 <html>
 <head>
 
+<script src='utils.js'></script>
 <script src='token.js'></script>
 <script src='kaffeine.js'></script>
 <script src='ext/jquery.js'></script>
@@ -17,6 +18,34 @@
 Inspired by Coffee script, but works by incrementally adding new syntax features via plugins.<br/>
 Core code is ~400 lines of code, and plugins are about 10-50 lines long.
 <h2>input is live editable</h2>
+
+<script type=kaffeine>
+#kaffeine multiline_strings string_interpolation brackets_for_functions
+var greet = "hello", bye = "bye", name = "james", age = 20
+
+alert "${greet}
+$name 
+#{bye}
+#name
+"
+alert "$name is ${age * 12} months old. ${"this is a string inside a interp"}"
+</script>
+
+
+
+<script type=kaffeine>
+#kaffeine multiline_strings brackets_for_functions
+alert "this
+occurs 
+over 
+several 
+lines
+"
+alert "this is a \
+single \ 
+line\
+"
+</script>
 
 
 
@@ -52,11 +81,16 @@ shout("hello");
 
 
 <script type=kaffeine>
-#kaffeine unless brackets reverse_ifs
+#kaffeine unless brackets reverse_blocks
 
 return X if(false)
 
 runStuff(), doShizzle() unless somethign()
+
+// these aren't quite as useful!
+Send(result) while result = process(x)
+
+sendMessage(X[i]) for(i in X)
 </script>
 
 <script type=kaffeine>
@@ -189,7 +223,7 @@ x = a b c
 </script>
 
 <script type=kaffeine>
-#kaffeine englify @ backticks arrow unless brackets reverse_ifs brackets_for_functions implicit_vars operators implicit_return implicit_vars half_operators 
+#kaffeine englify @ backticks arrow unless brackets reverse_blocks brackets_for_functions implicit_vars operators implicit_return implicit_vars half_operators 
 
 unless true
 {

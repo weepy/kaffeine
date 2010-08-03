@@ -259,7 +259,6 @@ Token.preprocess = function(stream) {
   return stream
 }
 
-
 function UnknownToken(text) { this.text = text; }
 inherits(UnknownToken, Token)
 UnknownToken.fn.unknown = true
