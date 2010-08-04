@@ -8,7 +8,8 @@ $().ready(function() {
     var text = $(this).html()
     var input = $("<textarea class=input></textarea>").val(text)
 
-    text = Kaffeine.process(text)
+    var K = new Kaffeine()
+    text = K.process(text)
     var output = $("<textarea class=output></textarea>").val(text)
     $(this).after(output);  
     $(this).after(input); 

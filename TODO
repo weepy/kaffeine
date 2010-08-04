@@ -4,7 +4,8 @@ Finish plugins
   extend_for
   slices
   question_mark
-  common js
+  common js -> node
+  directives
   
 Working on Node
   * see coffee script ?
@@ -15,6 +16,8 @@ Directives
   * default kaffeine directive
   
 Scripts => External
+
+Tests
 
 'Run' button
 
