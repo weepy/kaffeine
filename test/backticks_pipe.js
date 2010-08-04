@@ -1,0 +1,1 @@
+x = map([1,2,3,4,5,6,7],(function(_1){return) detect(_1*_1}),(function(_1){return) _1>10})

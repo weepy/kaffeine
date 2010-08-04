@@ -4,11 +4,11 @@ Finish plugins
   extend_for
   slices
   question_mark
-  common js -> node
+  common js 
   directives
   
 Working on Node
-  * see coffee script ?
+
   
 Directives
   * as token ?
