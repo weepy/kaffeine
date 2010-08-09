@@ -1,19 +1,16 @@
 Finish plugins
+  directives
+  extend_for
+  CommonJS
+  
+
+  question_mark
+  slices
   decompose assign
   macro
-  extend_for
-  slices
-  question_mark
-  common js 
-  directives
-  
+    
 Working on Node
 
-  
-Directives
-  * as token ?
-  * how should they work ?
-  * default kaffeine directive
   
 Scripts => External
 
@@ -24,3 +21,13 @@ Tests
 Decent examples
 
 GH pages
+
+
+default.k
+... default settings
+
+
+# only: slices, brackets, implicit_return; 
+# remove: slices
+# add: directives after bracks; include slices.k;
+

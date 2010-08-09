@@ -1,0 +1,9 @@
+<script>
+
+function ok()  {
+  console.log("ok")
+}
+
+fn = new Function("ok()")
+fn.call(this)
+</script>

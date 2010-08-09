@@ -1,10 +1,16 @@
-#kaffeine unless brackets reverse_blocks
+#kaffeine unless brackets_for_keywords reverse_blocks
 
-return X if(false)
+function x(x) {
+  return true if x == 1
+}
 
-runStuff(), doShizzle() unless somethign()
+x(1)
+x(2)
 
-// these aren't quite as useful!
-Send(result) while result = process(x)
+ok(true), ok(true) unless false
 
-sendMessage(X[i]) for(i in X)
+var i = 1
+
+ok(true), i-- while i > 0
+
+ok(true) for(i in [1])

@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var fs = require('fs');
+var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
+
+function compileDir(source) {
+  fs.readdir(source, function(err, files) {
+    for(var j=0; j<files.length;j++) {
+      var file = files[j]
+      if(file.match(/.js$/))
+        compile(path.join(source, file))
+    }
+  })
+}
+
+compileDir("./lib")
+compileDir("./lib/plugins")
+
+function compile(path) {
+  var txt = fs.readFileSync(path)
+  //a = txt//.replace(" ", " ")
+  var file = path.replace(/^\/lib/, "").replace(/.js$/,"")
+  txt = "require.module('" + file + "', function(exports, require) {\n//////////////////////\n\n\n" + txt + "\n\n\n/////////////////////////\n})"
+  
+  console.log("browser/" + path)
+  fs.writeFile("browser/" + path, txt)
+}

@@ -1,5 +1,13 @@
 #kaffeine brackets_for_functions
-a b + c
-a + b c
-if(a(b c) == d e)
-x = a b c
+function div(x, y) { return x / y} 
+function sq(x) { return x * x} 
+
+eq( (sq 1 + 2), 9)
+eq( (1 + sq 2), 5)
+if(sq(sq 2) == div 32, 2)
+  ok(true)
+else
+  ok(false)
+
+x = sq sq 3
+eq(x, 81)

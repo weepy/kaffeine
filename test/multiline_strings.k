@@ -1,11 +1,13 @@
 #kaffeine multiline_strings brackets_for_functions
-alert "this
+
+ok "this
 occurs 
 over 
 several 
 lines
-"
-alert "this is a \
+".split("\n").length > 1
+
+ok "this is a \
 single \ 
 line\
-"
+".split("\n").length == 1

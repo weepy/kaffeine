@@ -1,15 +1,22 @@
-var list = "operators backticks englify brackets unless @ brackets_for_functions half_operators arrow implicit_vars implicit_return reverse_blocks using indented_blocks enum pipe multiline_strings string_interpolation".split(" "); 
-for(var i in list) { document.write("<script src='plugins/" + list[i]+ ".js'></scr" + "ipt>") }
+var Plugins = "operators double_brackets existential backticks englify extend_for brackets unless at brackets_for_functions half_operators arrow implicit_vars implicit_return reverse_blocks using indented_blocks enum pipe multiline_strings string_interpolation".split(" "); 
+for(var i in Plugins) { document.write("<script src='lib/plugins/" + Plugins[i]+ ".js'></scr" + "ipt>") }
 
 $().ready(function() {
   var stream
+
+  for(var i in Plugins) { 
+    var p = Plugins[i]
+    Kaffeine.plugins[p] = require("./lib/plugins/"+p)[p]
+  }
+  
+  
   $("script[type=kaffeine]").each(function() {
     var d = new Date()
     var text = $(this).html()
     var input = $("<textarea class=input></textarea>").val(text)
 
     var K = new Kaffeine()
-    text = K.process(text)
+    text = K.compile(text)
     var output = $("<textarea class=output></textarea>").val(text)
     $(this).after(output);  
     $(this).after(input); 
@@ -23,12 +30,16 @@ $().ready(function() {
   $(".output").live("click", function() {
     eval($(this).val())
   })
+  
+  
 })
+
+
 
 function process() { 
   var self = this
   var output = $(this).next().next()
-  var out = Kaffeine.process($(this).val())
+  var out = new Kaffeine().compile($(this).val())
   
   $(self).trigger("autoheight")
   $(output).val(out).trigger("autoheight")
@@ -48,7 +59,7 @@ $().ready(function() {
       var self = this
       this.timer = setTimeout(function() {
         process.call(self)
-      }, 150)
+      }, 50)
       
     })
   }, 1000)

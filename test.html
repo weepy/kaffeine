@@ -1,0 +1,82 @@
+<html>
+<head>
+
+<script src='browser/require.js'></script>
+<script src='browser/lib/token.js'></script>
+<script src='browser/lib/kaffeine.js'></script>
+<script src='browser/lib/assert.js'></script>
+<script>
+var Plugins = "utils operators double_brackets existential backticks englify extend_for brackets_for_keywords unless at brackets_for_functions half_operators arrow implicit_vars implicit_return reverse_blocks using indented_blocks enum pipe multiline_strings string_interpolation".split(" "); 
+for(var i in Plugins) { document.write("<script src='browser/lib/plugins/" + Plugins[i]+ ".js'></scr" + "ipt>") }
+</script>
+<script src='browser/ext/jquery.js'></script>
+<script src='browser/ext/autoheight.js'></script>
+<style>
+.input { color: #338; float: left; clear: both; width: 50%;}
+.output { color: #383; float: left; width: 50%;}
+#log { clear: both;}
+</style>
+
+<script>
+$().ready(function() {
+  var test = document.location.search.slice(1)
+  
+  var assert = require("./lib/assert").assert
+  for(var name in assert)
+    $.globalEval("var " + name + " = assert['" + name + "']")
+
+  require("./lib/kaffeine")
+
+  for(var i in Plugins) { 
+    var p = Plugins[i]
+    Kaffeine.plugins[p] = require("./lib/plugins/"+p)[p]
+  }
+
+
+  function esc(t) {
+    return t.replace("<", "&lt;").replace(">", "&gt;")
+  }
+  
+  $.get("./test/" + test + ".k", function(text) {
+    
+    log("running " + test)
+    $("#code").append("<pre class=input>" + esc(text) + "</pre>")
+    var s = new Kaffeine().compile(text)
+    $("#code").append("<pre class=output>" +  esc(s) + "</pre>")
+    try {
+      $("head").append("<script>\n(function() {\n " + s + "\n})()\n</sc" +"ript>") // we can see syntax errors this way
+      //eval("(function() {\n " + s + "\n})()")
+    } catch(e) {
+      log("invalid JS: " + e.message)
+      return
+    }
+
+    log(results.pass.length + " passes, " + results.fail.length + " failures")
+    if(results.fail.length) {
+      for(var i in results.fail)
+        log(results.fail[i])
+    }
+  })
+
+  function log(x) {
+    var args = Array.prototype.slice.call(arguments, 0)
+    $("#log").append("<p>" + args.join(" ") + "</p>")
+  }
+})
+</script>
+
+
+</head>
+
+<body>
+
+<h1>Kaffeine Test</h1>
+
+<div id=code></div>
+<div id=log></div>
+
+
+
+</body>
+</html>
+

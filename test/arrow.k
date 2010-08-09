@@ -1,11 +1,10 @@
 #kaffeine arrow
-x = -> return x*args
-x = (a) -> 
-   return x*args
-x = (a,b) -> {
-  return hello
-}
 
-x = X(a,b) -> {
-  return hello
-}
+var x = (a) -> { return a }
+
+ok( x(true) )
+
+var x = -> { return false }
+ok( ! x() )
+
+ok( (-> { return true }) )

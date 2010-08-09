@@ -1,23 +1,4 @@
-<html>
-<head>
 
-<script src='utils.js'></script>
-<script src='token.js'></script>
-<script src='kaffeine.js'></script>
-<script src='ext/jquery.js'></script>
-<script src='ext/autoheight.js'></script>
-<script src='load.js'></script>
-<link href='style.css' rel='stylesheet' />
-</head>
-
-<body>
-
-<h1>Kaffeine</h1>
-
-<p>Design your own Javascript.<br/>
-Inspired by Coffee script, but works by incrementally adding new syntax features via plugins.<br/>
-Core code is ~400 lines of code, and plugins are about 10-50 lines long.
-<h2>input is live editable</h2>
 
 <script type=kaffeine>
 #kaffeine multiline_strings string_interpolation brackets_for_functions
@@ -197,6 +178,8 @@ x = X(a,b) -> {
 }
 </script>
 
+
+
 <script type=kaffeine>
 #kaffeine half_operators
 x = .length
@@ -205,6 +188,8 @@ if(true)
   xa['a'] = + 4
  
 </script>
+
+
 
 <script type=kaffeine>
 #kaffeine backticks pipe 
@@ -222,7 +207,7 @@ x = a b c
 </script>
 
 <script type=kaffeine>
-#kaffeine englify @ backticks arrow unless brackets reverse_blocks brackets_for_functions implicit_vars operators implicit_return implicit_vars half_operators 
+#kaffeine englify at backticks arrow unless brackets reverse_blocks brackets_for_functions implicit_vars operators implicit_return implicit_vars half_operators 
 
 unless true
 {
@@ -238,7 +223,3 @@ if x is y, return
 if @x == @@Array || @.x == @ || @@.x == @@
   return
 </script>
-
-</body>
-</html>
-

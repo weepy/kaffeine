@@ -1,38 +1,28 @@
 #kaffeine implicit_return
 
-function() {123}
-  
-function() {
-    ;1234;
-  }
-  
-function() {
-  {a: 1}  
-}
+function A() { 1 }
+eq( A(), 1 )
 
-function() {
-  if(x) {
+eq( (function() {
+  ;1234;
+})(), 1234)
+  
+same( (function() {
+  {a: 1}  
+})(), {a: 1})
+
+ok( (function() {
+  if(false) {
   } else {
   
   }
-}
+})() == null)
 
-
-function() {
-  1234
-}
-
-function() {
+eq((function() {
   return 1234  
 }
+)(), 1234)
 
-
-
-function() {
-  (function() {123}())
-}
-function() {
-  function() {
-    ;1234;
-  }
-}
+eq((function() {
+  (function() {123})
+})()(), 123)

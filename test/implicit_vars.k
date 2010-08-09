@@ -1,20 +1,23 @@
 #kaffeine implicit_vars
-z = 1
-function() {
+z = 0
+function a() {
   a = 2
   x = 1
-  y = 2  
+  y = 2
+  z = 1
 }
 
-function () {
+function c() {
   y = 3, z = 2
-  t = x = function() {
+  t = x = function e() {
   
   }
   
-  function(a) {
+  function d() {
     x = 13
     w = 2
     a = 1
   }
 }
+
+/* not quite sure how to test best */

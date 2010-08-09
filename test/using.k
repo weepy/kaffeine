@@ -1,4 +1,4 @@
 #kaffeine using
-var Alert = { shout:function(x) { alert(x + "!!!")} }
-using Alert
+var Yo = { shout:function(x) { ok(true) } }
+using Yo
 shout("hello");

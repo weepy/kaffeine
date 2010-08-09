@@ -1,6 +1,6 @@
 #kaffeine backticks
-people.map `#.manager` .detect `#.age > 30`
-x = `
-doshizzle(#)
-`.call(people)
+
 Times = `#1*#2`
+eq(Times(1,2), 2)
+
+eq(`#*#`(3), 9)

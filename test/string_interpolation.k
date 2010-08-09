@@ -1,9 +1,18 @@
 #kaffeine multiline_strings string_interpolation brackets_for_functions
-var greet = "hello", bye = "bye", name = "james", age = 20
 
-alert "${greet}
+eq( "\$name", "$" + "name" )
+
+var greet = "hello", bye = "bye", name = "james", age = 20
+var obj = {x:{x:1}}
+
+eq "${greet}
 $name 
-#{bye}
-#name
-"
-alert "$name is ${age * 12} months old. ${"this is a string inside a interp"}"
+${bye}
+$name
+".split("\n").length, 5
+
+eq( "$obj.x.x", "1" )
+
+x = " ${"this is a string inside a interp"} "
+
+eq(x, " this is a string inside a interp ")
