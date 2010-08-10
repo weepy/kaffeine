@@ -4,13 +4,13 @@ require.module('lib/plugins/indented_blocks', function(exports, require) {
 
 exports.indented_blocks = function(stream, Token) {
   var x
-  var block_keywords = "if for while else try catch function".split(" ")
+  var block_keywords = "if for while else try catch function class".split(" ")
   stream.each(function() {
-    if(!this.keyword || block_keywords.indexOf(this.text) < 0 || this.global) return 
+    if(!this.word || block_keywords.indexOf(this.text) < 0 || this.global) return 
 
     var token = this
-    if(token.text == "function") {
-      token = token.find(function() { if(this.round) return true }) // we need to skip over any named functions        
+    if(token.text == "function" || this.text == "class") {
+      token = token.find(function() { if(this.next.round || this.next.newline) return true }) // we need to skip over any named functions        
     }
     
     var block = token.next.find(function() {

@@ -6,7 +6,7 @@ if(true)
 function b() ok(true)
 b()
 
-function A()
+function A(arg, arg2)
   var i = 1
   ok(true)
 A()
@@ -31,8 +31,13 @@ else
   ok(false)
   
 
+class Animal(alive)
+  this.alive = alive
+  
 
 
+var AnonymousClass = class()
+  this.superWontWork = true
 
 try
   throw "error"
