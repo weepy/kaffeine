@@ -44,5 +44,9 @@ try
 catch(e)
   ok(true)
 
-if(true) //  this probably should throw an error? 
+var error = true
+if(false) //  no indent - just assume it's a single line!
 ok(true)
+error = false
+
+ok(error)

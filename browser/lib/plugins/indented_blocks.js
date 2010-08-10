@@ -34,10 +34,10 @@ exports.indented_blocks = function(stream, Token) {
     } else {
 
       var cur = block.lastNewline()
-      var indent = cur ? cur.indent() : ""
+      var indent = cur.indent()
       while(cur) {
         var cur = cur.next.nextNewline()
-        if(!cur || cur.indent().length < indent.length) break
+        if(!cur || cur.indent().length == 0 || cur.indent().length < indent.length) break
       }
       
       cur = cur || stream.global.matchingBracket.prev
