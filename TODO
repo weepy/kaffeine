@@ -1,33 +1,18 @@
-Finish plugins
-  directives
-  extend_for
-  CommonJS
-  
-
-  question_mark
-  slices
-  decompose assign
-  macro
-    
-Working on Node
-
-  
-Scripts => External
-
-Tests
-
-'Run' button
-
 Decent examples
 
 GH pages
 
+default directive
 
-default.k
-... default settings
+README
 
+get test working on cmdline
 
-# only: slices, brackets, implicit_return; 
-# remove: slices
-# add: directives after bracks; include slices.k;
+nice index.html
 
+Plugins to write
+  slices
+  decompose assign
+  macro
+  redo operators
+  class
