@@ -1,4 +1,4 @@
-require.module('plugins/commo', function(exports, require) {
+require.module('./plugins/commo', function(exports, require) {
 // start module 
 
 var CommonModules = {}

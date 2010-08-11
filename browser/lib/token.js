@@ -1,4 +1,4 @@
-require.module('token', function(exports, require) {
+require.module('./token', function(exports, require) {
 // start module 
 
 var inherits = function(child, parent) {

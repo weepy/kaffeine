@@ -1,4 +1,4 @@
-require.module('plugins/arrow', function(exports, require) {
+require.module('./plugins/arrow', function(exports, require) {
 // start module 
 
 exports.arrow = function(stream, Token) {

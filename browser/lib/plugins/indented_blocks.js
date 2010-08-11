@@ -1,4 +1,4 @@
-require.module('plugins/indented_blocks', function(exports, require) {
+require.module('./plugins/indented_blocks', function(exports, require) {
 // start module 
 
 exports.indented_blocks = function(stream, Token) {

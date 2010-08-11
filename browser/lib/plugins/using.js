@@ -1,4 +1,4 @@
-require.module('plugins/using', function(exports, require) {
+require.module('./plugins/using', function(exports, require) {
 // start module 
 
 /*

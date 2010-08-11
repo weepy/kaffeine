@@ -1,4 +1,4 @@
-require.module('assert', function(exports, require) {
+require.module('./assert', function(exports, require) {
 // start module 
 
 

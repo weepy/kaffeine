@@ -1,4 +1,4 @@
-require.module('plugins/brackets_for_functions', function(exports, require) {
+require.module('./plugins/brackets_for_functions', function(exports, require) {
 // start module 
 
 exports.brackets_for_functions = function(stream, Token) {

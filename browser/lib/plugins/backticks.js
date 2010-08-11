@@ -1,4 +1,4 @@
-require.module('plugins/backticks', function(exports, require) {
+require.module('./plugins/backticks', function(exports, require) {
 // start module 
 
 exports.backticks = function(stream, Token) {

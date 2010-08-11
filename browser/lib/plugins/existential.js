@@ -1,4 +1,4 @@
-require.module('plugins/existential', function(exports, require) {
+require.module('./plugins/existential', function(exports, require) {
 // start module 
 
 exports.existential = function(stream, Token) {

@@ -1,4 +1,4 @@
-require.module('plugins/wrapper', function(exports, require) {
+require.module('./plugins/wrapper', function(exports, require) {
 // start module 
 
 exports.wrapper = function(stream, Token) {

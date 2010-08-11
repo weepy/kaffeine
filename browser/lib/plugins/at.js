@@ -1,4 +1,4 @@
-require.module('plugins/at', function(exports, require) {
+require.module('./plugins/at', function(exports, require) {
 // start module 
 
 exports.at = function(stream, Token) {

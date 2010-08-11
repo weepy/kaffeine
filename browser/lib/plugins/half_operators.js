@@ -1,4 +1,4 @@
-require.module('plugins/half_operators', function(exports, require) {
+require.module('./plugins/half_operators', function(exports, require) {
 // start module 
 
 exports.half_operators = function(stream, Token) {

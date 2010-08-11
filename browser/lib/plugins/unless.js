@@ -1,4 +1,4 @@
-require.module('plugins/unless', function(exports, require) {
+require.module('./plugins/unless', function(exports, require) {
 // start module 
 
 exports.unless = function(stream, Token) {

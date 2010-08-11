@@ -1,4 +1,4 @@
-require.module('plugins/englify', function(exports, require) {
+require.module('./plugins/englify', function(exports, require) {
 // start module 
 
 exports.englify = function(stream, Token) {

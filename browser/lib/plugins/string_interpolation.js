@@ -1,4 +1,4 @@
-require.module('plugins/string_interpolation', function(exports, require) {
+require.module('./plugins/string_interpolation', function(exports, require) {
 // start module 
 
 exports.string_interpolation = function(stream, Token) {

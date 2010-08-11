@@ -1,4 +1,4 @@
-require.module('plugins/enum', function(exports, require) {
+require.module('./plugins/enum', function(exports, require) {
 // start module 
 
 // mixes in some nice enum functions - normally used for | pipe

@@ -1,4 +1,4 @@
-require.module('command', function(exports, require) {
+require.module('./command', function(exports, require) {
 // start module 
 
 var Kaffeine = require("./kaffeine").Kaffeine

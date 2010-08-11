@@ -1,4 +1,4 @@
-require.module('plugins/class', function(exports, require) {
+require.module('./plugins/class', function(exports, require) {
 // start module 
 
 exports['class'] = function(stream, Token) {

@@ -1,4 +1,4 @@
-require.module('plugins/multiline_strings', function(exports, require) {
+require.module('./plugins/multiline_strings', function(exports, require) {
 // start module 
 
 exports.multiline_strings = function(stream, Token) {

@@ -14,12 +14,12 @@ var power = 2
 
 x = addOne(1) ** power + (5\4)
 
-var a = [1];
+var a = [1]
 a << 2; 
-eq(a.length, 2);
+eq(a.length, 2)
 
-(x = []) << 4;
-eq(x[0], 4);
+(x = []) << 4
+eq(x[0], 4)
 
 //(higher precidence than normal operators)
 eq(2 + 3 ** 2, 11)  // interpreted as 2 + (3 ** 2)  

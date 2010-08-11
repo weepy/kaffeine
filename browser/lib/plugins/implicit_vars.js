@@ -1,4 +1,4 @@
-require.module('plugins/implicit_vars', function(exports, require) {
+require.module('./plugins/implicit_vars', function(exports, require) {
 // start module 
 
 exports.implicit_vars = function(stream, Token) {

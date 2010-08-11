@@ -1,4 +1,4 @@
-require.module('plugins/extend_for', function(exports, require) {
+require.module('./plugins/extend_for', function(exports, require) {
 // start module 
 
 exports.extend_for = function(stream, Token) {

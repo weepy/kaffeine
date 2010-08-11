@@ -1,4 +1,4 @@
-require.module('kaffeine', function(exports, require) {
+require.module('./kaffeine', function(exports, require) {
 // start module 
 
 var Token = require("./token").Token

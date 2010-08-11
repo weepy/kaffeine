@@ -1,4 +1,4 @@
-require.module('plugins/operators', function(exports, require) {
+require.module('./plugins/operators', function(exports, require) {
 // start module 
 
 /*
@@ -49,6 +49,13 @@ exports.operators = function(stream, Token) {
       this.before(p1.R)
       this.after(p2.L)
       this.replaceWith("['" + esc(this.op) + "']")
+      
+      var prev = p1.L.prev
+      if(prev.whitespace) prev = prev.prev
+      // insert semi's where necessary
+      if(!prev.operator && !prev.lbracket && !prev.semi )   // should probably do some kind of findExpressionStart 
+        prev.after(";")
+
       return p2.L
     }
     
