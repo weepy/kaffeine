@@ -1,6 +1,5 @@
-require.module('lib/plugins/englify', function(exports, require) {
-//////////////////////
-
+require.module('plugins/englify', function(exports, require) {
+// start module 
 
 exports.englify = function(stream, Token) {
   var mapping = { "is": "===", "isnt": "!==", "or": "||", "and": "&&", "not": "!" }, op, token
@@ -16,6 +15,5 @@ exports.englify = function(stream, Token) {
   })
 }
 
-
-/////////////////////////
+// end module
 })

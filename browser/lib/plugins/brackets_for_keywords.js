@@ -1,6 +1,5 @@
-require.module('lib/plugins/brackets_for_keywords', function(exports, require) {
-//////////////////////
-
+require.module('plugins/brackets_for_keywords', function(exports, require) {
+// start module 
 
 exports.brackets_for_keywords = function(stream, Token) {
   var ks = ["if", "for", "while", "catch"]
@@ -29,6 +28,5 @@ exports.brackets_for_keywords = function(stream, Token) {
 
 }
 
-
-/////////////////////////
+// end module
 })

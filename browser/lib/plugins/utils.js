@@ -1,6 +1,5 @@
-require.module('lib/plugins/utils', function(exports, require) {
-//////////////////////
-
+require.module('plugins/utils', function(exports, require) {
+// start module 
 
 
 
@@ -31,6 +30,5 @@ var mixin = {
   }
 }
 
-
-/////////////////////////
+// end module
 })

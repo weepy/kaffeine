@@ -1,6 +1,5 @@
-require.module('lib/plugins/implicit_return', function(exports, require) {
-//////////////////////
-
+require.module('plugins/implicit_return', function(exports, require) {
+// start module 
 
   exports.implicit_return = function(stream, Token) {
   stream.each(function() {
@@ -46,6 +45,5 @@ require.module('lib/plugins/implicit_return', function(exports, require) {
   })
 }
 
-
-/////////////////////////
+// end module
 })

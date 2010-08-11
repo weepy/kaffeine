@@ -1,6 +1,5 @@
-require.module('lib/plugins/enum', function(exports, require) {
-//////////////////////
-
+require.module('plugins/enum', function(exports, require) {
+// start module 
 
 // mixes in some nice enum functions - normally used for | pipe
 exports.enum = function(stream, Token) {
@@ -17,6 +16,5 @@ function detect(x, fn) {\n\
   stream.before(new Token.word(Enum))
 }
 
-
-/////////////////////////
+// end module
 })

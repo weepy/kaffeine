@@ -1,6 +1,5 @@
-require.module('lib/plugins/arrow', function(exports, require) {
-//////////////////////
-
+require.module('plugins/arrow', function(exports, require) {
+// start module 
 
 exports.arrow = function(stream, Token) {
   stream.each(function(token) {
@@ -42,6 +41,5 @@ exports.arrow = function(stream, Token) {
 }
 
 
-
-/////////////////////////
+// end module
 })

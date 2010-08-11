@@ -1,6 +1,5 @@
-require.module('lib/plugins/prototype', function(exports, require) {
-//////////////////////
-
+require.module('plugins/prototype', function(exports, require) {
+// start module 
 
 exports['prototype'] = function(stream, Token) {
 
@@ -35,6 +34,5 @@ exports['prototype'] = function(stream, Token) {
 
 
 
-
-/////////////////////////
+// end module
 })

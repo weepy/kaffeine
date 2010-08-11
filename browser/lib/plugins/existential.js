@@ -1,6 +1,5 @@
-require.module('lib/plugins/existential', function(exports, require) {
-//////////////////////
-
+require.module('plugins/existential', function(exports, require) {
+// start module 
 
 exports.existential = function(stream, Token) {
   stream.each(function() {
@@ -75,6 +74,5 @@ exports.existential = function(stream, Token) {
 //     ((_x = x()) != null ? ((_x = _x.y()) ? _x[] : null) : null)
 //     
 
-
-/////////////////////////
+// end module
 })

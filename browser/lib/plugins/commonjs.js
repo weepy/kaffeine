@@ -1,6 +1,5 @@
-require.module('lib/plugins/commonjs', function(exports, require) {
-//////////////////////
-
+require.module('plugins/commo', function(exports, require) {
+// start module 
 
 var CommonModules = {}
 
@@ -33,6 +32,5 @@ function loadJS(path) {
 }
 
 
-
-/////////////////////////
+// end module
 })

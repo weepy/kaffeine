@@ -1,6 +1,5 @@
-require.module('lib/plugins/class', function(exports, require) {
-//////////////////////
-
+require.module('plugins/class', function(exports, require) {
+// start module 
 
 exports['class'] = function(stream, Token) {
   var insertedExtends
@@ -139,6 +138,5 @@ function __extends(child, parent) {
 // }
 
 
-
-/////////////////////////
+// end module
 })

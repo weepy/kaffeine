@@ -1,6 +1,5 @@
-require.module('lib/plugins/at', function(exports, require) {
-//////////////////////
-
+require.module('plugins/at', function(exports, require) {
+// start module 
 
 exports.at = function(stream, Token) {
 
@@ -24,6 +23,5 @@ exports.at = function(stream, Token) {
 
 
 
-
-/////////////////////////
+// end module
 })

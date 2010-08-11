@@ -18,3 +18,12 @@ Philosphy
 
 evolutionary javascript
 add in syntax features one at a time
+
+
+Usage
+-----
+
+to build plugins for browser usage (needs http://github.com/weepy/brequire installed):
+
+brequire lib browser/lib
+

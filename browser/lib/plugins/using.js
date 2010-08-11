@@ -1,6 +1,5 @@
-require.module('lib/plugins/using', function(exports, require) {
-//////////////////////
-
+require.module('plugins/using', function(exports, require) {
+// start module 
 
 /*
  X
@@ -34,6 +33,5 @@ exports.using = function(stream, Token) {
   })  
 }
 
-
-/////////////////////////
+// end module
 })

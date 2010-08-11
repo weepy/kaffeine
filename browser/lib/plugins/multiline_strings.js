@@ -1,6 +1,5 @@
-require.module('lib/plugins/multiline_strings', function(exports, require) {
-//////////////////////
-
+require.module('plugins/multiline_strings', function(exports, require) {
+// start module 
 
 exports.multiline_strings = function(stream, Token) {
   var reg = /\n/
@@ -13,6 +12,5 @@ exports.multiline_strings = function(stream, Token) {
   })
 }
 
-
-/////////////////////////
+// end module
 })

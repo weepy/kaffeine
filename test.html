@@ -17,19 +17,24 @@ for(var i in Plugins) { document.write("<script src='browser/lib/plugins/" + Plu
 #log { clear: both;}
 </style>
 
+
+
+
 <script>
+var assert
+
 $().ready(function() {
   var test = document.location.search.slice(1)
   
-  var assert = require("./lib/assert").assert
+  assert = require("./assert").assert
   for(var name in assert)
     $.globalEval("var " + name + " = assert['" + name + "']")
 
-  require("./lib/kaffeine")
+  var Kaffeine = require("./kaffeine").Kaffeine
 
   for(var i in Plugins) { 
     var p = Plugins[i]
-    Kaffeine.plugins[p] = require("./lib/plugins/"+p)[p]
+    Kaffeine.plugins[p] = require("./plugins/"+p)[p]
   }
 
 

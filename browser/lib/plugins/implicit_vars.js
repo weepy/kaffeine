@@ -1,6 +1,5 @@
-require.module('lib/plugins/implicit_vars', function(exports, require) {
-//////////////////////
-
+require.module('plugins/implicit_vars', function(exports, require) {
+// start module 
 
 exports.implicit_vars = function(stream, Token) {
   var stack = [], variable, current, closure
@@ -33,6 +32,5 @@ exports.implicit_vars = function(stream, Token) {
 
 
 
-
-/////////////////////////
+// end module
 })

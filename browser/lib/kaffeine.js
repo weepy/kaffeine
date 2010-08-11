@@ -1,6 +1,5 @@
-require.module('lib/kaffeine', function(exports, require) {
-//////////////////////
-
+require.module('kaffeine', function(exports, require) {
+// start module 
 
 var Token = require("./token").Token
 
@@ -53,6 +52,5 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
 
 exports.Kaffeine = Kaffeine
 
-
-/////////////////////////
+// end module
 })

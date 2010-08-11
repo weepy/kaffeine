@@ -1,6 +1,5 @@
-require.module('lib/token', function(exports, require) {
-//////////////////////
-
+require.module('token', function(exports, require) {
+// start module 
 
 var inherits = function(child, parent) {
   var ctor = function(){ };
@@ -100,7 +99,7 @@ function preprocess(stream) {
 
 
 base.fn.after = function(head) {
-  if(typeof head == "string") head = Token.ize(head)
+  if(typeof head == "string") head = /*Token.*/ize(head)
   tail = head.tail()
   if(this.next) {
     this.next.prev = tail
@@ -112,7 +111,7 @@ base.fn.after = function(head) {
 }
 
 base.fn.before = function(head) {
-  if(typeof head == "string") head = Token.ize(head)
+  if(typeof head == "string") head = /*Token.*/ize(head)
   
   tail = head.tail()
   if(this.prev) {
@@ -149,7 +148,7 @@ base.fn.remove = function(tail) {
 }
 
 base.fn.replaceWith = function(head) {
-  if(typeof head == "string") head = Token.ize(head)
+  if(typeof head == "string") head = /*Token.*/ize(head)
   var tail = this.after(head)
   this.remove()
   return tail
@@ -205,19 +204,25 @@ base.fn.findRev = function(fn, skip) {
   }
 }
 
-base.fn.expressionStart = function() {
+base.fn.expressionStart = function(opts) {
+  opts = opts || {}
   return this.findRev(function() {
     if(this.rbracket) return this.matchingBracket//.prev
-    var p = this.prev
-    if(p.whitespace || p.semi || p.assign || (p.lbracket && p.round) || p.comparison) return true
+    var x = this.prev
+    if(x.whitespace || x.semi || x.assign || (x.lbracket && x.round) || x.comparison) return true
+    if(opts.commas && x.op == ",") return true
+    if(opts.operators && x.operator) return true
   })
 }
 
-base.fn.expressionEnd = function() {
+base.fn.expressionEnd = function(opts) {
+  opts = opts || {}
   return this.find(function() {
     if(this.lbracket) return this.matchingBracket//.next
-    var p = this.next
-    if(p.whitespace || p.semi || p.assign || (p.rbracket && p.round) || p.comparison) return true
+    var x = this.next
+    if(x.whitespace || x.semi || x.assign || (x.rbracket && x.round) || x.comparison) return true
+    if(opts.commas && x.op == ",") return true
+    if(opts.operators && x.operator) return true
   })
 }
 
@@ -425,6 +430,11 @@ bracket.fn.updateBlock = function() {
     this.findClosure()
     this.args = this.findArgs()
     this.vars = {}
+    
+    // can't do it like that ....
+    // var m = this.matchingBracket
+    // if(!m.next || !m.next.semi)  // insert missing semi's
+    //   m.after(";")
   }
 }
 
@@ -512,6 +522,5 @@ exports.Token = {
   ize: ize
 }
 
-
-/////////////////////////
+// end module
 })

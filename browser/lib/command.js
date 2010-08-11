@@ -1,6 +1,5 @@
-require.module('lib/command', function(exports, require) {
-//////////////////////
-
+require.module('command', function(exports, require) {
+// start module 
 
 var Kaffeine = require("./kaffeine").Kaffeine
 var fs =             require('fs')
@@ -182,6 +181,5 @@ function version() {
   process.exit(0)
 }
 
-
-/////////////////////////
+// end module
 })

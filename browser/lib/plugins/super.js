@@ -1,6 +1,5 @@
-require.module('lib/plugins/super', function(exports, require) {
-//////////////////////
-
+require.module('plugins/super', function(exports, require) {
+// start module 
 
 exports['super'] = function(stream, Token) {
 
@@ -30,6 +29,5 @@ exports['super'] = function(stream, Token) {
 
 
 
-
-/////////////////////////
+// end module
 })

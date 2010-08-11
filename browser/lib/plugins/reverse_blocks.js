@@ -1,6 +1,5 @@
-require.module('lib/plugins/reverse_blocks', function(exports, require) {
-//////////////////////
-
+require.module('plugins/reverse_blocks', function(exports, require) {
+// start module 
 
 exports.reverse_blocks = function(stream, Token) {
   var keywords = {"if":1,"for":1, "while":1}
@@ -15,6 +14,5 @@ exports.reverse_blocks = function(stream, Token) {
   })
 }
 
-
-/////////////////////////
+// end module
 })

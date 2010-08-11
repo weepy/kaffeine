@@ -1,6 +1,5 @@
-require.module('lib/plugins/double_brackets', function(exports, require) {
-//////////////////////
-
+require.module('plugins/double_brackets', function(exports, require) {
+// start module 
 
 exports.double_brackets = function(stream, Token) {
   stream.each(function() {
@@ -15,6 +14,5 @@ exports.double_brackets = function(stream, Token) {
 }
 
 
-
-/////////////////////////
+// end module
 })

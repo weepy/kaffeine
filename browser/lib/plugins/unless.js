@@ -1,6 +1,5 @@
-require.module('lib/plugins/unless', function(exports, require) {
-//////////////////////
-
+require.module('plugins/unless', function(exports, require) {
+// start module 
 
 exports.unless = function(stream, Token) {
   stream.each(function() {
@@ -26,6 +25,5 @@ exports.unless = function(stream, Token) {
 
 }
 
-
-/////////////////////////
+// end module
 })

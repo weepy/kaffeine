@@ -1,6 +1,5 @@
-require.module('lib/assert', function(exports, require) {
-//////////////////////
-
+require.module('assert', function(exports, require) {
+// start module 
 
 
 function ok(x, s) { 
@@ -56,6 +55,5 @@ exports.assert = {
   results: results
 }
 
-
-/////////////////////////
+// end module
 })

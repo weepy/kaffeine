@@ -1,6 +1,5 @@
-require.module('lib/plugins/pipe', function(exports, require) {
-//////////////////////
-
+require.module('plugins/pipe', function(exports, require) {
+// start module 
 
 exports.pipe = function(stream, Token) {
 
@@ -34,6 +33,5 @@ exports.pipe = function(stream, Token) {
   }) 
 }
 
-
-/////////////////////////
+// end module
 })
