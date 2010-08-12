@@ -15,29 +15,29 @@ Near feature parity with CoffeeScript
 
 Current Plugins
 ------
-Arrow: -> alias for function
-at: @ alias for this
-backticks: simple lambda function syntax square: `#*#`
-brackets_for_functions: implicit brackets for function calls
-brackets_for_keywords: implicit brackets for function, if, for types
-class: CoffeeScript style class (slightly different syntax)
-double_brackets:  ((x)) -> (x)
-englify: support and, or, not, is, isnt
-existential: provides not null operator via ? and typeof is not undefined via ??
-extend_for: provides support for 'of' to iterate over arrays, and also allows 2nd parameter for the value in 'of' and 'in'
-half_operators: x = .toString() 
-implicit_return: ruby style return from last statement
-implicit_vars: Coffee style inserts variable declarations in enclosing closure
-indented_blocks: implicit curly braces via indentation ( )
-multiline_strings
-operators: allows arbitrary operators to be defined on prototypes
-pipe: unix style function calling
-prototype: shortcut for porperties on prototype
-reverse_blocks: return if condition()
-string_interpolation: using $
-super: Coffee style super class
-unless: not if
-using: insert properties of objects into the local scope (uses eval)
+* Arrow: -> alias for function
+* at: @ alias for this
+* backticks: simple lambda function syntax square: `#*#`
+* brackets_for_functions: implicit brackets for function calls
+* brackets_for_keywords: implicit brackets for function, if, for types
+* class: CoffeeScript style class (slightly different syntax)
+* double_brackets:  ((x)) -> (x)
+* englify: support and, or, not, is, isnt
+* existential: provides not null operator via ? and typeof is not undefined via ??
+* extend_for: provides support for 'of' to iterate over arrays, and also allows 2nd parameter for the value in 'of' and 'in'
+* half_operators: x = .toString() 
+* implicit_return: ruby style return from last statement
+* implicit_vars: Coffee style inserts variable declarations in enclosing closure
+* indented_blocks: implicit curly braces via indentation ( )
+* multiline_strings
+* operators: allows arbitrary operators to be defined on prototypes
+* pipe: unix style function calling
+* prototype: shortcut for porperties on prototype
+* reverse_blocks: return if condition()
+* string_interpolation: using $
+* super: Coffee style super class
+* unless: not if
+* using: insert properties of objects into the local scope (uses eval)
 
 
 
