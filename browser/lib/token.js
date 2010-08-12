@@ -54,10 +54,16 @@ function preprocess(stream) {
   // remove comments & hungry operators & hungry left round brackets  
   stream = stream.each(function() { 
     if(this.comment) {
-      var empty = new whitespace("")
+      if(this.single) {
+        this.text = this.text.replace(/\n$/, "")
+        var empty = new whitespace("\n")
+      } else {
+        var empty = new whitespace("")
+      }
+            
       empty.comment = this 
       this.replaceWith(empty);
-      empty.hungry();
+      // empty.hungry();
       if(empty.text.match(/\n/)) empty.newline = true // probably should do something neater
       return empty.next
     }
@@ -349,7 +355,7 @@ string.regex = /['"]/g
 
 function comment(text) { 
   this.text = text
-  this.single = this.text == "//"
+  this.single = this.text.match(/^\/\//)
   this.id = base.id++ 
 }
 inherits(comment, base)

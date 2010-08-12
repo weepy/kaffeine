@@ -34,15 +34,17 @@ function same(a,b,s) {
 }
 
 function reset() {
-  results = {pass: [], fail: []} 
+  results.pass = []
+  results.fail = []
 }
 
 function pass() {
-  results.pass.push(arguments)
+  results.pass.push(1)
 }
 
 function fail() {
-  results.fail.push(arguments)
+  console.warn("Fail: " + Array.prototype.slice.call(arguments,0).join(", "))
+  results.fail.push(1)
 }
 
 var results = {pass: [], fail: []}

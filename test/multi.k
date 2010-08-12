@@ -1,4 +1,4 @@
-#kaffeine englify @ backticks arrow unless brackets reverse_blocks brackets_for_functions implicit_vars operators implicit_return implicit_vars half_operators 
+#kaffeine englify at backticks arrow unless brackets_for_keywords reverse_blocks implicit_vars operators implicit_return implicit_vars half_operators 
 
 unless true
 {

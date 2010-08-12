@@ -4,8 +4,9 @@ function a() {
   var x = ((1))
 }
 
-function b() {
+function A() {
   var x = (1)
 }
 
-eq(a.toString(), b.toString())
+eq(a.toString().toLowerCase(), A.toString().toLowerCase())
+eq(a.toString().length, A.toString().length)

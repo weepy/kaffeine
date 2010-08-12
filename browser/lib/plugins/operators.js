@@ -53,7 +53,7 @@ exports.operators = function(stream, Token) {
       var prev = p1.L.prev
       if(prev.whitespace) prev = prev.prev
       // insert semi's where necessary
-      if(!prev.operator && !prev.lbracket && !prev.semi )   // should probably do some kind of findExpressionStart 
+      if(!prev.operator && !prev.lbracket && !prev.semi )   
         prev.after(";")
 
       return p2.L

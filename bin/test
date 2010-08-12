@@ -28,7 +28,7 @@ function loadPlugins(source) {
 loadPlugins("./lib/plugins")
 
 function runTest(name) {
-  var text = fs.readFileSync("./test/" + name +".k").toString()
+  var text = fs.readFileSync("./test/" + name).toString()
 
   console.log("Running " + name)
   reset()
@@ -45,8 +45,6 @@ function runTest(name) {
     console.log( e.toString())
     console.log(js)
   }
-
-  console.log("Test finished")
   console.log(results.pass.length + " pass, " + results.fail.length + " fail")
 }
 
@@ -64,7 +62,9 @@ var ARGV = process.ARGV
 
 if(ARGV[2])
   runTest(ARGV[2])
-
+else {
+  runAllTests()
+}
 
 
 

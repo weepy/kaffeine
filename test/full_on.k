@@ -12,7 +12,3 @@ up = -> `# = .toUpper()`()
 
 for x of [1,2,3,4]
   ok true
-  
-class
-
-

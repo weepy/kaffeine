@@ -1,4 +1,4 @@
-#kaffeine indented_blocks
+#kaffeine indented_blocks class
 
 if(true)
   ok(true)
@@ -30,14 +30,8 @@ else
   var i = 1
   ok(false)
   
-
 class Animal(alive)
   this.alive = alive
-  
-
-
-var AnonymousClass = class()
-  this.superWontWork = true
 
 try
   throw "error"
@@ -49,4 +43,4 @@ if(false) //  no indent - just assume it's a single line!
 ok(true)
 error = false
 
-ok(error)
+ok(!error)

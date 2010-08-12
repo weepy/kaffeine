@@ -39,10 +39,10 @@ $().ready(function() {
 
 
   function esc(t) {
-    return t.replace("<", "&lt;").replace(">", "&gt;")
+    return t.replace("<", "&lt;", "g").replace(">", "&gt;", "g")
   }
   
-  $.get("./test/" + test + ".k", function(text) {
+  $.get("./test/" + test, function(text) {
     
     log("running " + test)
     $("#code").append("<pre class=input>" + esc(text) + "</pre>")
