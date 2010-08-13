@@ -1,0 +1,16 @@
+Comparison with CoffeeScript
+
+* Coffee's philosophy is that it's a language that compiles to JS
+* Kaffeine philosophy is that it's providing syntax extensions to JS
+* Kaffeine is much more liberal with regard to whitespace - nearly as liberal as vanilla (tho it does support the bracketless blocks via indentation)
+* Kaffeine's implementation is much simpler and easily extensible with plugins. Core code is < 600 LOC, plugins vary between 10-50 lines
+* Nearly all of the features are entirely optional - you can just write plain Javascript if you want
+    that said - it looks very similar to CoffeeScript
+* no array comprehensions, but there's an extended syntax options for 'for' loops
+* in and of are reversed - keeping 'in' like the vanilla JS
+* no bound => for the moment
+* some of the plugins behave slightly differently
+* tries to avoid adding too many temp variables
+* existential only checks for not null (coerced), use ?? for checking for undefined variables)
+* more features: operators, piped functions and short lamdas, also half operators
+* Kaffeine is less mature.

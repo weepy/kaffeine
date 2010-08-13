@@ -31,7 +31,6 @@ exports.indented_blocks = function(stream, Token) {
     if(oneLiner)  { 
       block.nextNewline().before(pair.R).before(new Token.whitespace(" "));
     } else {
-
       var cur = block.lastNewline()
       var indent = cur.indent()
       while(cur) {

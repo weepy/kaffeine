@@ -13,12 +13,10 @@ var inherits = function(child, parent) {
 function base(text) { this.text = text; this.id = base.id++ }
 base.id = 0
 base.fn = base.prototype
-
 base.klasses = [whitespace, word, string, comment, regex, operator, bracket, semi]
 
 function /*Token*/ize(input) {
   var klass, match, i, index = 0, head, tail
-
   for(i=0; i< base.klasses.length; i++)
     base.klasses[i].match = undefined
 
@@ -44,13 +42,11 @@ function /*Token*/ize(input) {
     else 
       head = tail = token
   }
-  
   head = preprocess(head)
   return head
 }
 
 function preprocess(stream) {
-
   // remove comments & hungry operators & hungry left round brackets  
   stream = stream.each(function() { 
     if(this.comment) {
@@ -67,15 +63,7 @@ function preprocess(stream) {
       if(empty.text.match(/\n/)) empty.newline = true // probably should do something neater
       return empty.next
     }
-    // else
-    // if(this.regex) {
-    //   var empty = new word("")
-    //   empty.regex = this
-    //   this.replaceWith(empty);
-    //   return empty.next
-    // }
-    else 
-    if(this.operator) {
+    else if(this.operator) {
       this.hungry()
     }
     else {
@@ -93,23 +81,19 @@ function preprocess(stream) {
   var stack = []
   stream.each(function() { 
     if(this.bracket)  
-      if(this.lbracket)
+      if(this.lbracket) 
         stack.push(this)
       else
-        this.matchWith(stack.pop())
+       this.matchWith(stack.pop())
   })
   
-  if(stack.length) 
-    throw "unmatching number of brackets"
- 
+  if(stack.length) throw "unmatching number of brackets" 
   // sort out block types
   stream.each(function() {   
     if(this.curly && this.lbracket) this.updateBlock()
   })
-
   return stream
 }
-
 
 base.fn.after = function(head) {
   if(typeof head == "string") head = /*Token.*/ize(head)
@@ -125,7 +109,7 @@ base.fn.after = function(head) {
 
 base.fn.before = function(head) {
   if(typeof head == "string") head = /*Token.*/ize(head)
-  
+ 
   tail = head.tail()
   if(this.prev) {
     this.prev.next = head
@@ -150,11 +134,8 @@ base.fn.tail = function() {
 
 base.fn.remove = function(tail) {
   tail = tail || this
-  
-  if(tail.next) tail.next.prev = this.prev
-  
+  if(tail.next) tail.next.prev = this.prev  
   if(this.prev) this.prev.next = tail.next
-  
   tail.next = null
   this.prev = null
   return this
@@ -178,7 +159,6 @@ base.fn.collectText = function(end) {
   var text = [], token = this, vars
   while(token) {
     if(token.comment) text.push(token.comment.text)
-//    if(token.regex) text.push(token.regex.text)
     text.push(token.text)
     if(token.vars) {
       vars = token.declareVariables()
@@ -189,6 +169,7 @@ base.fn.collectText = function(end) {
   }
   return text.join("")
 }
+
 
 base.fn.find = function(fn, skip) {
   var token = this
@@ -218,29 +199,42 @@ base.fn.findRev = function(fn, skip) {
   }
 }
 
-base.fn.expressionStart = function(opts) {
-  opts = opts || {}
+base.fn.prevNW = function() {
+  return this.prev.findRev(function() {
+    if(!this.whitespace) return true
+  })
+}
+
+base.fn.nextNW = function() {
+  return this.next.find(function() {
+    if(!this.whitespace) return true
+  })
+}
+
+
+  
+base.fn.expressionStart = function(breakFn) {
+  //opts = opts || {}
   return this.findRev(function() {
     if(this.rbracket) return this.matchingBracket//.prev
     var x = this.prev
     if(x.whitespace || x.semi || x.assign || (x.lbracket && x.round) || x.comparison) return true
-    if(opts.commas && x.op == ",") return true
-    if(opts.operators && x.operator) return true
+    if(breakFn && breakFn(x)) return true
+
   })
 }
+//if(opts.commas && x.op == ",") return true
+//if(opts.operators && x.operator) return true
 
-base.fn.expressionEnd = function(opts) {
+base.fn.expressionEnd = function(breakFn) {
   opts = opts || {}
   return this.find(function() {
     if(this.lbracket) return this.matchingBracket//.next
     var x = this.next
     if(x.whitespace || x.semi || x.assign || (x.rbracket && x.round) || x.comparison) return true
-    if(opts.commas && x.op == ",") return true
-    if(opts.operators && x.operator) return true
+    if(breakFn && breakFn(x)) return true
   })
 }
-
-
 
 base.getMatch = function(klass, index, input) {
   if(klass.match === false) return
@@ -297,9 +291,7 @@ base.fn.findClosure = function() {
   return this.parent = parent  //|| this.head() // i,e if not found we're in the global scope
 }
 
-
-base.fn.lastNewline = function() {
-    
+base.fn.lastNewline = function() {    
   var nl = this.findRev(function(tok) {
     if(tok.newline) return true
     if(tok.rbracket) return tok.matchingBracket.prev // skip behind
@@ -307,8 +299,7 @@ base.fn.lastNewline = function() {
   return nl 
 } 
 
-base.fn.nextNewline = function() {
-  
+base.fn.nextNewline = function() {  
   var nl = this.find(function(tok) {
     if(tok.newline) return true
     if(tok.lbracket) return tok.matchingBracket.next // skip over
@@ -316,13 +307,10 @@ base.fn.nextNewline = function() {
   return nl
 }
 
-
 base.fn.indent = function() {
   var nl = this.lastNewline()
   return nl ? nl.text.split("\n").pop() : ""
 }
-
-
 
 function unknown(text) { 
   this.text = text
@@ -453,11 +441,6 @@ bracket.fn.updateBlock = function() {
     this.findClosure()
     this.args = this.findArgs()
     this.vars = {}
-    
-    // can't do it like that ....
-    // var m = this.matchingBracket
-    // if(!m.next || !m.next.semi)  // insert missing semi's
-    //   m.after(";")
   }
 }
 
@@ -482,8 +465,6 @@ bracket.fn.declareVariables = function() {
   string = "\n" + space + this.indent() + string // should find current indent really
   return string
 }
-
-
 
 base.fn.getUnusedVar = function(prefix) {
   var num = 10, name
@@ -550,19 +531,7 @@ regex.extract = function(index, input) {
   }
 }
 
-
-exports.Token = {
-  //base: base,
-  whitespace: whitespace,
-  operator: operator,
-  string: string,
-  word: word,
-  comment: comment,
-  bracket: bracket,
-  unknown: unknown,
-  semi: semi,
-  ize: ize
-}
+exports.Token = { whitespace: whitespace, operator: operator, string: string, word: word, comment: comment, bracket: bracket, unknown: unknown, semi: semi, ize: ize }
 
 // end module
 })
