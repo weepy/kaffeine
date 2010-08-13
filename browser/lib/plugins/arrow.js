@@ -1,7 +1,8 @@
 require.module('./plugins/arrow', function(exports, require) {
 // start module 
 
-exports.arrow = function(stream, Token) {
+
+exports.arrow = function(stream) {
   stream.each(function(token) {
     
     if(!token.operator || token.op != "->") return
@@ -16,7 +17,7 @@ exports.arrow = function(stream, Token) {
     }
     
     var text = token.text.replace("->", "function" + args)
-    var toks = Token.ize(text)
+    var toks = require("../token").Token.ize(text)
     this.prev.after(toks)
     
     // var newCurly = this.find(function(token) {

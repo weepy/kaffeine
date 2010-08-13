@@ -43,7 +43,7 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
     var name = plugins[i]
     var plugin = Kaffeine.plugins[name]
     if(!plugin) console.log(name + " - not loaded") 
-    plugin.call(this, stream, Token, options[name] || {})
+    plugin.call(this, stream, options[name] || {})
   }
   
   
