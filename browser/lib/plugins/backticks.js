@@ -7,7 +7,12 @@ exports.backticks = function(stream, Token) {
       
       var max = 0
       var reg = /^[0-9]+$/
-      var end = this.next.find(function(tok) {
+      var next = this.next
+      
+      if(next.operator && next.op != "#")
+        next = next.before("#")
+        
+      var end = next.find(function(tok) {
         if(tok.text == '`') return true
         
         if(tok.text == "#") {

@@ -1,5 +1,9 @@
 #kaffeine brackets_for_keywords
 
+for x in [1,2,3,2*2] {
+  ok(true)
+}
+
 if true// hello
   ok(true)
   

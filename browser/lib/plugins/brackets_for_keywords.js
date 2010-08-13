@@ -12,6 +12,7 @@ exports.brackets_for_keywords = function(stream, Token) {
       
       var end = this.find(function(token) {
         if(token.lbracket && token.curly) return true
+        if(token.lbracket) return token.matchingBracket
         if(token.newline) return true
         if(token.operator && token.op == ",") return true
       })

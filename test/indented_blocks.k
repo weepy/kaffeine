@@ -44,3 +44,8 @@ ok(true)
 error = false
 
 ok(!error)
+
+f = function() return 9
+g = function() 9
+eq( f(), 9 )
+

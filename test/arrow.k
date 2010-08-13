@@ -8,3 +8,9 @@ var x = -> { return false }
 ok( ! x() )
 
 ok( (-> { return true }) )
+
+
+x = (a) -> {
+  a = this.a
+  a
+}

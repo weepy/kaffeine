@@ -1,5 +1,9 @@
 #kaffeine extend_for
 
+for(x of [1,2,3,4]) {
+  ok(true)
+}
+
 var g = []
 for(i=0; i<g.length; i++) {
 
@@ -34,3 +38,5 @@ for(x of Complex()) {
 }
 
 eq(sum, 24)
+
+
