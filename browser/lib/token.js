@@ -14,7 +14,7 @@ function base(text) { this.text = text; this.id = base.id++ }
 base.id = 0
 base.fn = base.prototype
 
-base.klasses = [whitespace, word, string, comment, operator, bracket, semi]
+base.klasses = [whitespace, word, string, comment, regex, operator, bracket, semi]
 
 function /*Token*/ize(input) {
   var klass, match, i, index = 0, head, tail
@@ -67,6 +67,13 @@ function preprocess(stream) {
       if(empty.text.match(/\n/)) empty.newline = true // probably should do something neater
       return empty.next
     }
+    // else
+    // if(this.regex) {
+    //   var empty = new word("")
+    //   empty.regex = this
+    //   this.replaceWith(empty);
+    //   return empty.next
+    // }
     else 
     if(this.operator) {
       this.hungry()
@@ -171,6 +178,7 @@ base.fn.collectText = function(end) {
   var text = [], token = this, vars
   while(token) {
     if(token.comment) text.push(token.comment.text)
+//    if(token.regex) text.push(token.regex.text)
     text.push(token.text)
     if(token.vars) {
       vars = token.declareVariables()
@@ -353,6 +361,15 @@ inherits(string, base)
 string.fn.string = true
 string.regex = /['"]/g
 
+function regex(text) { 
+  this.text = text
+  this.id = base.id++ 
+}
+inherits(regex, base)
+regex.fn.regex = true
+regex.fn.string = true
+regex.regex = /\/[^*\/ ][^\n]*\//g
+
 function comment(text) { 
   this.text = text
   this.single = this.text.match(/^\/\//)
@@ -424,7 +441,7 @@ bracket.fn.updateBlock = function() {
       else                          return null  // skip variables
     else                            return false // fail no keyword found
   })
-  // console.log(this.id, type ? type.id : null)
+
   if(type) {
     this.blockType = type.text
     type.block = this    
@@ -514,6 +531,25 @@ comment.extract = function(index, input) {
     prev = ch
   }
 }
+
+regex.extract = function(index, input) {
+  var regex = "/", prev = "", esc, inSQ
+  while(index < input.length) {
+    var ch = input.charAt(index+1)
+    regex += ch
+    esc = prev == "\\"
+    if(ch == "/" && !esc && !inSQ) {
+      var next = input.charAt(index+2)
+      if(next == "m" || next == "g" || next == "i") regex += next
+      return regex
+    }
+    else if(ch == "[" && !esc) inSQ = true
+    else if(ch == "]" && !esc && inSQ) inSQ = false
+    index += 1
+    prev = ch
+  }
+}
+
 
 exports.Token = {
   //base: base,
