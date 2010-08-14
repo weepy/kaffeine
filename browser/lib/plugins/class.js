@@ -2,7 +2,7 @@ require.module('./plugins/class', function(exports, require) {
 // start module 
 
 exports['class'] = function(stream, Token) {
-  var insertedExtends
+
   stream.each(function() {
     if(!this.word || this.text != "class") return
     
@@ -33,10 +33,7 @@ exports['class'] = function(stream, Token) {
         start.before(Token.ize("()"))
     }
     
-    if(!insertedExtends) {
-      stream.global.next.after(new Token.word(__extends.toString() + "\n"))
-      insertedExtends = true
-    }
+    stream.global.vars["__extends"] = __extends
     
     if(superClass) {
       curly.matchingBracket.after(new Token.word( "\n__extends(" + klass +  ", " + superClass.text + ")"))
@@ -52,14 +49,14 @@ exports['class'] = function(stream, Token) {
   })
 }
 
-function __extends(child, parent) {
+var __extends = (function(child, parent) {
   var ctor = function(){};
   ctor.prototype = parent.prototype;
   child.prototype = new ctor();
   child.prototype.constructor = child;
   if (typeof parent.extended === "function") parent.extended(child);
   child.__superClass__ = parent.prototype;
-};
+}).toString()
 
 
 // 

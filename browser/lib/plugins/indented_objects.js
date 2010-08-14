@@ -1,7 +1,6 @@
 require.module('./plugins/indented_objects', function(exports, require) {
 // start module 
 
-
 exports.indented_objects = function(stream, Token) {
 
   stream.each(function() {

@@ -1,4 +1,4 @@
-#class
+#class implicit_vars
 
 class Animal {}
 
@@ -19,9 +19,8 @@ class Human extends Mammal {
   this.legs = 2
 }
 
-
-var h = new Human()
-var m = new Mammal(4)
+h = new Human()
+m = new Mammal(4)
 
 ok(m.isQuadraped())
 ok(h.isBiped())

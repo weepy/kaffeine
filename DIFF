@@ -13,4 +13,5 @@ Comparison with CoffeeScript
 * tries to avoid adding too many temp variables
 * existential only checks for not null (coerced), use ?? for checking for undefined variables)
 * more features: operators, piped functions and short lamdas, also half operators
-* Kaffeine is less mature.
+* Kaffeine doesn't do any implicit clousures (I think they are annoying to debug).
+* Kaffeine is not quite yet battle ready.

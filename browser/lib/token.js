@@ -460,7 +460,12 @@ bracket.fn.findArgs = function() {
 
 bracket.fn.declareVariables = function() {
   var vars = []
-  for(var j in this.vars) vars.push(j)
+  for(var j in this.vars) {
+    var text = j
+    if(typeof this.vars[j] == "string") 
+      text += " = " + this.vars[j]
+    vars.push(text)
+  }
   if(!vars.length) return ""
 
   var string = "var " + vars.join(", ") + ";"
@@ -485,7 +490,7 @@ base.fn.cacheExpression = function(name) {
   name = name || "_xpr"
   var pair = bracket.pair("()")
   var closure = this.findClosure()
-  closure.vars[name] = true
+  closure.vars[name] = ""
   this.expressionStart().before(new operator("=")).before(new word(name)).before(pair.L)
   this.expressionEnd().after(pair.R)
 }
