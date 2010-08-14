@@ -1,4 +1,4 @@
-#kaffeine arrow
+#arrow
 
 var x = (a) -> { return a }
 

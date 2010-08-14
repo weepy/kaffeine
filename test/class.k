@@ -1,4 +1,4 @@
-#kaffeine class
+#class
 
 class Animal {}
 

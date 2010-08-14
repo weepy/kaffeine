@@ -18,8 +18,8 @@ Kaffeine.fn.preprocess = function(text) {
 
 Kaffeine.fn.compile = function(text) {
   text = this.preprocess(text)
-  var directive = text.match(/#kaffeine\s*([^\n]*)\s*\n/);
-  var plugins = directive[1].split(" ")
+  var directive = text.match(/#\s*([^\n]*)\s*\n/);
+  var plugins = directive[1].replace(/\s+/g," ").replace(/ $/,"").split(" ")
   text = text.slice(directive[0].length)
   //text = "//" + text
   return this.runPlugins(text, plugins)

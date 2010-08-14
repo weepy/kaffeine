@@ -1,4 +1,4 @@
-#kaffeine half_operators
+#half_operators
 
 var name = "john"
 name = .toUpperCase()

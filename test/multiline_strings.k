@@ -1,4 +1,4 @@
-#kaffeine multiline_strings brackets_for_functions
+#multiline_strings brackets_for_functions
 
 ok "this
 occurs 

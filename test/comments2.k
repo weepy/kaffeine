@@ -1,4 +1,4 @@
-#kaffeine arrow
+#arrow
 
 /*!
  * jQuery JavaScript Library v1.4.2

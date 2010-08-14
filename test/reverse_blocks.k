@@ -1,4 +1,4 @@
-#kaffeine unless brackets_for_keywords reverse_blocks
+#unless brackets_for_keywords reverse_blocks
 
 function x(x) {
   return true if x == 1

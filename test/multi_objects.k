@@ -1,4 +1,4 @@
-#kaffeine indented_objects missing_commas implicit_object_keys
+#indented_objects missing_commas implicit_object_keys
 
 var b = 3
 

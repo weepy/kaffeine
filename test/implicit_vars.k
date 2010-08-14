@@ -1,4 +1,4 @@
-#kaffeine implicit_vars
+#implicit_vars
 z = 0
 function a() {
   a = 2

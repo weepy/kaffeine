@@ -1,7 +1,7 @@
 
 
 <script type=kaffeine>
-#kaffeine multiline_strings string_interpolation brackets_for_functions
+#multiline_strings string_interpolation brackets_for_functions
 var greet = "hello", bye = "bye", name = "james", age = 20
 
 alert "${greet}
@@ -15,7 +15,7 @@ alert "$name is ${age * 12} months old. ${"this is a string inside a interp"}"
 
 
 <script type=kaffeine>
-#kaffeine multiline_strings brackets_for_functions
+#multiline_strings brackets_for_functions
 alert "this
 occurs 
 over 
@@ -31,7 +31,7 @@ line\
 
 
 <script type=kaffeine>
-#kaffeine indented_blocks
+#indented_blocks
 if(true)
   do_something()
   and_somemore()
@@ -53,7 +53,7 @@ function(x)
 
 
 <script type=kaffeine>
-#kaffeine using
+#using
 var Alert = { shout:function(x) { alert(x + "!!!")} }
 using Alert
 shout("hello");
@@ -62,7 +62,7 @@ shout("hello");
 
 
 <script type=kaffeine>
-#kaffeine unless brackets reverse_blocks
+#unless brackets reverse_blocks
 
 return X if(false)
 
@@ -75,7 +75,7 @@ sendMessage(X[i]) for(i in X)
 </script>
 
 <script type=kaffeine>
-#kaffeine operators
+#operators
 operator << { LHS.push(RHS) }
 operator \ { Math.floor(LHS/RHS) }
 operator ** { Math.pow(LHS,RHS) }
@@ -88,7 +88,7 @@ c.x << a(x)["hello"].concat(a)
 </script> 
 
 <script type=kaffeine>
-#kaffeine implicit_return
+#implicit_return
 
 function() {123}
   
@@ -130,7 +130,7 @@ function() {
 
 </script>
 <script type=kaffeine>
-#kaffeine implicit_vars
+#implicit_vars
 z = 1
 function() {
   a = 2
@@ -156,7 +156,7 @@ function () {
 
 
 <script type=kaffeine>
-#kaffeine backticks
+#backticks
 people.map `#.manager` .detect `#.age > 30`
 x = `
 doshizzle(#)
@@ -165,7 +165,7 @@ Times = `#1*#2`
 </script>
 
 <script type=kaffeine2>
-#kaffeine arrow
+#arrow
 x = -> return x*args
 x = (a) -> 
    return x*args
@@ -181,7 +181,7 @@ x = X(a,b) -> {
 
 
 <script type=kaffeine>
-#kaffeine half_operators
+#half_operators
 x = .length
 a.x = || 5
 if(true)
@@ -192,14 +192,14 @@ if(true)
 
 
 <script type=kaffeine>
-#kaffeine backticks pipe 
+#backticks pipe 
 
 x = [1,2,3,4,5,6,7] | map `#*#` | detect `#>10`
 </script>
 
 
 <script type=kaffeine>
-#kaffeine brackets_for_functions
+#brackets_for_functions
 a b + c
 a + b c
 if(a(b c) == d e)
@@ -207,7 +207,7 @@ x = a b c
 </script>
 
 <script type=kaffeine>
-#kaffeine englify at backticks arrow unless brackets reverse_blocks brackets_for_functions implicit_vars operators implicit_return implicit_vars half_operators 
+#englify at backticks arrow unless brackets reverse_blocks brackets_for_functions implicit_vars operators implicit_return implicit_vars half_operators 
 
 unless true
 {

@@ -1,4 +1,4 @@
-#kaffeine extend_for
+#extend_for
 
 for(x of [1,2,3,4]) {
   ok(true)

@@ -1,4 +1,4 @@
-#kaffeine utils backticks pipe
+#utils backticks pipe
 
 var x = [2] | map `#*#`
 eq(x[0], 4)

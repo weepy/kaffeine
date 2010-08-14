@@ -1,4 +1,4 @@
-#kaffeine indented_blocks class
+#indented_blocks class
 
 if(true)
   ok(true)

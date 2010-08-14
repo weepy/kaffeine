@@ -1,4 +1,4 @@
-#kaffeine arrow
+#arrow
 var x = /a/g
 
 eq("a a".match(x).length, 2)

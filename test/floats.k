@@ -1,4 +1,4 @@
-#kaffeine arrow
+#arrow
 
 x = 0.0123
 

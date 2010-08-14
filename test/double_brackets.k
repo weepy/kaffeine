@@ -1,4 +1,4 @@
-#kaffeine double_brackets
+#double_brackets
 
 function a() {
   var x = ((1))

@@ -1,4 +1,4 @@
-#kaffeine operators arrow indented_blocks implicit_return
+#operators arrow indented_blocks implicit_return
 operator Number \ = (R) -> Math.floor(this/R)
 operator Number ** = (R) -> Math.pow(this, R)
 operator Array << = (R) -> this.push(R)

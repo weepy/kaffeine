@@ -1,4 +1,4 @@
-#kaffeine multiline_strings string_interpolation brackets_for_functions
+#multiline_strings string_interpolation brackets_for_functions
 
 eq( "\$name", "$" + "name" )
 

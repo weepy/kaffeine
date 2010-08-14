@@ -1,4 +1,4 @@
-#kaffeine indented_objects
+#indented_objects
 
 A = x: 
        1

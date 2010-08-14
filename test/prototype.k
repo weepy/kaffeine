@@ -1,4 +1,4 @@
-#kaffeine class prototype
+#class prototype
 
 class Animal() {
 

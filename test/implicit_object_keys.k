@@ -1,4 +1,4 @@
-#kaffeine implicit_object_keys
+#implicit_object_keys
 
 
 var x = 1, y = 2, z= 3

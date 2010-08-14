@@ -1,4 +1,4 @@
-#kaffeine implicit_return
+#implicit_return
 
 Number.prototype['\\'] = function(R) { Math.floor(this/R) }
 
