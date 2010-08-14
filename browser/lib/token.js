@@ -67,12 +67,13 @@ function preprocess(stream) {
       this.hungry()
     }
     else {
-      if(this.lbracket && this.round)
-        this.combine("left")
-      if(this.lbracket)
-        this.combine("right")
-      if(this.rbracket)
-        this.combine("left")
+       // SHOULD BE HERE ?!!?!
+//      if(this.lbracket && this.round && this.prev.whitespace) 
+//        this.combine("prev")
+//      if(this.lbracket && this.next.whitespace)
+//        this.combine("next")
+//      if(this.rbracket && this.prev.whitespace)
+//        this.combine("prev")
     }
     
   })
