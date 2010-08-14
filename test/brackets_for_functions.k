@@ -3,6 +3,13 @@ function div(x, y) { return x / y}
 function sq(x) { return x * x} 
 
 
+if(true)
+{
+  ok(true)
+} else {
+  ok(false)
+}
+
 
 eq( (sq 1 + 2), 9)
 eq( (1 + sq 2), 5)

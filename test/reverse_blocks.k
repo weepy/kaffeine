@@ -2,6 +2,7 @@
 
 function x(x) {
   return true if x == 1
+  return true if(x == 2)
 }
 
 x(1)

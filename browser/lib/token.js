@@ -153,6 +153,8 @@ base.fn.combine = function(dir) {
   var token = this[dir].remove()
   this.o_text = this.o_text || this.text
   this.text = dir == "prev" ? token.text + this.text : this.text + token.text
+  
+  if(token.newline) this.newline = true
 }
 
 base.fn.collectText = function(end) {
@@ -214,12 +216,11 @@ base.fn.nextNW = function() {
 
   
 base.fn.expressionStart = function(breakFn) {
-  //opts = opts || {}
   return this.findRev(function() {
     if(this.rbracket) return this.matchingBracket//.prev
     var x = this.prev
     if(x.whitespace || x.semi || x.assign || (x.lbracket && x.round) || x.comparison) return true
-    if(breakFn && breakFn(x)) return true
+    if(breakFn && breakFn.call(x,x)) return true
 
   })
 }
@@ -227,12 +228,11 @@ base.fn.expressionStart = function(breakFn) {
 //if(opts.operators && x.operator) return true
 
 base.fn.expressionEnd = function(breakFn) {
-  opts = opts || {}
   return this.find(function() {
     if(this.lbracket) return this.matchingBracket//.next
     var x = this.next
     if(x.whitespace || x.semi || x.assign || (x.rbracket && x.round) || x.comparison) return true
-    if(breakFn && breakFn(x)) return true
+    if(breakFn && breakFn.call(x,x)) return true
   })
 }
 
@@ -291,24 +291,26 @@ base.fn.findClosure = function() {
   return this.parent = parent  //|| this.head() // i,e if not found we're in the global scope
 }
 
-base.fn.lastNewline = function() {    
-  var nl = this.findRev(function(tok) {
+base.fn.prevNewline = function(includeThis, skipBrackets) {
+  var start = includeThis ? this : this.prev
+  var nl = start.findRev(function(tok) {
     if(tok.newline) return true
-    if(tok.rbracket) return tok.matchingBracket.prev // skip behind
+    if(skipBrackets && tok.rbracket) return tok.matchingBracket.prev // skip behind
   })
   return nl 
 } 
 
-base.fn.nextNewline = function() {  
-  var nl = this.find(function(tok) {
+base.fn.nextNewline = function(includeThis, skipBrackets) {  
+  var start = includeThis ? this : this.next
+  var nl = start.find(function(tok) {
     if(tok.newline) return true
-    if(tok.lbracket) return tok.matchingBracket.next // skip over
+    if(skipBrackets && tok.lbracket) return tok.matchingBracket.next // skip over
   })
   return nl
 }
 
 base.fn.indent = function() {
-  var nl = this.lastNewline()
+  var nl = this.prevNewline("include")
   return nl ? nl.text.split("\n").pop() : ""
 }
 

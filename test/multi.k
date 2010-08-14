@@ -1,8 +1,10 @@
-#kaffeine englify at backticks arrow unless brackets_for_keywords indented_blocks brackets_for_functions reverse_blocks implicit_vars operators implicit_return implicit_vars half_operators 
+#kaffeine englify at backticks arrow unless brackets_for_keywords reverse_blocks indented_blocks brackets_for_functions implicit_vars operators implicit_return implicit_vars half_operators 
 
 unless false
 {
   ok(true)
+} else {
+  ok(false)
 }
 
 x = y = true
