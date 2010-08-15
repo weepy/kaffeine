@@ -30,6 +30,6 @@ ok(pass)
 x = [ok,0][0] true 
 
 
-for(i in [1,2,3,2*2])
+for(I in [1,2,3,2*2])
   ok true
 

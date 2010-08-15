@@ -18,13 +18,13 @@ else {
   ok(true)
 }
 
-for var i=0; i<1; i++ {
+for var I=0; I<1; I++ {
   ok(true)
 }
 
-while i == 1 {
+while I == 1 {
   ok(true)
-  i = 0
+  I = 0
 }
 
 if !false

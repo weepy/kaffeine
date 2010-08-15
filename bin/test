@@ -27,41 +27,54 @@ function loadPlugins(source) {
 
 loadPlugins("./lib/plugins")
 
-function runTest(name) {
-  var text = fs.readFileSync("./test/" + name).toString()
+function runTests(tests) {
+  console.log("Testing " + tests.length + " files")
+  var O = {errors:0, pass:0, fail: 0}
 
-  console.log("Running " + name)
-  reset()
-  try {
-    var js = new Kaffeine().compile(text)
-  } catch(e) {
-    console.error("Error: " + e.toString())
+  for(var i=0; i<tests.length;i++) {
+    var name = tests[i]
+    var text = fs.readFileSync("./test/" + name).toString()    
+    reset()
+    try {
+      var js = new Kaffeine().compile(text)
+      
+      try {
+        eval(js)
+        O.pass += results.pass.length
+        O.fail += results.fail.length
+      } catch(e) {
+        console.log("Doesn't produce valid JS ")
+        console.log( e.toString())
+        console.log(js)
+      }
+            
+    } catch(e) {
+      console.error("Error: " + e.toString())
+      O.errors += 1
+    }
   }
 
-  try {
-    eval(js)
-  } catch(e) {
-    console.log("Doesn't produce valid JS ")
-    console.log( e.toString())
-    console.log(js)
-  }
-  console.log(results.pass.length + " pass, " + results.fail.length + " fail")
+  console.log(O.pass + " passes, " + O.fail + " failures, " + O.errors + " exceptions")
 }
 
+
 function runAllTests() {
-  fs.readdir("./test", function(err, files) {
-    for(var j=0; j<files.length;j++) {
+  var tests = []
+  var files = fs.readdirSync("./test")
+  for(var j=0; j<files.length;j++) {
     var file = files[j]
-    if(file.match(/.k$/))
-      runTest(file)
+    
+    if(file.match(/.k$/)) {
+      tests.push(file)
     }
-  })
+  }
+  runTests(tests)
 }
 
 var ARGV = process.ARGV
 
 if(ARGV[2])
-  runTest(ARGV[2])
+  runTests([ARGV[2]])
 else {
   runAllTests()
 }
