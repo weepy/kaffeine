@@ -22,7 +22,9 @@ Kaffeine.fn.compile = function(text) {
   var plugins = directive[1].replace(/\s+/g," ").replace(/ $/,"").split(" ");
   text = text.slice(directive[0].length);
   //text = "//" + text
-  return this.runPlugins(text, plugins);
+  var ret =  this.runPlugins(text, plugins);
+  ret = this.validate(ret)
+  return ret
 };
 
 Kaffeine.fn.runPlugins = function(text, plugins, options) {
@@ -52,6 +54,29 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
   
   return stream.head().collectText().replace(/^function\(\)\{\n/,"").replace(/\n\}$/,"");
 };
+
+Kaffeine.fn.validate = function(text) {
+  if(typeof window == "undefined") {
+//     try { 
+//       js = "function validate(){\n" + text + "\n}" // parse but don't run the code
+//   //    process.binding('evals').Script.runInThisContext(js, 'eval'); 
+//     }
+//     catch (err) {
+//       var lineNumber = /\s+at eval:(\d+):.+\n/mi.exec(err.stack)[1]; 
+//       console.log(lineNumber); // 3
+// //      console.log(err.stack);
+//    }
+  }
+  else {
+    try { 
+      new Function(text)
+    }
+    catch (err) {
+      console.log(err.stack);
+    }     
+  }
+  return text
+}
 
 exports.Kaffeine = Kaffeine;
 

@@ -12,6 +12,8 @@ get test working on cmdline
 nice index.html
 
 Plugins to write
-  slices
   decompose assign
   macro
+
+
+Hm.label(for: 'username', 'Username')
