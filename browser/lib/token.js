@@ -450,11 +450,15 @@ bracket.fn.updateBlock = function() {
 bracket.fn.findArgs = function() {
   if(!this.prev) return {}
   var args = {}
-  this.prev.findRev(function(tok) {
-    if(tok.lbracket) return true
-    if(tok.word)
-      args[tok.text] = true
-  })
+  var prev = this.prev.whitespace ? this.prev.prev : this.prev
+  
+  var text = prev.matchingBracket.collectText(this.prev).replace(/[\(\) ]/g, "")
+  
+  var words = text.split(",")
+  
+  if(text.length)
+    for(var i=0;i<words.length;i++)
+      args[words[i]] = true  
   return args
 }
 

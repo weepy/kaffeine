@@ -1,10 +1,7 @@
 require.module('./plugins/destructured_assignment', function(exports, require) {
 // start module 
 
-var stack
-var results 
-var index
-var varName = "_dst"
+var stack, results, index
 
 exports.destructured_assignment = function(stream, Token) {  
   stream.each(function() {
@@ -16,14 +13,9 @@ exports.destructured_assignment = function(stream, Token) {
       stack = []
       results = []
       index = null
-      
       stepInto(L)      
     }
-    // for(var i in results) {
-    //   var r = results[i]
-    //   
-    //   console.log(r[0] + " = _dst" + r[1] + "['" + r[2] + "']" )      
-    // }
+
     L.remove(R)
     this.before("_dst")
     this.findClosure().vars["_dst"] = true
