@@ -1,6 +1,5 @@
-# arrow at brackets_for_keywords reverse_blocks indented_objects missing_commas implicit_object_keys indented_blocks extend_for brackets_for_functions existential implicit_vars
 // Assignment:
-/*
+
 number   = 42
 opposite = true
 
@@ -34,5 +33,3 @@ alert "I knew it!" if elvis??
 cubes = []
 for num, i of list
   cubes[i] = math.cube num
-  
-*/
