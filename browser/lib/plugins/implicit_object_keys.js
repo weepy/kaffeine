@@ -1,7 +1,8 @@
-require.module('./plugins/implicit_object_keys', function(exports, require) {
-// start module 
+require.module('./plugins/implicit_object_keys', function(module, exports, require) {
+// start module: plugins/implicit_object_keys
 
-exports.implicit_object_keys = function(stream, Token) {
+var Token = require("../token");
+exports.implicit_object_keys = function(stream) {
 
   stream.each(function() {
     if(this.blockType != "object") return
@@ -32,5 +33,5 @@ exports.implicit_object_keys = function(stream, Token) {
 }
 
 
-// end module
-})
+// end module: plugins/implicit_object_keys
+});

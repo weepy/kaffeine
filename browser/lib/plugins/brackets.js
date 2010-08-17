@@ -2,7 +2,7 @@ require.module('lib/plugins/brackets', function(exports, require) {
 //////////////////////
 
 
-exports.brackets_for_keywords = function(stream, Token) {
+exports.brackets_for_keywords = function(stream) {
   var ks = ["if", "for", "while", "catch"]
   stream.each(function() {
     if(this.keyword && ks.indexOf(this.text)>= 0 ) {

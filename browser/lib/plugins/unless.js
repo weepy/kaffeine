@@ -1,7 +1,8 @@
-require.module('./plugins/unless', function(exports, require) {
-// start module 
+require.module('./plugins/unless', function(module, exports, require) {
+// start module: plugins/unless
 
-exports.unless = function(stream, Token) {
+var Token = require("../token");
+exports.unless = function(stream) {
   stream.each(function() {
     if(this.word && this.text == "unless") {
       
@@ -25,5 +26,5 @@ exports.unless = function(stream, Token) {
 
 }
 
-// end module
-})
+// end module: plugins/unless
+});

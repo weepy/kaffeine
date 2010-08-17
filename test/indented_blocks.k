@@ -11,6 +11,7 @@ function A(arg, arg2)
   ok(true)
 A()
 
+var cube = function(x) x * square(x)
 
 var x
 

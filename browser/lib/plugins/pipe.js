@@ -1,7 +1,8 @@
-require.module('./plugins/pipe', function(exports, require) {
-// start module 
+require.module('./plugins/pipe', function(module, exports, require) {
+// start module: plugins/pipe
 
-exports.pipe = function(stream, Token) {
+var Token = require("../token");
+exports.pipe = function(stream) {
 
   stream.each(function() {
     if(this.operator && this.op == "|") {
@@ -33,5 +34,5 @@ exports.pipe = function(stream, Token) {
   }) 
 }
 
-// end module
-})
+// end module: plugins/pipe
+});

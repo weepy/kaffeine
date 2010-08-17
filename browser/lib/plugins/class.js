@@ -1,7 +1,9 @@
-require.module('./plugins/class', function(exports, require) {
-// start module 
+require.module('./plugins/class', function(module, exports, require) {
+// start module: plugins/class
 
-exports['class'] = function(stream, Token) {
+var Token = require("../token");
+
+exports['class'] = function(stream) {
 
   stream.each(function() {
     if(!this.word || this.text != "class") return
@@ -61,7 +63,7 @@ var __extends = (function(child, parent) {
 
 // 
 // 
-// exports['class'] = function(stream, Token) {
+// exports['class'] = function(stream) {
 //   // var ks = ["if", "for", "while", "catch"]
 //   var insertedExtends
 // 
@@ -135,5 +137,5 @@ var __extends = (function(child, parent) {
 // }
 
 
-// end module
-})
+// end module: plugins/class
+});

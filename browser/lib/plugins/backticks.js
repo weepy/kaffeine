@@ -1,7 +1,9 @@
-require.module('./plugins/backticks', function(exports, require) {
-// start module 
+require.module('./plugins/backticks', function(module, exports, require) {
+// start module: plugins/backticks
 
-exports.backticks = function(stream, Token) {
+var Token = require("../token");
+
+exports.backticks = function(stream) {
   stream.each(function() {
     if(this.unknown && this.text == '`') {
       
@@ -57,5 +59,5 @@ exports.backticks = function(stream, Token) {
 }
 
 
-// end module
-})
+// end module: plugins/backticks
+});

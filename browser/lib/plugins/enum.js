@@ -1,8 +1,9 @@
-require.module('./plugins/enum', function(exports, require) {
-// start module 
+require.module('./plugins/enum', function(module, exports, require) {
+// start module: plugins/enum
 
+var Token = require("../token");
 // mixes in some nice enum functions - normally used for | pipe
-exports.enum = function(stream, Token) {
+exports.enum = function(stream) {
   var Enum = "function map(x, fn) {\n\
   var ret = []\n\
   for(var i in x)\n\
@@ -16,5 +17,5 @@ function detect(x, fn) {\n\
   stream.before(new Token.word(Enum))
 }
 
-// end module
-})
+// end module: plugins/enum
+});

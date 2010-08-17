@@ -1,7 +1,8 @@
-require.module('./plugins/super', function(exports, require) {
-// start module 
+require.module('./plugins/super', function(module, exports, require) {
+// start module: plugins/super
 
-exports['super'] = function(stream, Token) {
+var Token = require("../token");
+exports['super'] = function(stream) {
 
   stream.each(function() {
     if(!this.curly || this.blockType != "function") return
@@ -29,5 +30,5 @@ exports['super'] = function(stream, Token) {
 
 
 
-// end module
-})
+// end module: plugins/super
+});

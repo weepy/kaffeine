@@ -33,7 +33,8 @@ function runTests(tests) {
 
   for(var i=0; i<tests.length;i++) {
     var name = tests[i]
-    var text = fs.readFileSync("./test/" + name).toString()    
+    var text = fs.readFileSync("./test/" + name).toString()   
+    console.log(name) 
     reset()
     try {
       var js = new Kaffeine().compile(text)

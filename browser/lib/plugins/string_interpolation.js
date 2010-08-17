@@ -1,7 +1,8 @@
-require.module('./plugins/string_interpolation', function(exports, require) {
-// start module 
+require.module('./plugins/string_interpolation', function(module, exports, require) {
+// start module: plugins/string_interpolation
 
-exports.string_interpolation = function(stream, Token) {
+var Token = require("../token");
+exports.string_interpolation = function(stream) {
   stream.each(function() {
     if(!this.string) return
     
@@ -38,5 +39,5 @@ function expandOnce(text) {
 }
 
 
-// end module
-})
+// end module: plugins/string_interpolation
+});

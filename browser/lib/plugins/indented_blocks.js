@@ -1,7 +1,8 @@
-require.module('./plugins/indented_blocks', function(exports, require) {
-// start module 
+require.module('./plugins/indented_blocks', function(module, exports, require) {
+// start module: plugins/indented_blocks
 
-exports.indented_blocks = function(stream, Token) {
+var Token = require("../token");
+exports.indented_blocks = function(stream) {
   var x
   var block_keywords = "if for while else try catch function class".split(" ")
   stream.each(function() {
@@ -53,5 +54,5 @@ exports.indented_blocks = function(stream, Token) {
 }
 
 
-// end module
-})
+// end module: plugins/indented_blocks
+});

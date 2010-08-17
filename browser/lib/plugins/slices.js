@@ -1,10 +1,11 @@
-require.module('./plugins/slices', function(exports, require) {
-// start module 
+require.module('./plugins/slices', function(module, exports, require) {
+// start module: plugins/slices
 
+var Token = require("../token");
 // A[a..b]
 // A.slice(a, b)
 
-exports.slices = function(stream, Token) {
+exports.slices = function(stream) {
   
   stream.each(function() {
     if(!this.lbracket || !this.square) return 
@@ -45,5 +46,5 @@ exports.slices = function(stream, Token) {
   })
 }
 
-// end module
-})
+// end module: plugins/slices
+});

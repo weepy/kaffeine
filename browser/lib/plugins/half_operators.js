@@ -1,7 +1,8 @@
-require.module('./plugins/half_operators', function(exports, require) {
-// start module 
+require.module('./plugins/half_operators', function(module, exports, require) {
+// start module: plugins/half_operators
 
-exports.half_operators = function(stream, Token) {
+var Token = require("../token");
+exports.half_operators = function(stream) {
   stream.each(function(token) {
     if(!token.assign || !token.next.operator) return
     var lhs = "" 
@@ -17,5 +18,5 @@ exports.half_operators = function(stream, Token) {
 
 
 
-// end module
-})
+// end module: plugins/half_operators
+});

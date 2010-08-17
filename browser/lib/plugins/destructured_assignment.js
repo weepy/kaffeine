@@ -1,9 +1,10 @@
-require.module('./plugins/destructured_assignment', function(exports, require) {
-// start module 
+require.module('./plugins/destructured_assignment', function(module, exports, require) {
+// start module: plugins/destructured_assignment
 
+var Token = require("../token");
 var stack, results, index
 
-exports.destructured_assignment = function(stream, Token) {  
+exports.destructured_assignment = function(stream) {  
   stream.each(function() {
     if(!this.assign || !this.prev.rbracket) return
   
@@ -84,5 +85,5 @@ function stepIntoObject(l) {
   })
 }
 
-// end module
-})
+// end module: plugins/destructured_assignment
+});

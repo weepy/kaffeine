@@ -1,7 +1,8 @@
-require.module('./plugins/fat_arrow', function(exports, require) {
-// start module 
+require.module('./plugins/fat_arrow', function(module, exports, require) {
+// start module: plugins/fat_arrow
 
-exports.fat_arrow = function(stream, Token) {  
+var Token = require("../token");
+exports.fat_arrow = function(stream) {  
   stream.each(function() {
     if(this.op != "=>") return
 
@@ -19,5 +20,5 @@ var __bind = (function(func, context) {
     return function(){ return func.apply(context, arguments); };
   }).toString();
 
-// end module
-})
+// end module: plugins/fat_arrow
+});

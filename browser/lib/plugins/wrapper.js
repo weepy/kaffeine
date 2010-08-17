@@ -1,10 +1,10 @@
-require.module('./plugins/wrapper', function(exports, require) {
-// start module 
+require.module('./plugins/wrapper', function(module, exports, require) {
+// start module: plugins/wrapper
 
-exports.wrapper = function(stream, Token) {
+exports.wrapper = function(stream) {
   stream.before(new Token.word(";(function(){\n"))
   stream.tail().after(new Token.word("\n})();"))
 }
 
-// end module
-})
+// end module: plugins/wrapper
+});

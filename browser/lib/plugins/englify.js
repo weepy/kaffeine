@@ -1,7 +1,9 @@
-require.module('./plugins/englify', function(exports, require) {
-// start module 
+require.module('./plugins/englify', function(module, exports, require) {
+// start module: plugins/englify
 
-exports.englify = function(stream, Token) {
+var Token = require("../token");
+
+exports.englify = function(stream) {
   var mapping = { "is": "===", "isnt": "!==", "or": "||", "and": "&&", "not": "!" }, op, token
   stream.each(function() {
     if(this.word && (op = mapping[this.text])) {
@@ -15,5 +17,5 @@ exports.englify = function(stream, Token) {
   })
 }
 
-// end module
-})
+// end module: plugins/englify
+});

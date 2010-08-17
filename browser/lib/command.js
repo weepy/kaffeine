@@ -1,5 +1,5 @@
-require.module('./command', function(exports, require) {
-// start module 
+require.module('./command', function(module, exports, require) {
+// start module: command
 
 var Kaffeine = require("./kaffeine").Kaffeine
 var fs =             require('fs')
@@ -181,5 +181,5 @@ function version() {
   process.exit(0)
 }
 
-// end module
-})
+// end module: command
+});

@@ -1,9 +1,9 @@
-require.module('./plugins/utils', function(exports, require) {
-// start module 
+require.module('./plugins/utils', function(module, exports, require) {
+// start module: plugins/utils
 
+var Token = require("../token");
 
-
-exports.utils = function(stream, Token) {
+exports.utils = function(stream) {
   var text = ""
   for(var i in mixin) {
     text += mixin[i].toString() + "\n"
@@ -30,5 +30,5 @@ var mixin = {
   }
 }
 
-// end module
-})
+// end module: plugins/utils
+});

@@ -1,9 +1,21 @@
 #indented_objects
 
+C = a : 1
+
+var square = function(x) { return x*x}
+
+math =
+  root:   Math.sqrt
+  square: square
+
+math = root:   Math.sqrt()
+       square: square
+    
+
 A = x: 
        1
 
-C = a : 1
+
 eq(C["a"], 1)
 
 
@@ -19,6 +31,8 @@ A = x:
 
 eq(A.x.z[0], 1)
 
+/*
 function label(a,b) { ok(b) } 
 
 label(for: 'username', 'Username')
+*/

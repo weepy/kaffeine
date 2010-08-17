@@ -1,7 +1,9 @@
-require.module('./plugins/at', function(exports, require) {
-// start module 
+require.module('./plugins/at', function(module, exports, require) {
+// start module: plugins/at
 
-exports.at = function(stream, Token) {
+var Token = require("../token");
+
+exports.at = function(stream) {
 
   stream.each(function() {
     if(this.unknown && this.text == "@") {
@@ -23,5 +25,5 @@ exports.at = function(stream, Token) {
 
 
 
-// end module
-})
+// end module: plugins/at
+});

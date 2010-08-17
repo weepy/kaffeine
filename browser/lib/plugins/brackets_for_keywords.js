@@ -1,7 +1,9 @@
-require.module('./plugins/brackets_for_keywords', function(exports, require) {
-// start module 
+require.module('./plugins/brackets_for_keywords', function(module, exports, require) {
+// start module: plugins/brackets_for_keywords
 
-exports.brackets_for_keywords = function(stream, Token) {
+var Token = require("../token");
+
+exports.brackets_for_keywords = function(stream) {
   var ks = ["if", "for", "while", "catch"]
   stream.each(function() {
     if(this.keyword && ks.indexOf(this.text)>= 0 ) {
@@ -14,7 +16,7 @@ exports.brackets_for_keywords = function(stream, Token) {
         if(token.lbracket && token.curly) return true
         if(token.lbracket) return token.matchingBracket
         if(token.newline) return true
-        if(token.operator && token.op == ",") return true
+//        if(token.operator && token.op == ",") return true
       })
       
 
@@ -22,12 +24,16 @@ exports.brackets_for_keywords = function(stream, Token) {
       this.after(pair.L)
       
       if(end.prev.whitespace) end = end.prev
+      if(end.operator) {
+        end.unhungry()
+        end = end.next
+      }
       end.before(pair.R)
-      if(end.operator) end.replaceWith(new Token.whitespace(" "))
+      //if(end.operator) end.replaceWith(new Token.whitespace(" "))
     }
   })
 
 }
 
-// end module
-})
+// end module: plugins/brackets_for_keywords
+});

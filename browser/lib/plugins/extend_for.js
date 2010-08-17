@@ -1,7 +1,8 @@
-require.module('./plugins/extend_for', function(exports, require) {
-// start module 
+require.module('./plugins/extend_for', function(module, exports, require) {
+// start module: plugins/extend_for
 
-exports.extend_for = function(stream, Token) {
+var Token = require("../token");
+exports.extend_for = function(stream) {
   
   stream.each(function() {
     if(this.keyword && this.text == "for") { 
@@ -42,11 +43,12 @@ exports.extend_for = function(stream, Token) {
         if(var2)
           iter = var2.text
         else {
-          var closure = this.findClosure()
           iter = closure.getUnusedVar()
-          closure.vars[iter] = true
         }
+        var closure = this.findClosure()
         val = var1.text
+        closure.vars[iter] = true
+        closure.vars[val] = true
         
         var string = iter + " = 0; " + iter + " < " + expressionText + ".length; " + iter + "++"
         brace.after(new Token.word(string))          
@@ -66,61 +68,5 @@ exports.extend_for = function(stream, Token) {
 
 
 
-/*
-
-function() {
-  
-  for(i, v in O) {
-    for(j, w in P) {
-      log(w + v)
-    }
-  }
-  for(i, v in R) {
-    log(v)
-  }
-
-  var i, v, j, w
-  for(i in O) {
-    v = O[i]
-    for(j, w in P) {
-      w = P[j]
-      log(w + v)
-    }
-  }
-  for(i in R) {
-    v = R[i]
-    log(v)
-  }
-
-  for a of A()
-    log a
-
-  var a, _f, _fcache = A()
-  for(_f=0; _f<_fc; _f++) {
-    a = _fc[_f]
-  }
-
-  for a, i of A()
-    log a
-
-  var a, i, _fc = A()
-  for(i=0; i<_fc; i++) {
-    a = _fc[i]
-  }
-
-
-  bracket.fn.getTempVar = function(prefix) {
-    return this._vars[prefix] = (this._vars[prefix] || 0) + 1
-  }
-
-  bracket.fn.returnTempVar = function(name) {
-    var num = name.slice(name.length - 2) / 1
-    var prefix = name.slice(0,name.length - 2)
-    if(this._vars[prefix] != num) throw "error: expecting not expecting var " + name
-    this._vars[prefix] --
-  }
-}
-*/
-
-// end module
-})
+// end module: plugins/extend_for
+});

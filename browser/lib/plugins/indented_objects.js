@@ -1,7 +1,9 @@
-require.module('./plugins/indented_objects', function(exports, require) {
-// start module 
+require.module('./plugins/indented_objects', function(module, exports, require) {
+// start module: plugins/indented_objects
 
-exports.indented_objects = function(stream, Token) {
+var Token = require("../token");
+
+exports.indented_objects = function(stream) {
 
   stream.each(function() {
     if(this.op != ":") return 
@@ -9,7 +11,10 @@ exports.indented_objects = function(stream, Token) {
     
     var prev = this.prev.prevNW()
     
-    if(prev.lbracket && prev.curly) return
+    if(prev.lbracket && prev.curly) {
+      addMissingCommas(prev)
+      return
+    }
     if(prev.op == ",") return
     
     // need to look for ternary statements too 
@@ -20,13 +25,13 @@ exports.indented_objects = function(stream, Token) {
     var pair = Token.bracket.pair("{}")     // we need to insert some !
     
     
-    if(oneLiner)  { 
+    if(false && oneLiner)  { 
       colon.prev.nextNewline().before(pair.R).before(" ");
     } else {
 
       var indent = colon.prevNewline().collectText(colon.prev.prev).split("\n").pop().length
-      var cur = colon.nextNewline("include")
-      
+      var start = colon.nextNewline("include")
+      var cur = start
       while(cur) {
         var curIndent = cur.next.indent().length
         if(!cur ||  curIndent == 0 || curIndent < indent) break
@@ -35,18 +40,38 @@ exports.indented_objects = function(stream, Token) {
       }
 
       var len = Math.max(indent + 1, 0);
-      var space =new Array(len).join(" ");
-      (cur).before(pair.R).before("\n"+space)
+      var space = (start != cur) ? "\n" + new Array(len).join(" ") : " ";
+      (cur).before(pair.R).before(space)
     }
     
-    colon.prev.before(pair.L).after(" ");
+    var x = colon.prev.prev
+    if(x.newline) {
+      x.unhungry()
+      x.after(" ").after(pair.L)
+      x.hungry()
+      colon.prev.before("  ")
+    } else
+      colon.prev.before(pair.L).after(" ");
     
     pair.L.updateBlock()
     pair.L.prev.text = pair.L.prev.text.replace(/  $/, "")
+    addMissingCommas(pair.L)
     return pair.L
   })
 }
 
+function addMissingCommas(L) {
+  var R = L.matchingBracket
+  var end = L.next.find(function() {
+    if(this == R) return true
+    if(this.lbracket) return this.matchingBracket.next // skip over
+    if(this.newline && !this.operator && this.next != R && this.prev != L) {
+      var comma = new Token.operator(",")
+      this.before(comma)
+      comma.hungry()
+    }
+  })
+}
 
-// end module
-})
+// end module: plugins/indented_objects
+});

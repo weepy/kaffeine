@@ -1,7 +1,8 @@
-require.module('./plugins/extended_arguments', function(exports, require) {
-// start module 
+require.module('./plugins/extended_arguments', function(module, exports, require) {
+// start module: plugins/extended_arguments
 
-exports.extended_arguments = function(stream, Token) {
+var Token = require("../token");
+exports.extended_arguments = function(stream) {
     stream.each(function() {
       if(!this.args) return
     
@@ -51,5 +52,5 @@ exports.extended_arguments = function(stream, Token) {
 
 
 
-// end module
-})
+// end module: plugins/extended_arguments
+});

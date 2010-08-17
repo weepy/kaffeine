@@ -1,7 +1,8 @@
-require.module('./plugins/implicit_return', function(exports, require) {
-// start module 
+require.module('./plugins/implicit_return', function(module, exports, require) {
+// start module: plugins/implicit_return
 
-  exports.implicit_return = function(stream, Token) {
+var Token = require("../token");
+exports.implicit_return = function(stream) {
   stream.each(function() {
     if(!this.blockType || this.blockType != "function") return
     if(this.global) return
@@ -45,5 +46,5 @@ require.module('./plugins/implicit_return', function(exports, require) {
   })
 }
 
-// end module
-})
+// end module: plugins/implicit_return
+});

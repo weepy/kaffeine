@@ -1,9 +1,12 @@
 Kaffeine
 ==
 
-Design your own Javascript.
+Designer Javascript.
 
-Inspired by Coffee script, but works by incrementally adding new syntax features via plugins.
+Aims to incrementally add new syntax features to Javascript. Features are opt-in only, meaning vanilla Javascript should work.
+
+Works via plugins, each of which adds an atomic feature. Syntax supported mostly follows CoffeeScript, but there are some differences.
+Plugins are fairly simple to write.
 
 Core code is ~500 lines of code, and plugins are about 10-50 lines long.
 
@@ -11,13 +14,12 @@ Status
 -----
 
 Nearly all tests are passing. 
-Near feature parity with CoffeeScript
 
 Current Plugins
 ------
 * Arrow: -> alias for function
 * at: @ alias for this
-* backticks: simple lambda function syntax square: `#*#`
+* backticks: simple lambda function syntax square: `#*#`, `.length`
 * brackets_for_functions: implicit brackets for function calls
 * brackets_for_keywords: implicit brackets for function, if, for types
 * class: CoffeeScript style class (slightly different syntax)
@@ -44,21 +46,22 @@ Current Plugins
 Tests
 -----
 
-in the browser 
+via Browser
+* load test.html, with the test as a query parameter, e.g <code>/test.html?backticks.k</code>
 
-* load test.html
-
-via node
-
-* bin/test
+via Node
+* <code>bin/test</code> will run all tests
+* <code>bin/test file_name</code> will a particular test e.g. <code>bin/test arrow</code>
 
 
 Building tests for the browser
 ----
 
-to build plugins for browser usage (needs http://github.com/weepy/brequire installed):
+The codebase is written using CommonJS which is not natively supported in the browser. To run in the browser environment, the plugins need to be compiled with brequire:
 
 brequire lib browser/lib
+
+see http://github.com/weepy/brequire for installation instructions.
 
 
 

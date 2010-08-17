@@ -1,10 +1,13 @@
-require.module('./plugins/missing_commas', function(exports, require) {
-// start module 
+require.module('./plugins/missing_commas', function(module, exports, require) {
+// start module: plugins/missing_commas
 
-exports.missing_commas = function(stream, Token) {
+var Token = require("../token");
+// missing commas for objects is handled by indented_objects
+
+exports.missing_commas = function(stream) {
 
   stream.each(function() {
-    if(!this.lbracket || !(this.curly || this.square)) return
+    if(!this.lbracket || !this.square) return
     if(this.curly && this.blockType != "object") return
     var L = this, R = this.matchingBracket
     var end = L.next.find(function() {
@@ -18,5 +21,5 @@ exports.missing_commas = function(stream, Token) {
 }
 
 
-// end module
-})
+// end module: plugins/missing_commas
+});

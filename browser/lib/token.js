@@ -1,5 +1,5 @@
-require.module('./token', function(exports, require) {
-// start module 
+require.module('./token', function(module, exports, require) {
+// start module: token
 
 var inherits = function(child, parent) {
   var ctor = function(){ };
@@ -51,8 +51,8 @@ function preprocess(stream) {
   stream = stream.each(function() { 
     if(this.comment) {
       if(this.single) {
-        this.text = this.text.replace(/\n$/, "")
-        var empty = new whitespace("\n")
+        //this.text = this.text.replace(/\n$/, "")
+        var empty = new whitespace("")//"\n")
       } else {
         var empty = new whitespace("")
       }
@@ -452,7 +452,9 @@ bracket.fn.findArgs = function() {
   var args = {}
   var prev = this.prev.whitespace ? this.prev.prev : this.prev
   
-  var text = prev.matchingBracket.collectText(this.prev).replace(/[\(\) ]/g, "")
+  if(!prev.matchingBracket) return
+  
+  var text = prev.matchingBracket.collectText(prev).replace(/[\(\) ]/g, "")
   
   var words = text.split(",")
   
@@ -543,7 +545,7 @@ regex.extract = function(index, input) {
   }
 }
 
-exports.Token = { whitespace: whitespace, operator: operator, string: string, word: word, comment: comment, bracket: bracket, unknown: unknown, semi: semi, ize: ize }
+module.exports = { whitespace: whitespace, operator: operator, string: string, word: word, comment: comment, bracket: bracket, unknown: unknown, semi: semi, ize: ize }
 
-// end module
-})
+// end module: token
+});

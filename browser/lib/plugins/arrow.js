@@ -1,7 +1,9 @@
-require.module('./plugins/arrow', function(exports, require) {
-// start module 
+require.module('./plugins/arrow', function(module, exports, require) {
+// start module: plugins/arrow
 
-exports.arrow = function(stream, Token) {
+var Token = require("../token");
+
+exports.arrow = function(stream) {
   stream.each(function(token) {
     
     if(!token.operator || token.op != "->") return
@@ -41,5 +43,5 @@ exports.arrow = function(stream, Token) {
 }
 
 
-// end module
-})
+// end module: plugins/arrow
+});

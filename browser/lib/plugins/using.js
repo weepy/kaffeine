@@ -1,6 +1,7 @@
-require.module('./plugins/using', function(exports, require) {
-// start module 
+require.module('./plugins/using', function(module, exports, require) {
+// start module: plugins/using
 
+var Token = require("../token");
 /*
  X
 
@@ -16,7 +17,7 @@ to
 a["b"].push(get(A))
 */
 
-exports.using = function(stream, Token) {
+exports.using = function(stream) {
   var operators = {}
   
   stream.each(function() {
@@ -33,5 +34,5 @@ exports.using = function(stream, Token) {
   })  
 }
 
-// end module
-})
+// end module: plugins/using
+});

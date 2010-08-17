@@ -1,7 +1,7 @@
-require.module('./kaffeine', function(exports, require) {
-// start module 
+require.module('./kaffeine', function(module, exports, require) {
+// start module: kaffeine
 
-var Token = require("./token").Token;
+var Token = require("./token")
 
 function Kaffeine(options) {
   this.options = options;
@@ -80,5 +80,5 @@ Kaffeine.fn.validate = function(text) {
 
 exports.Kaffeine = Kaffeine;
 
-// end module
-})
+// end module: kaffeine
+});

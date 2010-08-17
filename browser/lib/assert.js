@@ -1,5 +1,5 @@
-require.module('./assert', function(exports, require) {
-// start module 
+require.module('./assert', function(module, exports, require) {
+// start module: assert
 
 
 function ok(x, s) { 
@@ -57,5 +57,5 @@ exports.assert = {
   results: results
 }
 
-// end module
-})
+// end module: assert
+});

@@ -1,7 +1,8 @@
-require.module('./plugins/reverse_blocks', function(exports, require) {
-// start module 
+require.module('./plugins/reverse_blocks', function(module, exports, require) {
+// start module: plugins/reverse_blocks
 
-exports.reverse_blocks = function(stream, Token) {
+var Token = require("../token");
+exports.reverse_blocks = function(stream) {
   var keywords = {"if":1,"for":1, "while":1}
   stream.each(function() {
     if(this.keyword && keywords[this.text] && !this.prev.newline) { 
@@ -14,5 +15,5 @@ exports.reverse_blocks = function(stream, Token) {
   })
 }
 
-// end module
-})
+// end module: plugins/reverse_blocks
+});

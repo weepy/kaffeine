@@ -1,7 +1,9 @@
-require.module('./plugins/double_brackets', function(exports, require) {
-// start module 
+require.module('./plugins/double_brackets', function(module, exports, require) {
+// start module: plugins/double_brackets
 
-exports.double_brackets = function(stream, Token) {
+var Token = require("../token");
+
+exports.double_brackets = function(stream) {
   stream.each(function() {
     if(this.lbracket && this.round && this.next.lbracket && this.next.round) {
       var n = this.matchingBracket.prev
@@ -14,5 +16,5 @@ exports.double_brackets = function(stream, Token) {
 }
 
 
-// end module
-})
+// end module: plugins/double_brackets
+});

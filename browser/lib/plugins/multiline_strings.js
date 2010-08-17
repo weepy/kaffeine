@@ -1,7 +1,8 @@
-require.module('./plugins/multiline_strings', function(exports, require) {
-// start module 
+require.module('./plugins/multiline_strings', function(module, exports, require) {
+// start module: plugins/multiline_strings
 
-exports.multiline_strings = function(stream, Token) {
+var Token = require("../token");
+exports.multiline_strings = function(stream) {
   var reg = /\n/
   stream.each(function() {
     if(!this.string || !reg.test(this.text)) return
@@ -12,5 +13,5 @@ exports.multiline_strings = function(stream, Token) {
   })
 }
 
-// end module
-})
+// end module: plugins/multiline_strings
+});

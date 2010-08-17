@@ -1,7 +1,8 @@
-require.module('./plugins/prototype', function(exports, require) {
-// start module 
+require.module('./plugins/prototype', function(module, exports, require) {
+// start module: plugins/prototype
 
-exports['prototype'] = function(stream, Token) {
+var Token = require("../token");
+exports['prototype'] = function(stream) {
 
   var klass = "undefined"
   stream.each(function() {
@@ -34,5 +35,5 @@ exports['prototype'] = function(stream, Token) {
 
 
 
-// end module
-})
+// end module: plugins/prototype
+});

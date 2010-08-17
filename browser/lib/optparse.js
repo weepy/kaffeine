@@ -1,5 +1,5 @@
-require.module('./optparse', function(exports, require) {
-// start module 
+require.module('./optparse', function(module, exports, require) {
+// start module: optparse
 
 //from coffeescript
 
@@ -137,5 +137,5 @@ require.module('./optparse', function(exports, require) {
 })();
 
 
-// end module
-})
+// end module: optparse
+});
