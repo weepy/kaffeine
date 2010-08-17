@@ -38,15 +38,16 @@ function runTests(tests) {
     reset()
     try {
       var js = new Kaffeine().compile(text)
-      
+    
       try {
-        eval(js)
+        eval("(function() {" + js + "})();")
         O.pass += results.pass.length
         O.fail += results.fail.length
       } catch(e) {
         console.log("Doesn't produce valid JS ")
         console.log( e.stack)
         //console.log(js)
+        O.errors += 1
       }
             
     } catch(e) {
@@ -54,6 +55,7 @@ function runTests(tests) {
       O.errors += 1
     }
   }
+
 
   console.log(O.pass + " passes, " + O.fail + " failures, " + O.errors + " exceptions")
 }

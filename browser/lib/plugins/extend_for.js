@@ -32,20 +32,19 @@ exports.extend_for = function(stream) {
 
       var expressionText = loopWord.next.next.collectText(closingBrace.prev)          
       var iter, val
+      var closure = this.findClosure()
       
       if(loopWord.text == "in") { 
         if(!var2) return // nothing to do !
         var2.prev.remove(var2) 
         iter = var1.text
         val = var2.text
+        closure.vars[iter] = true
+        closure.vars[val] = true
       } else {
         brace.next.remove(closingBrace.prev)
-        if(var2)
-          iter = var2.text
-        else {
-          iter = closure.getUnusedVar()
-        }
-        var closure = this.findClosure()
+        iter = var2 ? var2.text : closure.getUnusedVar()
+        
         val = var1.text
         closure.vars[iter] = true
         closure.vars[val] = true

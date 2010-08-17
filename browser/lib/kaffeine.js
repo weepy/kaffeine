@@ -12,7 +12,9 @@ Kaffeine.VERSION = "0.0.1";
 Kaffeine.plugins = {};
 
 Kaffeine.fn.preprocess = function(text) {
-  return text.replace(/\t/g, "  ").replace(/ *\n/g, "\n").replace(/\r\n|\r/g,"");
+  text = text.replace(/\t/g, "  ").replace(/ *\n/g, "\n").replace(/\r\n|\r/g,"") 
+  if(!text.match(/\n$/)) text += "\n"; // trailing newline
+  return text
   //.replace(/;([^\n])/g, function(a,b) { return ";\n"+b } )   <=== semi's in for blocks is OK
 };
 

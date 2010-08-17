@@ -6,4 +6,4 @@ a = x:
        a: 1
        b
 
-eq(a.b,3)
+eq(a.x.b,3)

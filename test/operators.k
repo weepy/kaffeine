@@ -12,7 +12,7 @@ eq( 2**3, 8)
 
 var power = 2
 
-x = addOne(1) ** power + (5\4)
+var x = addOne(1) ** power + (5\4)
 
 var a = [1]
 a << 2; 

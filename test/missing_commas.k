@@ -9,7 +9,7 @@ a = [
 
 eq(a.length, 3)
 
-eq(b.c, 3)
+
 
 eq([
 1

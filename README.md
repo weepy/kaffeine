@@ -3,7 +3,7 @@ Kaffeine
 
 Designer Javascript.
 
-Aims to incrementally add new syntax features to Javascript. Features are opt-in only, meaning vanilla Javascript should work.
+Aims to incrementally add new syntax features to Javascript. Features are opt-in only, meaning vanilla Javascript will work as expected.
 
 Works via plugins, each of which adds an atomic feature. Syntax supported mostly follows CoffeeScript, but there are some differences.
 Plugins are fairly simple to write.
