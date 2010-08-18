@@ -1,19 +1,11 @@
-Decent examples
+Decent example
 
 GH pages
 
-
-default directive
-
 README
 
-get test working on cmdline
-
-nice index.html
+fix how comments work !
 
 Plugins to write
-  decompose assign
-  macro
-
-
-Hm.label(for: 'username', 'Username')
+  decompose assign - objects
+  

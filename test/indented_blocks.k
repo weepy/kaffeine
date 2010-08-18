@@ -1,5 +1,8 @@
 #indented_blocks class
 
+if(false)  // comment!!
+ok(true)
+
 if(true)
   ok(true)
 

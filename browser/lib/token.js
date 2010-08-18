@@ -59,7 +59,7 @@ function preprocess(stream) {
             
       empty.comment = this 
       this.replaceWith(empty);
-      // empty.hungry();
+      empty.hungry();
       if(empty.text.match(/\n/)) empty.newline = true // probably should do something neater
       return empty.next
     }
@@ -264,9 +264,9 @@ base.fn.each = function(fn, dir) {
 }
 
 base.fn.hungry = function() {
-  if(this.prev && this.prev.whitespace)  
+  if(this.prev && this.prev.whitespace && !this.prev.comment)  
     this.combine("prev")
-  if(this.next && this.next.whitespace)
+  if(this.next && this.next.whitespace && !this.prev.comment)
     this.combine("next")
 }
 

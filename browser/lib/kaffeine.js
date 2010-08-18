@@ -76,7 +76,7 @@ Kaffeine.fn.validate = function(text) {
       new Function(text)
     }
     catch (err) {
-      console.log(err.stack);
+      console.log(err);
     }     
   }
   return text
