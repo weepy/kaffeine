@@ -17,9 +17,9 @@ exports.arrow = function(stream) {
       args = from.remove(token.prev).collectText()
     }
     
-    var text = token.text.replace("->", "function" + args)
-    var toks = Token.ize(text)
-    this.prev.after(toks)
+    var text = "function" + args //token.text.replace("->", )
+    // var toks = Token.ize(text)
+    this.prev.after(text)
     
     // var newCurly = this.find(function(token) {
     //       if(token.curly) {
@@ -37,8 +37,9 @@ exports.arrow = function(stream) {
     //       pair.L.updateBlock()
     //     }
     
+    var ret = this.next
     this.remove()
-    return toks
+    return ret
   })
 }
 

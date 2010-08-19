@@ -14,3 +14,7 @@ x = (a) -> {
   a = this.a
   a
 }
+
+var square = (x) -> x * x
+
+eq(square(2), 4)

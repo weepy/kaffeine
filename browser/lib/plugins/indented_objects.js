@@ -46,9 +46,9 @@ exports.indented_objects = function(stream) {
     
     var x = colon.prev.prev
     if(x.newline) {
-      x.unhungry()
+      x.spit(function() { return this.whitespace})
       x.after(" ").after(pair.L)
-      x.hungry()
+      x.eat(function() { return this.whitespace})
       colon.prev.before("  ")
     } else
       colon.prev.before(pair.L).after(" ");
@@ -68,7 +68,7 @@ function addMissingCommas(L) {
     if(this.newline && !this.operator && this.next != R && this.prev != L) {
       var comma = new Token.operator(",")
       this.before(comma)
-      comma.hungry()
+      comma.eat(function() { return this.whitespace})
     }
   })
 }

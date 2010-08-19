@@ -25,7 +25,7 @@ exports.brackets_for_keywords = function(stream) {
       
       if(end.prev.whitespace) end = end.prev
       if(end.operator) {
-        end.unhungry()
+        end.spit(function() { return this.whitespace})
         end = end.next
       }
       end.before(pair.R)

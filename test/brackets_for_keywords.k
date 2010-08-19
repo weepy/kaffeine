@@ -1,12 +1,13 @@
 #brackets_for_keywords
 
+if true// hello
+  ok(true)
+
+  
 for x in [1,2,3,2*2] {
   ok(true)
 }
-  
-if true// hello
-  ok(true)
-  
+
 if true {
   ok(true)
 }

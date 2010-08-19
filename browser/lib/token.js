@@ -10,7 +10,12 @@ var inherits = function(child, parent) {
   child.fn = child.prototype
 };
 
-function base(text) { this.text = text; this.id = base.id++ }
+function base(text) { 
+  this.text = text; 
+  this.id = base.id++;
+  this.eaten = {left:[], right:[]}
+}
+
 base.id = 0
 base.fn = base.prototype
 base.klasses = [whitespace, word, string, comment, regex, operator, bracket, semi]
@@ -50,21 +55,31 @@ function preprocess(stream) {
   // remove comments & hungry operators & hungry left round brackets  
   stream = stream.each(function() { 
     if(this.comment) {
-      if(this.single) {
-        //this.text = this.text.replace(/\n$/, "")
-        var empty = new whitespace("")//"\n")
-      } else {
-        var empty = new whitespace("")
-      }
-            
-      empty.comment = this 
-      this.replaceWith(empty);
-      empty.hungry();
-      if(empty.text.match(/\n/)) empty.newline = true // probably should do something neater
-      return empty.next
+      var next = this.next
+      next.eatLeft()
+      return next.prev
+      // if(this.single) {
+      //         //this.text = this.text.replace(/\n$/, "")
+      //         var empty = new whitespace("")//"\n")
+      //       } else {
+      //         var empty = new whitespace("")
+      //       }
+      //             
+      //       empty.comment = this 
+      //       this.replaceWith(empty);
+      //       
+      //       empty.eat(function() { return this.whitespace })
+      // 
+      //       if(empty.text.match(/\n/)) empty.newline = true // probably should do something neater
+      //       return empty.next
+    
     }
     else if(this.operator) {
-      this.hungry()
+      this.eat(function() { return this.whitespace })
+    }
+    else if(this.whitespace && this.next && this.next.whitespace) {
+      this.eatRight()
+      return this
     }
     else {
        // SHOULD BE HERE ?!!?!
@@ -148,31 +163,6 @@ base.fn.replaceWith = function(head) {
   this.remove()
   return tail
 }
-
-base.fn.combine = function(dir) {
-  if(!this[dir]) return 
-  var token = this[dir].remove()
-  this.o_text = this.o_text || this.text
-  this.text = dir == "prev" ? token.text + this.text : this.text + token.text
-  
-  if(token.newline) this.newline = true
-}
-
-base.fn.collectText = function(end) {
-  var text = [], token = this, vars
-  while(token) {
-    if(token.comment) text.push(token.comment.text)
-    text.push(token.text)
-    if(token.vars) {
-      vars = token.declareVariables()
-      text.push(vars)
-    }
-    if(token == end) break
-    token = token.next
-  }
-  return text.join("")
-}
-
 
 base.fn.find = function(fn, skip) {
   var token = this
@@ -263,26 +253,101 @@ base.fn.each = function(fn, dir) {
   return last.head()
 }
 
-base.fn.hungry = function() {
-  if(this.prev && this.prev.whitespace && !this.prev.comment)  
-    this.combine("prev")
-  if(this.next && this.next.whitespace && !this.prev.comment)
-    this.combine("next")
+// base.fn.hungry = function() {
+//   if(this.prev && this.prev.whitespace)  
+//     this.eatLeft()
+//   if(this.next && this.next.whitespace)
+//     this.eatRight()
+// }
+
+
+
+
+base.fn.eat = function(test) {
+  this.eatLeft(test)
+  this.eatRight(test)
 }
 
-base.fn.unhungry = function() {
-  var left = this.text.match(/^\s*/)[0]
-  var right = this.text.match(/\s*$/)[0]
-  if(left) {
-    this.before(new whitespace(left))
-    this.text = this.text.replace(/^\s*/, "")
+base.fn.eatLeft = function(test) {
+  var token = this.prev  
+  if(token && (!test || test.call(token))) {
+    token.remove()
+    this.eaten.left.unshift(token)
+    this.newline = this.myText().match(/\n/) 
   }
-  if(right) {
-    this.after(new whitespace(right))
-    this.text = this.text.replace(/\s*$/, "")
-  }
-  
 }
+
+base.fn.eatRight = function(test) {
+  var token = this.next  
+  if(token && (!test || test.call(token))) {
+    token.remove()
+    this.eaten.right.push(token)
+    this.newline = this.myText().match(/\n/) 
+  }
+}
+
+base.fn.spit = function(test) {
+  this.spitLeft(test)
+  this.spitRight(test)
+}
+
+base.fn.spitLeft = function(test) {
+  var token = this.eaten.left.shift()
+  if(token && (!test || test.call(token))) {
+    this.before(token)
+    this.newline = this.myText().match(/\n/)
+  }
+}
+
+base.fn.spitRight = function(test) {
+  var token = this.eaten.right.pop()
+  if(token && (!test || test.call(token))) {
+    this.after(token)
+    this.newline = this.myText().match(/\n/)
+  }
+}
+
+
+base.fn.myText = function() {
+  var text = [], vars
+  for(var i=0; i<this.eaten.left.length; i++)
+    text.push(this.eaten.left[i].myText())
+      
+  text.push(this.text)
+
+  if(this.vars) {
+    vars = this.declareVariables()
+    text.push(vars)
+  }
+  for(var i=0; i<this.eaten.right.length; i++)
+    text.push(this.eaten.right[i].myText())
+  return text.join("")
+}
+
+base.fn.collectText = function(end) {
+  var text = [], token = this
+  while(token) {
+    text.push(token.myText())
+    if(token == end) break
+    token = token.next
+  }
+  return text.join("")
+}
+
+
+// base.fn.unhungry = function() {
+//   var left = this.text.match(/^\s*/)[0]
+//   var right = this.text.match(/\s*$/)[0]
+//   if(left) {
+//     this.before(new whitespace(left))
+//     this.text = this.text.replace(/^\s*/, "")
+//   }
+//   if(right) {
+//     this.after(new whitespace(right))
+//     this.text = this.text.replace(/\s*$/, "")
+//   }
+//   
+// }
 
 base.fn.findClosure = function() {
   var parent = this.prev.findRev(function(tok) {
@@ -315,17 +380,36 @@ base.fn.indent = function() {
   return nl ? nl.text.split("\n").pop() : ""
 }
 
+base.fn.getUnusedVar = function(prefix) {
+  var num = 10, name
+  prefix = prefix || "_"
+  while(true) {
+    name = (num).toString(36)
+    if(!this.vars[prefix + name])
+      break
+    num++
+  }
+  return prefix + name
+}
+
+base.fn.cacheExpression = function(name) {
+  name = name || "_xpr"
+  var pair = bracket.pair("()")
+  var closure = this.findClosure()
+  closure.vars[name] = true
+  this.expressionStart().before(new operator("=")).before(new word(name)).before(pair.L)
+  this.expressionEnd().after(pair.R)
+}
+
 function unknown(text) { 
-  this.text = text
-  this.id = base.id++  
+  base.call(this, text)
 }
 inherits(unknown, base)
 unknown.fn.unknown = true
 
 function whitespace(text) { 
-  this.text = text; 
+  base.call(this, text)
   this.newline = /\n/.test(text);  
-  this.id = base.id++ 
 }
 inherits(whitespace, base)
 whitespace.fn.whitespace = true
@@ -334,10 +418,9 @@ whitespace.regex = /\s+/g
 var keywords = "if for while else try catch function return var".split(" ")
 
 function word(text) { 
-  this.text = text
+  base.call(this, text)
   if(keywords.indexOf(text) >= 0)
     this.keyword = true  
-  this.id = base.id++ 
 }
 
 inherits(word, base)
@@ -345,16 +428,14 @@ word.fn.word = true
 word.regex = /[A-Za-z0-9_$]+/g
 
 function string(text) { 
-  this.text = text
-  this.id = base.id++ 
+  base.call(this, text)
 }
 inherits(string, base)
 string.fn.string = true
 string.regex = /['"]/g
 
 function regex(text) { 
-  this.text = text
-  this.id = base.id++ 
+  base.call(this, text)
 }
 inherits(regex, base)
 regex.fn.regex = true
@@ -362,9 +443,8 @@ regex.fn.string = true
 regex.regex = /\/[^*\/ ][^\n]*\//g
 
 function comment(text) { 
-  this.text = text
+  base.call(this, text)
   this.single = this.text.match(/^\/\//)
-  this.id = base.id++ 
 }
 inherits(comment, base)
 comment.fn.comment = true
@@ -372,26 +452,24 @@ comment.regex = /\/\*|\/\//g
 
 var comparisonOperators = ["<=","<",">=", ">", "==", "!=", "===", "!==", "||", "&&"]
 function operator(text) { 
-  this.text = text; 
+  base.call(this, text)
   this.op = this.text 
   this.assign = /^=$/.test(text)  
   this.comparison = comparisonOperators.indexOf(this.text) >= 0
-  this.id = base.id++ 
 }
 inherits(operator, base)
 operator.fn.operator = true
 operator.regex = /[!%^&*\-=+:,.|\\~<>\?]+|\/|\/=/g // we dont support operators containing forward slash other than '/' and '/='  (too difficult to compare with // and /*)
 
 function semi(text) { 
-  this.text = text
-  this.id = base.id++ 
+  base.call(this, text)
 }
 inherits(semi, base)
 semi.fn.semi = true
 semi.regex = /;/g
 
 function bracket(text) { 
-  this.text = text 
+  base.call(this, text)
   this.lbracket = text.match(/[\(\[\{]/)  
   this.rbracket = !this.lbracket
   
@@ -401,7 +479,6 @@ function bracket(text) {
     this.round = true
   else if(text == "[" || text == "]")
     this.square = true
-  this.id = base.id++ 
 }
 
 inherits(bracket, base)
@@ -478,27 +555,6 @@ bracket.fn.declareVariables = function() {
   var space = this.global ? "" : "  "
   string = "\n" + space + this.indent() + string // should find current indent really
   return string
-}
-
-base.fn.getUnusedVar = function(prefix) {
-  var num = 10, name
-  prefix = prefix || "_"
-  while(true) {
-    name = (num).toString(36)
-    if(!this.vars[prefix + name])
-      break
-    num++
-  }
-  return prefix + name
-}
-
-base.fn.cacheExpression = function(name) {
-  name = name || "_xpr"
-  var pair = bracket.pair("()")
-  var closure = this.findClosure()
-  closure.vars[name] = true
-  this.expressionStart().before(new operator("=")).before(new word(name)).before(pair.L)
-  this.expressionEnd().after(pair.R)
 }
 
 string.extract = function(index, input) {
