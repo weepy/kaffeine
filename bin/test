@@ -44,9 +44,8 @@ function runTests(tests) {
         O.pass += results.pass.length
         O.fail += results.fail.length
       } catch(e) {
-        console.log("Doesn't produce valid JS ")
-        console.log( e.stack)
-        //console.log(js)
+        console.log("Doesn't produce valid JS: ")
+        console.log(js)
         O.errors += 1
       }
             

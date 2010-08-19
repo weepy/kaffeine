@@ -21,7 +21,7 @@ exports.indented_objects = function(stream) {
     var start = this.expressionStart(function() { return this.op == "?"})
     if(start.prev.op == "?") return
     var colon = this
-    var oneLiner = !this.find(function() { if(this.text.match(/\n/)) return true }).operator
+    var oneLiner = !this.find(function() { if(this.myText().match(/\n/)) return true }).operator
     var pair = Token.bracket.pair("{}")     // we need to insert some !
     
     

@@ -1,7 +1,10 @@
 #indented_objects
 
-C = a : 1
+A = x: 
+       1
 
+C = a : 1
+eq(C["a"], 1)
 var square = function(x) { return x*x}
 
 math =
@@ -12,11 +15,16 @@ math = root:   Math.sqrt()
        square: square
     
 
-A = x: 
-       1
+C = a: 1
+    b: 21
+    d: c: 1
+       d: 2
+       e: [
+       
+       ]
 
+eq(C.d.c, 1)
 
-eq(C["a"], 1)
 
 
 B = s: 1,
