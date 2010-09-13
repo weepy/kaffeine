@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Hello SyntaxHighlighter</title>
+	<script type="text/javascript" src="js/shCore.js"></script>
+	<script type="text/javascript" src="js/shBrushJScript.js"></script>
+	<link type="text/css" rel="stylesheet" href="shCoreDefault.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+
+<body style="background: white; font-family: Helvetica">
+
+<h1>Hello SyntaxHighlighter</h1>
+<pre class="brush: js;">
+  /* The Editor object manages the content of the editable frame. It
+   * catches events, colours nodes, and indents lines. This file also
+   * holds some functions for transforming arbitrary DOM structures into
+   * plain sequences of <span> and <br> elements
+   */
+
+  var internetExplorer = document.selection && window.ActiveXObject && /MSIE/.test(navigator.userAgent);
+  var webkit = /AppleWebKit/.test(navigator.userAgent);
+  var safari = /Apple Computers, Inc/.test(navigator.vendor);
+  var gecko = /gecko\/(\d{8})/i.test(navigator.userAgent);
+  // TODO this is related to the backspace-at-end-of-line bug. Remove
+  // this if Opera gets their act together, make the version check more
+  // broad if they don't.
+  var brokenOpera = window.opera && /Version\/10.[56]/.test(navigator.userAgent);
+
+  // Make sure a string does not contain two consecutive 'collapseable'
+  // whitespace characters.
+  function makeWhiteSpace(n) {
+    var buffer = [], nb = true;
+    for (; n > 0; n--) {
+      buffer.push((nb || n == 1) ? nbsp : " ");
+      nb ^= true;
+    }
+    return buffer.join("");
+  }
+
+  // Create a set of white-space characters that will not be collapsed
+  // by the browser, but will not break text-wrapping either.
+  function fixSpaces(string) {
+    if (string.charAt(0) == " ") string = nbsp + string.slice(1);
+    return string.replace(/\t/g, function() {return makeWhiteSpace(indentUnit);})
+      .replace(/[ \u00a0]{2,}/g, function(s) {return makeWhiteSpace(s.length);});
+  }
+
+
+
+</pre>
+
+</html>

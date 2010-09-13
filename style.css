@@ -1,0 +1,78 @@
+
+h1, h2, h3, h4 { font-family: 'Yanone Kaffeesatz', arial, serif;  margin: 0;}
+
+h1 { font-size: 100px;}
+h2 { font-size: 50px;}
+
+.output  {border: 1px solid #cfc; cursor: pointer;}
+.output:hover  {border: 1px solid #000; }
+.input { clear: both; }
+.note { clear: both;  font-size: 20px; top: 0; right: 0; font-weight: bold; color: green; padding: 0 15px; margin: 0; font-family: Verdana;}
+
+fieldset { position:relative; }
+
+body {
+  font-family: arial;
+  background: #1c1c1c;
+  overflow-x:hidden;
+}
+.w {
+  min-width: 1300px;
+}
+h1 {
+  float: left;
+}
+.hijs, textarea {  font-size: 14px !important; padding-bottom: 1em}
+
+#info {
+  font-size:14px;
+  margin-left:545px;
+  margin-top:5px;
+  overflow:hidden;
+  position:absolute;
+  z-index:100;
+}
+#tag {
+  float:left;
+  margin-left:33px;
+  margin-top:40px;
+  margin-bottom: 37px;
+}
+h2 {clear:both;
+line-height:14px;
+margin-bottom:10px;
+margin-right:14px;}
+
+.CodeMirror-wrapping { float: left; width: 600px; margin-right: 40px;margin-bottom: 20px;}
+
+pre.hijs { color: #FFF8DC; font-family: Verdana; background: #222; width: 600px; float: left; margin: 0;padding: 0 5px; overflow: auto;margin-bottom:20px;}  
+.keyword { color: #00FFFF;}
+.string { color: #FFA500;}
+.comment { color: #666;}
+.operator {color: #23B3FF;}
+.number {color: #B0C4DE;}
+
+#examples {
+  clear: both;
+}
+
+#examples a {
+  color: black;
+
+  background: #eee;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  text-decoration: none;
+  font-size:14px;
+  margin-right:5px;
+  padding:2px 5px;
+}
+
+#examples a.on {
+  background: #f7f;
+  font-size: 24px;
+}
+
+#examples a:hover{
+  background: #f7f;
+}
