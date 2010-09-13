@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <script src="js/codemirror.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/docs.css"/>
+  </head>
+<body style="padding: 20px;">
+
+<div class="border">
+<textarea id="code" cols="120" rows="30">
+  /* A few useful utility functions. */
+
+  // Capture a method on an object.
+  function method(obj, name) {
+    return function() {obj[name].apply(obj, arguments);};
+  }
+
+  // The value used to signal the end of a sequence in iterators.
+  var StopIteration = {toString: function() {return "StopIteration"}};
+
+  // Apply a function to each element in a sequence.
+  function forEach(iter, f) {
+    if (iter.next) {
+      try {while (true) f(iter.next());}
+      catch (e) {if (e != StopIteration) throw e;}
+    }
+    else {
+      for (var i = 0; i < iter.length; i++)
+        f(iter[i]);
+    }
+  }
+
+
+</textarea>
+</div>
+
+<script type="text/javascript">
+  var editor = CodeMirror.fromTextArea('code', {
+    height: "350px",
+    parserfile: ["tokenizejavascript.js", "parsejavascript.js"],
+    stylesheet: "css/jscolors.css",
+    path: "js/",
+    continuousScanning: 500
+  });
+</script>
+  </body>
+</html>

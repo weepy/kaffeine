@@ -1,0 +1,87 @@
+<html>
+<head>
+
+<script src='brequire.js'></script>
+<script src='lib/token.js'></script>
+<script src='lib/kaffeine.js'></script>
+<script src='lib/assert.js'></script>
+<script>
+var Plugins = "extended_arguments class_part2 destructured_assignment slices fat_arrow implicit_object_keys missing_commas super prototype utils operators double_brackets existential backticks englify extend_for class indented_objects brackets_for_keywords unless at brackets_for_functions half_operators arrow implicit_vars implicit_return reverse_blocks using indented_blocks enum pipe multiline_strings string_interpolation".split(" "); 
+for(var i in Plugins) { document.write("<script src='lib/plugins/" + Plugins[i]+ ".js'></scr" + "ipt>") }
+</script>
+<script src='ext/jquery.js'></script>
+<script src='ext/autoheight.js'></script>
+<script src='lib/pipe_utils.js'></script>
+<style>
+.input { color: #338; float: left; clear: both; width: 50%;}
+.output { color: #383; float: left; width: 50%;}
+#log { clear: both;}
+</style>
+
+<script>
+var assert
+
+$().ready(function() {
+  if($.browser.safari) alert("This test page only works in Firefox. Safari has problems with ajax on the local file system")
+  
+  var test = document.location.search.slice(1)
+  
+  assert = require("./assert").assert
+  for(var name in assert)
+    $.globalEval("var " + name + " = assert['" + name + "']")
+
+  var Kaffeine = require("./kaffeine").Kaffeine
+
+  for(var i in Plugins) { 
+    var p = Plugins[i]
+    Kaffeine.plugins[p] = require("./plugins/"+p)[p]
+  }
+
+  function esc(t) {
+    return t.replace("<", "&lt;", "g").replace(">", "&gt;", "g")
+  }
+  
+  $.get("./test/" + test, function(text) {
+    
+    log("running " + test)
+    $("#code").append("<pre class=input>" + esc(text) + "</pre>")
+    var s = new Kaffeine().compile(text)
+    $("#code").append("<pre class=output>" +  esc(s) + "</pre>")
+    try {
+      $("head").append("<script>\n(function() {\n " + s + "\n})()\n</sc" +"ript>") // we can see syntax errors this way
+      //eval("(function() {\n " + s + "\n})()")
+    } catch(e) {
+      log("invalid JS: " + e.message)
+      return
+    }
+
+    log(results.pass.length + " passes, " + results.fail.length + " failures")
+    if(results.fail.length) {
+      for(var i in results.fail)
+        log(results.fail[i])
+    }
+  })
+
+  function log(x) {
+    var args = Array.prototype.slice.call(arguments, 0)
+    $("#log").append("<p>" + args.join(" ") + "</p>")
+  }
+
+})
+</script>
+
+
+</head>
+
+<body>
+
+<h6>Kaffeine Test</h6>
+
+<div id=code></div>
+<div id=log></div>
+
+
+
+</body>
+</html>
+

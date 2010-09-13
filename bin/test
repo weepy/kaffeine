@@ -1,0 +1,86 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var fs = require('fs');
+//var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
+
+var Kaffeine = require("../lib/kaffeine").Kaffeine
+
+var assert = require("../lib/assert").assert
+// mixin locally
+
+for(var name in assert)
+  eval("var " + name + " = assert['" + name + "']")
+
+function loadPlugins(source) {
+  var rel = "../lib/plugins/"
+    
+  files = fs.readdirSync(source) 
+  for(var i =0; i< files.length;i++) {
+    var file = files[i]
+    if(!file.match(/\.js$/)) continue
+    file = file.replace(/\.js$/, "")
+    var path = rel + file
+    Kaffeine.plugins[file] = require(path)[file]
+  }
+}
+
+loadPlugins("./lib/plugins")
+
+function runTests(tests) {
+  console.log("Testing " + tests.length + " files")
+  var O = {errors:0, pass:0, fail: 0}
+
+  for(var i=0; i<tests.length;i++) {
+    var name = tests[i]
+    var text = fs.readFileSync("./test/" + name).toString()   
+    console.log(name) 
+    reset()
+    try {
+      var js = new Kaffeine().compile(text)
+    
+      try {
+        eval("(function() {" + js + "})();")
+        O.pass += results.pass.length
+        O.fail += results.fail.length
+      } catch(e) {
+        console.log("Doesn't produce valid JS: ")
+        console.log(js)
+        O.errors += 1
+      }
+            
+    } catch(e) {
+      console.error("Error: " + e.toString())
+      O.errors += 1
+    }
+  }
+
+
+  console.log(O.pass + " passes, " + O.fail + " failures, " + O.errors + " exceptions")
+}
+
+
+function runAllTests() {
+  var tests = []
+  var files = fs.readdirSync("./test")
+  for(var j=0; j<files.length;j++) {
+    var file = files[j]
+    
+    if(file.match(/.k$/)) {
+      tests.push(file)
+    }
+  }
+  runTests(tests)
+}
+
+var ARGV = process.ARGV
+
+if(ARGV[2])
+  runTests([ARGV[2]])
+else {
+  runAllTests()
+}
+
+
+
+
