@@ -513,21 +513,40 @@ bracket.pair = function(s) {
 
 var blockKeywords = "if for while else try catch function".split(" ")
 
+
+
+
 bracket.fn.updateBlock = function() {
+
+  var state = {
+    bracket: false,
+    name: false
+  }
   
   var type = this.prev.findRev(function(token) {
     if(token.whitespace)            return null  // skip whitespace
-    else if(token.rbracket)    return token.matchingBracket.prev // skip before matching bracket
-    else if(token.word)
+    else if(token.rbracket && token.rbracket) {
+      state.bracket = token.matchingBracket
+      return token.matchingBracket.prev // skip before matching bracket
+    }   
+    else if(token.word) {
       if(blockKeywords.indexOf(token.text) >= 0)
-                                    return true  // found it!
-      else                          return null  // skip variables
-    else                            return false // fail no keyword found
+        return true  // found it!
+      else if(!state.name) {
+        state.name = token
+        return null  // skip variables
+      }
+      else return false 
+    }
+    else return false // fail no keyword found
   })
 
+  
   if(type) {
     this.blockType = type.text
-    type.block = this    
+    type.block = this
+    type.namedFunction = state.name
+    type.bracketExpression = state.bracket
   } else {
     this.blockType = "object"
   }

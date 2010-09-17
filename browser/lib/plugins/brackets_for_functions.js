@@ -13,7 +13,8 @@ exports.brackets_for_functions = function(stream) {
     if(nobrackets_keywords[ws.next.text]) return
     if(this.matchingBracket && this.matchingBracket.prev.block) return
     var nn = ws.next
-    var match = (this.word || this.rbracket) && (nn.word || (nn.lbracket && !nn.round) || nn.string) && (nn.blockType != "function")
+    var match = (this.word || this.rbracket) && (nn.word || nn.lbracket || nn.string) && (nn.blockType != "function")  
+    //(nn.lbracket && !nn.round)
     
     if(!match) return
     

@@ -28,7 +28,8 @@ exports.using = function(stream) {
       
       var insert = this.prev
       var X = this.remove(end).next.next.collectText()
-      var s = 'for(var _u in '+X+') eval("var " + _u + "='+X+'[\'" + _u + "\'];");'
+      var s = 'for(var _u in '+X+')' 
+      s += '  eval("var " + _u + "='+X+'[\'" + _u + "\'];");'
       insert.after(new Token.word(s))
     }
   })  

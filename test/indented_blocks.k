@@ -32,7 +32,7 @@ function b() ok(true)
 b()
 
 function A(arg, arg2)
-  var i = 1
+  var i = 1a
   ok(true)
 A()
 

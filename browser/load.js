@@ -48,7 +48,7 @@ $().ready(function() {
   
         
   function load() {
-    var hash = (document.location.hash || "#index").slice(1)
+    var hash = (document.location.hash || "#examples/index").slice(1)
     
     $("#examples a").removeClass("on")
     $("#examples a[href=#" + hash+ "]").addClass("on")

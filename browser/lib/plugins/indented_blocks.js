@@ -12,23 +12,56 @@ exports.indented_blocks = function(stream) {
     if(this.block) return
     
     var token = this
-    if(token.text == "function" || this.text == "class") {
-      token = token.find(function() { 
-        if(this.next.newline) return true 
-        if(this.next.round && this.text == "function") return true
-      }) // we need to skip over any named functions        
+    var type = token.text
+    var state = {
+      bracket: false,
+      name: false,
+      newline: false
     }
-   
-    var newline = null
+    
     var block = token.next.find(function() {
-      if(this.newline) newline = this
-      if(this.whitespace) return // ignore
-      if(this.round) {
-        if(this.lbracket)
-          return this.matchingBracket
+      if(this.newline) {
+        state.newline = this
+        return true
       }
-      else return true
+      if(this.whitespace) return // ignore
+      
+      if(this.lbracket) {
+        if(this.round && !state.bracket) {
+          state.bracket = this
+          return this.matchingBracket.next
+        }
+        return true          
+      } else if(this.word && !state.name && !state.bracket && type == "function"){
+        state.name == this
+      } else 
+        return true
+      
     })
+    
+    // var token = this
+    // // if(token.text == "function") {
+    // //   // we need to skip over any named functions
+    // //   // token = token.find(function() { 
+    // //   //         if(this.next.newline) return true 
+    // //   //         if(this.next.round && this.text == "function") return true
+    // //   //       })
+    // //   token = token.argsList.matchingBracket.next
+    // // }
+    // 
+    // if(token.bracketExpression)
+    //   token = token.bracketExpression.matchingBracket.next
+    //    
+    // var newline = null
+    // var block = token.next.find(function() {
+    //   if(this.newline) newline = this
+    //   if(this.whitespace) return // ignore
+    //   if(this.round) {
+    //     if(this.lbracket)
+    //       return this.matchingBracket
+    //   }
+    //   else return true
+    // })
     
     if(block.curly) return // we already have one !
     if(token.text == "else" && block.text == "if") return // 'else if' is allowed!
@@ -36,13 +69,13 @@ exports.indented_blocks = function(stream) {
     
     var pair = Token.bracket.pair("{}")     // we need to insert some !
     
-    if(!newline)  { 
+    if(!state.newline)  { 
       block.prev.before(pair.L).before(" ");
     } else {
-      newline.before(pair.L).before(" ");
+      state.newline.before(pair.L).before(" ");
     }
         
-    if(!newline)  {
+    if(!state.newline)  {
        var nl = block.next.find(function(tok) {
         if(tok.lbracket) return tok.matchingBracket.next // skip over
         if(tok.newline || tok.rbracket) return true
@@ -50,8 +83,8 @@ exports.indented_blocks = function(stream) {
       pair.R.eaten.left.push(Token.ize(" "))
       nl.before(pair.R);
     } else {
-      var cur = block.prevNewline()
-      var indent = cur.indent()
+      var cur = block
+      var indent = cur.prevNewline().indent()
       while(cur) {
         var cur = cur.next.find(function(token) {
           if(token.rbracket) return true
@@ -67,8 +100,8 @@ exports.indented_blocks = function(stream) {
         cur.before(pair.R)
       } else {
         cur = cur || stream.global.matchingBracket.prev
-        var len = Math.max(indent.length - 1, 0);
-        var space =new Array(len).join(" ");
+        var len = Math.max(indent.length, 0);
+        var space = new Array(len+1).join(" ");
         (cur.nextNewline("include", "skipbrackets")).before(pair.R).before(new Token.whitespace("\n"+space))
       }
 
