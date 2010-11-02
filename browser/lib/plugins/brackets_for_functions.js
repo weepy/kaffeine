@@ -4,25 +4,26 @@ require.module('./plugins/brackets_for_functions', function(module, exports, req
 var Token = require("../token");
 
 exports.brackets_for_functions = function(stream) {
-  var nobrackets_keywords = {"return":1,"var":1,"throw":1, "in":1,"of":1, "typeof":1, "for":1, "instanceof":1, "if":1, "else": 1, "try":1, "catch": 1, "class": 1}
+  var nobrackets_keywords = {"new":1,"return":1,"var":1,"throw":1, "in":1,"of":1, "typeof":1, "for":1, "instanceof":1, "if":1, "else": 1, "try":1, "catch": 1, "class": 1}
   
   stream.tail().each(function() {
     var ws = this.next
     if(!ws || !ws.whitespace || !ws.next || ws.newline) return
     if(this.word && (nobrackets_keywords[this.text] || this.block)) return
     if(nobrackets_keywords[ws.next.text]) return
-    if(this.matchingBracket && this.matchingBracket.prev.block) return
+    if(this.matchingBracket && this.matchingBracket.prevNW().block) return
     var nn = ws.next
     var match = (this.word || this.rbracket) && (nn.word || nn.lbracket || nn.string) && (nn.blockType != "function")  
     //(nn.lbracket && !nn.round)
     
     if(!match) return
     
-    var end = nn.find(function(token) {
-      if(token.whitespace || !token.next || !token.nextNW() || token.next.rbracket) return true
-      if(token.matchingBracket && token.lbracket) return token.matchingBracket
-      if(token.block) return token.block.matchingBracket.next
-    })
+    var end = nn.expressionEnd() 
+    // find(function(token) {
+    //       if(token.whitespace || !token.next || !token.nextNW() || token.next.rbracket) return true
+    //       if(token.matchingBracket && token.lbracket) return token.matchingBracket
+    //       if(token.block) return token.block.matchingBracket.next
+    //     })
     
     if(end == null) return
     

@@ -50,11 +50,12 @@ exports.extend_for = function(stream) {
         closure.vars[val] = true
         
         var string = iter + " = 0; " + iter + " < " + expressionText + ".length; " + iter + "++"
-        brace.after(new Token.word(string))          
+        brace.after(string)          
         
       }
       
-      this.block.after(new Token.word("\n  " + this.indent() + val + " = " + (complex ? "_xpr" : expressionText) + "[" + iter + "];"))
+      var text = "\n  " + this.indent() + val + " = " + (complex ? "_xpr" : expressionText) + "[" + iter + "];"
+      this.block.after(text)
      
       return 
     }

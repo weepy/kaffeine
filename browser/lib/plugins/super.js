@@ -16,9 +16,9 @@ exports['super'] = function(stream) {
           if(this.next.lbracket && this.next.round) {
             argWord = this.next.remove(this.next.matchingBracket).collectText().replace(/^ *\(/,"").replace(/ *\)$/, "")
             if(argWord.length > 0) argWord = ", " + argWord 
-            var text = curly.klass + ".__superClass__.constructor.call(this" + argWord + ")"
+            var text = curly.klass + ".__super__.constructor.call(this" + argWord + ")"
           } else {
-            var text = curly.klass + ".__superClass__.constructor.apply(this, arguments)"          
+            var text = curly.klass + ".__super__.constructor.apply(this, arguments)"          
           }
           this.replaceWith(Token.ize(text))
         }

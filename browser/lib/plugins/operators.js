@@ -3,7 +3,7 @@ require.module('./plugins/operators', function(module, exports, require) {
 
 var Token = require("../token");
 /*
-
+// perhaps move to colons as in prototype
 Number \ = `Math.floor @/#`
 Number.prototype['\'] = function(RHS) { Math.floor(this/RHS) }
 

@@ -1,4 +1,4 @@
-#class prototype
+#class class_part2 prototype
 
 class Animal() {
 

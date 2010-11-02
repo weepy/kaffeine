@@ -21,10 +21,10 @@ exports.brackets_for_keywords = function(stream) {
         if(token.newline) return true
 //        if(token.operator && token.op == ",") return true
       })
-      
 
       if(this.next.whitespace) this.next.remove()
       this.after(pair.L)
+      var curly = end.curly ? end : null;
       
       if(end.prev.whitespace) end = end.prev
       if(end.operator) {
@@ -32,6 +32,9 @@ exports.brackets_for_keywords = function(stream) {
         end = end.next
       }
       end.before(pair.R)
+      
+      if(curly)
+        curly.updateBlock()
       //if(end.operator) end.replaceWith(new Token.whitespace(" "))
     }
   })

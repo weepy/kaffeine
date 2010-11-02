@@ -63,14 +63,18 @@ exports.indented_blocks = function(stream) {
     //   else return true
     // })
     
-    if(block.curly) return // we already have one !
+    if(block.curly) {
+      // token.block = block
+      // token.blockType = token.text
+      return // we already have one !
+    }
     if(token.text == "else" && block.text == "if") return // 'else if' is allowed!
     //    var oneLiner = !block.prev.newline
     
     var pair = Token.bracket.pair("{}")     // we need to insert some !
     
     if(!state.newline)  { 
-      block.prev.before(pair.L).before(" ");
+      block.prev.after(" ").after(pair.L);
     } else {
       state.newline.before(pair.L).before(" ");
     }

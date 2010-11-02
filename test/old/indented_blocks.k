@@ -1,4 +1,4 @@
-#class indented_blocks class_part2 implicit_object_keys
+#at class indented_blocks class_part2 implicit_object_keys
 
 function A()
   ok(true)
@@ -31,8 +31,9 @@ if(true)
 function b() ok(true)
 b()
 
+var a = 1;
 function A(arg, arg2)
-  var i = 1a
+  var i = a
   ok(true)
 A()
 
@@ -74,6 +75,4 @@ ok(!error)
 f = function() return 9
 g = function() 9
 eq( f(), 9 )
-
-
 

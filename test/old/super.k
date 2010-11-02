@@ -1,4 +1,4 @@
-#class super
+#class class_part2 super
 
 class Animal {
 

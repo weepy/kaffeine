@@ -4,7 +4,7 @@ require.module('./token', function(module, exports, require) {
 var inherits = function(child, parent) {
   var ctor = function(){ };
   ctor.prototype = parent.prototype;
-  child.__superClass__ = parent.prototype;  
+  child.__super__ = parent.prototype;  
   child.prototype = new ctor();
   child.prototype.constructor = child;
   child.fn = child.prototype
@@ -53,9 +53,11 @@ function /*Token*/ize(input) {
   }
   
   function emit(token) {
-    if(tail)
-      tail.after(token),
+    if(tail) {
+      tail.next = token
+      token.prev = tail
       tail = token
+    }
     else 
       head = tail = token
   }
@@ -83,14 +85,29 @@ function postprocess(stream) {
   })
   
     // remove comments & hungry operators & hungry left round brackets  
-  stream = stream.each(function() {
+  stream.normalize()
+  return stream
+}
+
+// normalize is at the start and run after ever plugin
+// it ensures various assumptions are true ...
+base.fn.normalize = function() {
+  this.each(function() {
+    var next = this.next    
     
-    if(this.comment) {
-      var next = this.next
+    // there are never 2 space tokens next to each other
+    if(this.space) {
+      if(next && next.space) {
+        this.eatRight(function() { return this.space })
+      }
+    } 
+    else if(this.comment) {
+      // comments are eaten by their next..
       next.eatLeft()
       return next.prev    
     }
     else if(this.operator) {
+      // operators are never adjacent to whitespace 
       this.eat(function() { return this.whitespace })
     }
  //    else if(this.whitespace && this.next && this.next.whitespace) {
@@ -98,15 +115,12 @@ function postprocess(stream) {
  //     return this
  //   }
     else {
+      // right brackets next have previous whitespace
       if(this.rbracket && this.prev.whitespace && !this.matchingBracket.global)
         this.eatLeft()
     }
   })
-  
-  
-  return stream
 }
-
 
 base.fn.after = function(head) {
   if(typeof head == "string") head = /*Token.*/ize(head)
@@ -117,9 +131,50 @@ base.fn.after = function(head) {
   }
   this.next = head
   head.prev = this
+
+  //this.normalize(head, tail)
+  
   return tail
 }
 
+// base.fn.normalize = function(head, tail) {
+//   head.mergeSpace()
+//   tail.mergeSpace()
+//     
+//   var list = []
+//   if(head.prev) {
+//     list.push(head)
+//     list.push(head.prev)
+//   }
+//   if(tail.next) {
+//     list.push(tail)
+//     list.push(tail.next)
+//   }
+//   
+//   for(var i=0; i<list.length; i++) {
+//     var tok = list[i]
+//     if(tok.operator) {
+//       tok.eat(function() { 
+//         return this.whitespace 
+//       })
+//     }
+//   }
+// }
+
+
+// base.fn.mergeSpace = function() {
+//    
+//   if(!this.space) return
+//   if(this.prev && this.prev.space) {
+//     this.text += this.prev.text
+//     this.prev.remove()
+//   }
+//   if(this.next && this.next.space) {
+//     this.text += this.next.text
+//     this.next.remove()
+//   }
+// }
+    
 base.fn.before = function(head) {
   if(typeof head == "string") head = /*Token.*/ize(head)
  
@@ -130,6 +185,9 @@ base.fn.before = function(head) {
   }
   this.prev = tail
   tail.next = this
+  
+  //this.normalize(head, tail)
+  
   return head
 }
 
@@ -218,9 +276,10 @@ base.fn.expressionStart = function(breakFn) {
 
 base.fn.expressionEnd = function(breakFn) {
   return this.find(function() {
-    if(this.lbracket) return this.matchingBracket//.next
+    if(this.lbracket) return this.matchingBracket
+    if(this.block) return this.block
     var x = this.next
-    if(x.whitespace || x.semi || x.assign || (x.rbracket && x.round) || x.comparison) return true
+    if(x.whitespace || x.semi || x.assign || (x.rbracket ) || x.comparison) return true
     if(breakFn && breakFn.call(x,x)) return true
   })
 }
@@ -383,6 +442,14 @@ base.fn.nextNewlineOrRbracket = function() {
   })
 }
 
+base.fn.followingWhitespaceWithNewline = function() {
+  return this.next.find(function() {
+    if(this.newline) return true
+    if(this.whitespace) return null
+    return false
+  })
+}
+
 
 base.fn.indent = function() {
   var nl = this.prevNewline("include")
@@ -424,6 +491,7 @@ unknown.fn.unknown = true
 function whitespace(text) { 
   base.call(this, text)
   this.newline = /\n/.test(text);  
+  this.space = !this.newline
 }
 inherits(whitespace, base)
 whitespace.fn.whitespace = true
@@ -637,7 +705,7 @@ regex.extract = function(index, input) {
   }
 }
 
-module.exports = { whitespace: whitespace, operator: operator, string: string, word: word, comment: comment, bracket: bracket, unknown: unknown, semi: semi, ize: ize}
+module.exports = { whitespace: whitespace, operator: operator, string: string, word: word, comment: comment, bracket: bracket, unknown: unknown, semi: semi, ize: ize, base: base}
 
 
 // end module: token

@@ -29,6 +29,7 @@ Kaffeine.fn.compile = function(text, validate) {
 Kaffeine.fn.runPlugins = function(text, plugins, options) {
   text = "function(){\n" + text + "\n}"; // wrap in closure so we have a global closure and also no problems with start and end of text
   var stream = Token.ize(text);
+  //stream = Token.postprocess(stream);
   
   this.currentStream = stream
   
@@ -48,7 +49,8 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
       throw(name + " - not loaded");
     }
     try {
-      plugin.call(this, stream, Token, options[name] || {});      
+      plugin.call(this, stream, Token, options[name] || {});     
+      stream.normalize() 
     } 
     catch(err) {
       err.plugin = name

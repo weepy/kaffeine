@@ -48,11 +48,19 @@ Core code is ~500 lines of code, and plugins are about 10-50 lines long.
 </div>
 
 
+
+
 <div style='clear:both'></div>
+
 
 <div id=tests>
   <h5>Tests: </h5>
-  <a href=#test/arrow>arrow</a>
+  <script>
+  var tests = "arrow existential missing_commas at extend_for multi_objects backticks extended_arguments multiline_strings backticks_pipe fat_arrow operators brackets_for_functions floats prototype brackets_for_keywords full_stack regexs class half_operators reverse_blocks coffee implicit_object_keys slices comments implicit_return string_interpolation comments2 implicit_vars super destructured_assignment indented_blocks unless double_brackets indented_objects using".split(" ")
+  for(var i in tests) {
+    document.write("<a href=#test/" + tests[i] + ">" + tests[i]+ "</a>\n")
+  }
+  </script>  
 </div>
 
 </body>

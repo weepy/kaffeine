@@ -1,6 +1,5 @@
 #implicit_return
 
-Number.prototype['\\'] = function(R) { Math.floor(this/R) }
 
 function A() { 1 }
 eq( A(), 1 )

@@ -3,7 +3,9 @@ require.module('./plugins/existential', function(module, exports, require) {
 
 var Token = require("../token");
 exports.existential = function(stream) {
+  
   stream.each(function() {
+    
     if(this.operator && this.op.match(/^\?/)) { 
       var ws = this.eaten.left[0]
       if(ws && ws.whitespace) return // don't want to match ternary

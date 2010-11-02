@@ -42,3 +42,4 @@ function Outer() {
 
 for(I in [1,2,3,2*2])
   ok true
+
