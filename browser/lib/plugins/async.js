@@ -6,10 +6,9 @@ var Token = require("../token");
 exports.async = function(stream) {
   stream.each(function(token) {
 
-    if(token.text != "!") return    
+    if(!token.bang) return    
+    
     var lbracket = token.next
-    if(!lbracket.lbracket || !lbracket.round) return
-    if(!token.prev.word) return
     
     var func = token.expressionStart()
     
@@ -17,7 +16,7 @@ exports.async = function(stream) {
     if(func.prev.assign) {
       var e = func.prev.prev
       var s = e.expressionStart()
-      vars = e.remove(s).collectText()
+      vars = s.remove(e).collectText()
       func.prev.remove()
     }
     
@@ -31,10 +30,13 @@ exports.async = function(stream) {
     
     var body = start_fn.remove(end_fn.prev)
     var text = body.collectText()
-    text = text.replace(/\n/, "\n  ")
-    rbracket.before(", function(" + vars + ") {"  + text + " }")
-    token.remove()
-    return lbracket
+    text = text.replace("\n", "\n  ", "g")
+    rbracket.before(", function(" + vars + ") {"  + text + "  }")
+    if(!rbracket.next.newline)
+      rbracket.after("\n")
+    //token.bang = false
+    token.text = token.text.slice(0,token.text.length-1)
+    return token.next
   })
 }
 

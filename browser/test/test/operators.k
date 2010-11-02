@@ -1,4 +1,4 @@
-#operators arrow backticks at brackets_for_functions indented_blocks implicit_return
+#operators arrow backticks at implicit_brackets indented_blocks implicit_return
 Number \ = `Math.floor @/#`
 Number** = `Math.pow @, #`
 Array << = `@.push #`

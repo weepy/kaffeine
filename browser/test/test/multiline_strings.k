@@ -1,4 +1,4 @@
-#multiline_strings brackets_for_functions
+#multiline_strings implicit_brackets
 
 ok "this
 occurs 

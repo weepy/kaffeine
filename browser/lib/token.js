@@ -502,12 +502,15 @@ var keywords = "if for while else try catch function return var".split(" ")
 function word(text) { 
   base.call(this, text)
   if(keywords.indexOf(text) >= 0)
-    this.keyword = true  
+    this.keyword = true
+  
+  if(text.match(/!$/))
+    this.bang = true
 }
 
 inherits(word, base)
 word.fn.word = true
-word.regex = /[A-Za-z0-9_$]+/g
+word.regex = /[A-Za-z0-9_$]+!?/g
 
 function string(text) { 
   base.call(this, text)

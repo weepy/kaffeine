@@ -17,4 +17,4 @@ unless session?
   run()
   
   
-// englify at backticks arrow unless brackets_for_keywords reverse_blocks existential brackets_for_functions indented_blocks string_interpolation extend_for operators implicit_return implicit_vars half_operators double_brackets class prototype super double_brackets multiline_strings pipe utils 
+// englify at backticks arrow unless brackets_for_keywords reverse_blocks existential implicit_brackets indented_blocks string_interpolation extend_for operators implicit_return implicit_vars half_operators double_brackets class prototype super double_brackets multiline_strings pipe utils 

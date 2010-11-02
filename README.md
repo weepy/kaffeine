@@ -20,7 +20,7 @@ Current Plugins
 * Arrow: -> alias for function
 * at: @ alias for this
 * backticks: simple lambda function syntax square: `#*#`, `.length`
-* brackets_for_functions: implicit brackets for function calls
+* implicit_brackets: implicit brackets for function calls
 * brackets_for_keywords: implicit brackets for function, if, for types
 * class: CoffeeScript style class (slightly different syntax)
 * double_brackets:  ((x)) -> (x)

@@ -5,6 +5,7 @@ var Token = require("../token");
 exports.implicit_return = function(stream) {
   stream.each(function() {
     if(!this.blockType || this.blockType != "function") return
+    
     if(this.global) return
 
     var end = this.matchingBracket.prev.findRev(function(tok) {

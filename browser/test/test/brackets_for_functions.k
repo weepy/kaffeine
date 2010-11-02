@@ -1,4 +1,4 @@
-#brackets_for_functions
+#implicit_brackets
 function div(x, y) { return x / y} 
 function sq(x) { return x * x} 
 

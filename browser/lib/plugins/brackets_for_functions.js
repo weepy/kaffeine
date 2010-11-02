@@ -1,9 +1,9 @@
-require.module('./plugins/brackets_for_functions', function(module, exports, require) {
-// start module: plugins/brackets_for_functions
+require.module('./plugins/implicit_brackets', function(module, exports, require) {
+// start module: plugins/implicit_brackets
 
 var Token = require("../token");
 
-exports.brackets_for_functions = function(stream) {
+exports.implicit_brackets = function(stream) {
   var nobrackets_keywords = {"new":1,"return":1,"var":1,"throw":1, "in":1,"of":1, "typeof":1, "for":1, "instanceof":1, "if":1, "else": 1, "try":1, "catch": 1, "class": 1}
   
   stream.tail().each(function() {
@@ -33,5 +33,5 @@ exports.brackets_for_functions = function(stream) {
   }, "prev")
 }
 
-// end module: plugins/brackets_for_functions
+// end module: plugins/implicit_brackets
 });

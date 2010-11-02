@@ -1,4 +1,4 @@
-var Plugins = "async arrow at brackets_for_functions extend_for implicit_return implicit_vars multiline_strings string_interpolation".split(" "); 
+var Plugins = "async0 async arrow at implicit_brackets extend_for implicit_return implicit_vars multiline_strings string_interpolation".split(" "); 
 for(var i in Plugins) { document.write("<script src='lib/plugins/" + Plugins[i]+ ".js'></scr" + "ipt>") }
 
 
