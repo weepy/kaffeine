@@ -339,7 +339,7 @@ base.fn.eatRight = function(test) {
   if(token && (!test || test.call(token))) {
     token.remove()
     this.eaten.right.push(token)
-    this.newline = this.myText().match(/\n/) 
+    this.newline = this.myText().match(/\n/)
   }
 }
 

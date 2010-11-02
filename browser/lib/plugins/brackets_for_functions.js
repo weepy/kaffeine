@@ -14,7 +14,6 @@ exports.brackets_for_functions = function(stream) {
     if(this.matchingBracket && this.matchingBracket.prevNW().block) return
     var nn = ws.next
     var match = (this.word || this.rbracket) && (nn.word || nn.lbracket || nn.string) && (nn.blockType != "function")  
-    //(nn.lbracket && !nn.round)
     
     if(!match) return
     
@@ -33,7 +32,6 @@ exports.brackets_for_functions = function(stream) {
     end.after(pair.R)
   }, "prev")
 }
-
 
 // end module: plugins/brackets_for_functions
 });

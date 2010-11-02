@@ -24,14 +24,8 @@ exports.implicit_vars = function(stream) {
     
     if(!found) closure.vars[variable] = true
   })
-  
 
 }
-
-
-
-
-
 
 
 // end module: plugins/implicit_vars

@@ -1,4 +1,4 @@
-var Plugins = "extended_arguments destructured_assignment slices fat_arrow implicit_object_keys missing_commas super prototype utils operators double_brackets existential backticks englify extend_for class class_part2 indented_objects brackets_for_keywords unless at brackets_for_functions half_operators arrow implicit_vars implicit_return reverse_blocks using indented_blocks enum pipe multiline_strings string_interpolation".split(" "); 
+var Plugins = "async arrow at brackets_for_functions extend_for implicit_return implicit_vars multiline_strings string_interpolation".split(" "); 
 for(var i in Plugins) { document.write("<script src='lib/plugins/" + Plugins[i]+ ".js'></scr" + "ipt>") }
 
 

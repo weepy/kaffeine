@@ -6,27 +6,20 @@ var Token = require("../token");
 exports.arrow = function(stream) {
   stream.each(function(token) {
     
-    if(!token.operator || token.op != "->") return
+    if(token.text != "->") return
     
-    var args = "()"
+    var text = "function"
+    if(token.next.text != "(")
+      text += "()"
+
+    var curly = this.find(function() {
+      if(this.curly && this.lbracket) return true
+    })
     
-    if(token.prev.rbracket) {
-      var from = token.prev.matchingBracket
-      if(!from) throw "not matching !"
-      if(from.prev.word) from = from.prev
-      args = from.remove(token.prev).collectText()
-    }
+    this.replaceWith(text)
     
-    var text = this.myText().replace("->", "function" + args)
-    var toks = Token.ize(text)
-    var n = this.nextNW()
-    var update = n && n.lbracket && n.curly
-    
-    this.before(toks)
-    this.remove()
-    if(update) 
-      n.updateBlock()
-    return toks
+    curly.updateBlock()
+    return curly
   })
 }
 

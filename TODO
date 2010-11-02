@@ -1,10 +1,121 @@
-Decent example
+Goals
 
-GH pages
+* Progressively enhance Javascript syntax
 
-README
+* Provide improvements for day to day Javascript programming (particularly async)
+
+* Ensure vanilla Javascript still works as expected
+
+* Robust - means that we need a very unambiguous syntax.
+
+* Hackable and modular
 
 
-Plugins to write
-  decompose assign - objects
-  
+Module
+
+Arrow
+----- 
+
+Provides the arrow operator (->) as a alias for 'function'
+
+E.g
+
+-> run(args) {
+  Legs.create(2)
+}
+
+Async
+-----
+
+
+Allows function calls with callbacks to be unwrapped via a ! postfix. E.g:
+
+fish = $.get!('/fish')
+$("stomach").append(fish)
+
+
+@
+--
+
+Provide the @ alias for 'this'. It is also linked to the parent 'this' in the case of a function defined via 'async!'. E.g
+
+@legs = legs
+@color = color
+
+
+implicit var
+-----------
+
+provides support for omitting the var keyword: the variables will be automagically defined in the closest relevant closure. E.g.
+
+x = 1
+y = 2
+
+
+
+implicit brackets
+-----------------
+
+Provide optional brackets for function calls. E.g.
+
+remove eggs.shell
+mix eggs, milk
+
+multiline strings
+-----------------
+
+Allow multiline strings: 
+
+html = "
+<body>
+<h1>SOY SAUCE</h1>
+</body>
+"
+
+This would maintain the new lines --- but they can be supressed with the \ character 
+
+
+extended for
+-----------
+
+Allows an 'of' operator for looping through arrays: 
+
+for(x of [7,3,4])
+  sum += x
+// sum == 14
+
+Allows allows an optional second parameter to refer to the key or value: 
+
+for(x, i of [7,3,4])
+  sum += i
+// sum == 3
+
+
+yield
+-----
+
+provides a yield keyword that can be used to callback the return value to callback that's provided as the last argument
+
+asyncAdd = -> (x,y) {
+  yield x + y
+}
+
+string interpolation
+--------------------
+
+provides ruby style string interpolation via #{}
+
+letter = "Dear #{name},
+I am writing to you to inform you of #{purpose}
+Kind Regards
+#{sender}
+"
+
+implicit return
+---------------
+
+the last statement of a function will be automagically returned. E.g.
+
+getName = -> { @name } 
+
+
