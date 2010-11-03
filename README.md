@@ -36,6 +36,7 @@ TODO
 * nested for loops not working.
 * yield plugin
 * how to handle @ in bang functions
+* BUG: if(elvis)(alert([1, 2, 3, 4, 5]))
 
 Plugins list
 =========
