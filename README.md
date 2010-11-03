@@ -99,9 +99,9 @@ Allow multiline strings:
 
 <pre>
 html = "
-<body>
-<h1>SOY SAUCE</h1>
-</body>
+&lt;body>
+&lt;h1>SOY SAUCE&lt;/h1>
+&lt;/body>
 "
 </pre>
 
