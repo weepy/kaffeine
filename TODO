@@ -1,17 +1,25 @@
+Kaffeine
+========
+
+
 Goals
+
+* make daily JS more enjoyable
+
+* avoid nice-to-haves, concentrate on pragmatism
 
 * Progressively enhance Javascript syntax
 
-* Provide improvements for day to day Javascript programming (particularly async)
+* Ensure vanilla Javascript still works as normal
 
-* Ensure vanilla Javascript still works as expected
+* Robust - implies syntax is very unambiguous
 
-* Robust - means that we need a very unambiguous syntax.
+* Hackable, modular, and extendable
 
-* Hackable and modular
+* testable
 
 
-Module
+Modules
 
 Arrow
 ----- 
@@ -72,7 +80,7 @@ html = "
 </body>
 "
 
-This would maintain the new lines --- but they can be supressed with the \ character 
+This would maintain the new lines --- but they can be suppressed with the \ character 
 
 
 extended for

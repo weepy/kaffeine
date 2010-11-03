@@ -14,3 +14,8 @@ x = -> (a) {
   a = this.a
   a
 }
+
+
+-> namedFn(ohyeah) {
+  
+}

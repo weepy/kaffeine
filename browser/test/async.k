@@ -1,4 +1,4 @@
-#async
+#bang
 
 function add(x, y, callback) {
   callback(x + y)

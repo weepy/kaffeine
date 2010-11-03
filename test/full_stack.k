@@ -1,4 +1,4 @@
-#async0 arrow implicit_brackets async implicit_return at string_interpolation multiline_strings extend_for
+#arrow implicit_brackets bang implicit_return at string_interpolation multiline_strings extend_for
 
 exports.testAddEdge = -> (is) {
   client.select 15
