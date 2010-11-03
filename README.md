@@ -1,53 +1,150 @@
 Kaffeine
-==
+========
 
-Designer Javascript.
+Goals
 
-Aims to incrementally add new syntax features to Javascript. Features are opt-in only, meaning vanilla Javascript will work as expected.
+* make daily JS more enjoyable
 
-Works via plugins, each of which adds an atomic feature. Syntax supported mostly follows CoffeeScript, but there are some differences.
-Plugins are fairly simple to write.
+* avoid nice-to-haves, concentrate on pragmatism, and syntax that would be used very often
 
-Core code is ~500 lines of code, and plugins are about 10-50 lines long.
+* Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal
 
-Status
+* Robust - implies syntax should very unambiguous
+
+* we don't want to have to examine the compiled javascript to determine where we have made an error (either in compilation or in writing kaffeine)
+
+* Hackable, modular, extendable and testable
+
+
+Install
+=======
+
+npm install kaffeine (TBD)
+
+Use
+===
+
+TBD
+
+
+TODO
+----
+
+* work out how best to use.
+* npm install
+* nested for loops not working.
+
+
+Plugins list
+=========
+
+Arrow
+----- 
+
+Provides the arrow operator (->) as a alias for 'function'
+
+E.g
+
+-> run(args) {
+  Legs.create(2)
+}
+
+Async
+-----
+Allows function calls with callbacks to be unwrapped via a ! postfix. E.g:
+
+fish = $.get!('/fish')
+$("stomach").append(fish)
+
+
+@
+--
+
+Provide the @ alias for 'this'. It is also linked to the parent 'this' in the case of a function defined via 'async!'. E.g
+
+@legs = legs
+@color = color
+
+
+implicit var
+-----------
+
+provides support for omitting the var keyword: the variables will be automagically defined in the closest relevant closure. E.g.
+
+x = 1
+y = 2
+
+implicit brackets
+-----------------
+
+Provide optional brackets for function calls. E.g.
+
+remove eggs.shell
+mix eggs, milk
+
+multiline strings
+-----------------
+
+Allow multiline strings: 
+
+html = "
+<body>
+<h1>SOY SAUCE</h1>
+</body>
+"
+
+This would maintain the new lines --- but they can be suppressed with the \ character 
+
+
+extended for
+-----------
+
+Allows an 'of' operator for looping through arrays: 
+
+for(x of [7,3,4])
+  sum += x
+// sum == 14
+
+Allows allows an optional second parameter to refer to the key or value: 
+
+for(x, i of [7,3,4])
+  sum += i
+// sum == 3
+
+
+yield
 -----
 
-Nearly all tests are passing. 
+provides a yield keyword that can be used to callback the return value to callback that's provided as the last argument
 
-Current Plugins
-------
-* Arrow: -> alias for function
-* at: @ alias for this
-* backticks: simple lambda function syntax square: `#*#`, `.length`
-* implicit_brackets: implicit brackets for function calls
-* brackets_for_keywords: implicit brackets for function, if, for types
-* class: CoffeeScript style class (slightly different syntax)
-* double_brackets:  ((x)) -> (x)
-* englify: support and, or, not, is, isnt
-* existential: provides not null operator via ? and typeof is not undefined via ??
-* extend_for: provides support for 'of' to iterate over arrays, and also allows 2nd parameter for the value in 'of' and 'in'
-* half_operators: x = .toString() 
-* implicit_return: ruby style return from last statement
-* implicit_vars: Coffee style inserts variable declarations in enclosing closure
-* indented_blocks: implicit curly braces via indentation ( )
-* multiline_strings
-* operators: allows arbitrary operators to be defined on prototypes
-* pipe: unix style function calling
-* prototype: shortcut for porperties on prototype
-* reverse_blocks: return if condition()
-* string_interpolation: using $
-* super: Coffee style super class
-* unless: not if
-* using: insert properties of objects into the local scope (uses eval)
+asyncAdd = -> (x,y) {
+  yield x + y
+}
 
+string interpolation
+--------------------
+
+provides ruby style string interpolation via #{}
+
+letter = "Dear #{name},
+I am writing to you to inform you of #{purpose}
+Kind Regards
+#{sender}
+"
+
+implicit return
+---------------
+
+the last statement of a function will be automagically returned. E.g.
+
+getName = -> { @name } 
 
 
 Tests
 -----
 
 via Browser
-* load test.html, with the test as a query parameter, e.g <code>/test.html?backticks.k</code>
+* load browser/index.html, with the test as a hash, e.g <code>/index.html#test/string_interpolation</code>
 
 via Node
 * <code>bin/test</code> will run all tests
@@ -57,13 +154,7 @@ via Node
 Building tests for the browser
 ----
 
-The codebase is written using CommonJS which is not natively supported in the browser. To run in the browser environment, the plugins need to be compiled with brequire:
+bin/build
 
-brequire lib browser/lib
-
-see http://github.com/weepy/brequire for installation instructions.
-
-
-
-
-
+The codebase is written using CommonJS which is not natively supported in the browser. To run in the browser environment, the plugins need to be compiled with brequire. 
+See http://github.com/weepy/brequire (npm install brequire)
