@@ -33,22 +33,6 @@ Edge::add = -> (nick, puzzle_name) {
 }
 </pre>
 
-Install
-=======
-
-npm install kaffeine (TBD)
-
-
-Use
-===
-
-# Via command line, TBD
-
-# Via node, TBD
-
-# Via nodek, TBD
-
-
 Plugins list
 =========
 
@@ -192,6 +176,23 @@ bin/build
 
 The codebase is written using CommonJS which is not natively supported in the browser. To run in the browser environment, the plugins need to be compiled with brequire. 
 See http://github.com/weepy/brequire (npm install brequire)
+
+
+Install
+=======
+
+npm install kaffeine (TBD)
+
+
+Use
+===
+
+# Via command line, TBD
+
+# Via node, TBD
+
+# Via nodek, TBD
+
 
 
 TODO
