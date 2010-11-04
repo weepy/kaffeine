@@ -4,20 +4,15 @@ Kaffeine
 Goals
 ----
 
-* make daily JS more enjoyable
-
-* avoid nice-to-haves, concentrate on pragmatism, and syntax that would be used very often
-
-* Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal
-
-* Robust
-  - we don't want to have to examine the compiled javascript to determine where we have made an error (either in compilation or in writing kaffeine)
-  - implies syntax should very unambiguous
-  - we don't want to create javascript that's _too_ far from the kaffeine
-
-* Hackable, modular, extendable and testable
-
-* avoid siginificant whitespace. It looks nice, but is painful to work with.
+# make daily JS more enjoyable
+# avoid nice-to-haves, concentrate on pragmatism, and syntax that would be used very often
+# Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal
+# Robust
+## we don't want to have to examine the compiled javascript to determine where we have made an error (either in compilation or in writing kaffeine)
+## implies syntax should very unambiguous
+## we don't want to create javascript that's _too_ far from the kaffeine
+# Hackable, modular, extendable and testable
+# avoid siginificant whitespace. It looks nice, but is painful to work with.
 
 Example
 =======
@@ -162,11 +157,11 @@ Tests
 =====
 
 via Node
-* <code>bin/test</code> will run all tests
-* <code>bin/test file_name</code> will a particular test e.g. <code>bin/test arrow</code>
+# <code>bin/test</code> will run all tests
+# <code>bin/test file_name</code> will a particular test e.g. <code>bin/test arrow</code>
 
 via Browser
-* load browser/index.html, with the test as a hash, e.g <code>/index.html#test/string_interpolation</code>
+# load browser/index.html, with the test as a hash, e.g <code>/index.html#test/string_interpolation</code>
 
 
 Building tests for the browser
