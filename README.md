@@ -4,15 +4,15 @@ Kaffeine
 Goals
 ----
 
-# make daily JS more enjoyable
-# avoid nice-to-haves, concentrate on pragmatism, and syntax that would be used very often
-# Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal
-# Robust
-## we don't want to have to examine the compiled javascript to determine where we have made an error (either in compilation or in writing kaffeine)
-## implies syntax should very unambiguous
-## we don't want to create javascript that's _too_ far from the kaffeine
-# Hackable, modular, extendable and testable
-# avoid siginificant whitespace. It looks nice, but is painful to work with.
+* make daily JS more enjoyable
+* avoid nice-to-haves, concentrate on pragmatism, and syntax that would be used very often
+* Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal
+* Robust
+  - we don't want to have to examine the compiled javascript to determine where we have made an error (either in compilation or in writing kaffeine)
+  - implies syntax should very unambiguous
+  - we don't want to create javascript that's _too_ far from the kaffeine
+* Hackable, modular, extendable and testable
+* avoid siginificant whitespace. It looks nice, but is painful to work with.
 
 Example
 =======
@@ -156,12 +156,11 @@ getName = -> { @name }
 Tests
 =====
 
-via Node
-# <code>bin/test</code> will run all tests
-# <code>bin/test file_name</code> will a particular test e.g. <code>bin/test arrow</code>
-
-via Browser
-# load browser/index.html, with the test as a hash, e.g <code>/index.html#test/string_interpolation</code>
+* via Node
+  - <code>bin/test</code> will run all tests
+  - <code>bin/test file_name</code> will a particular test e.g. <code>bin/test arrow</code>
+* via Browser
+  - load browser/index.html, with the test as a hash, e.g <code>/index.html#test/string_interpolation</code>
 
 
 Building tests for the browser
@@ -182,22 +181,20 @@ npm install kaffeine (TBD)
 Use
 ===
 
-# Via command line, TBD
-
-# Via node, TBD
-
-# Via nodek, TBD
+* Via command line, TBD
+* Via node, TBD
+* Via nodek, TBD
 
 
 
 TODO
 ====
 
-# work out how best to use.
-# npm install
-# nested for loops not working.
-# yield plugin
-## how to handle yield in nested functions
-# how to handle @ in bang functions
-# BUG: if(elvis)(alert([1, 2, 3, 4, 5]))
+* work out how best to use.
+* npm install
+* nested for loops not working.
+* yield plugin
+  - how to handle yield in nested functions
+* how to handle @ in bang functions
+* BUG: if(elvis)(alert([1, 2, 3, 4, 5]))
 
