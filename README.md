@@ -2,6 +2,7 @@ Kaffeine
 ========
 
 Goals
+----
 
 * make daily JS more enjoyable
 
@@ -16,27 +17,37 @@ Goals
 
 * Hackable, modular, extendable and testable
 
+* avoid siginificant whitespace. It looks nice, but is painful to work with.
+
+Example
+=======
+
+The following code illustrates most of Kaffeine's features:
+<pre>
+Edge::add = -> (nick, puzzle_name) {
+  @client.select 15
+  user = User.find! {id: nick}
+  puzzle = Puzzle.find! {name: puzzle_name}
+  err, data = User.client.set! "User:#{user.id}:puzzle:#{puzzle.id}"
+  yield data
+}
+<pre>
 
 Install
 =======
 
 npm install kaffeine (TBD)
 
+
 Use
 ===
 
-TBD
+# Via command line, TBD
 
+# Via node, TBD
 
-TODO
-----
+# Via nodek, TBD
 
-* work out how best to use.
-* npm install
-* nested for loops not working.
-* yield plugin
-* how to handle @ in bang functions
-* BUG: if(elvis)(alert([1, 2, 3, 4, 5]))
 
 Plugins list
 =========
@@ -137,6 +148,8 @@ asyncAdd = -> (x,y) {
 }
 </pre>
 
+Note this isn't written yet
+
 string interpolation
 --------------------
 
@@ -159,8 +172,10 @@ the last statement of a function will be automagically returned. E.g.
 getName = -> { @name } 
 </pre>
 
+
+
 Tests
------
+=====
 
 via Node
 * <code>bin/test</code> will run all tests
@@ -171,9 +186,22 @@ via Browser
 
 
 Building tests for the browser
-----
+=====
 
 bin/build
 
 The codebase is written using CommonJS which is not natively supported in the browser. To run in the browser environment, the plugins need to be compiled with brequire. 
 See http://github.com/weepy/brequire (npm install brequire)
+
+
+TODO
+====
+
+# work out how best to use.
+# npm install
+# nested for loops not working.
+# yield plugin
+## how to handle yield in nested functions
+# how to handle @ in bang functions
+# BUG: if(elvis)(alert([1, 2, 3, 4, 5]))
+
