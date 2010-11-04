@@ -31,7 +31,7 @@ Edge::add = -> (nick, puzzle_name) {
   err, data = User.client.set! "User:#{user.id}:puzzle:#{puzzle.id}"
   yield data
 }
-<pre>
+</pre>
 
 Install
 =======
