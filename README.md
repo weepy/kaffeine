@@ -4,9 +4,8 @@ Kaffeine
 Goals
 ----
 
-* make daily JS more enjoyable
-* avoid nice-to-haves, concentrate on pragmatism, and syntax that would be used very often
 * Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal
+* avoid nice-to-haves, concentrate on small useful feature set and pragmatism
 * Robust
   - we don't want to have to examine the compiled javascript to determine where we have made an error (either in compilation or in writing kaffeine)
   - implies syntax should very unambiguous

@@ -1,4 +1,4 @@
-var Plugins = "bang arrow at implicit_brackets extend_for implicit_return implicit_vars multiline_strings prototype string_interpolation".split(" "); 
+var Plugins = "pipe bang arrow at implicit_brackets extend_for implicit_return implicit_vars multiline_strings prototype string_interpolation".split(" "); 
 for(var i in Plugins) { document.write("<script src='lib/plugins/" + Plugins[i]+ ".js'></scr" + "ipt>") }
 
 
