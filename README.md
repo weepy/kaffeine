@@ -193,8 +193,9 @@ TODO
 * work out how best to use.
 * npm install
 * nested for loops not working.
+* how to handle @ in bang functions
+
 * yield plugin
   - how to handle yield in nested functions
-* how to handle @ in bang functions
-* BUG: if(elvis)(alert([1, 2, 3, 4, 5]))
+  - perhaps don't need ?
 
