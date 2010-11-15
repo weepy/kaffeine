@@ -73,7 +73,18 @@ Kaffeine.fn.validate = function(text) {
 
 
 //Kaffeine.plugins[p] = require("./plugins/"+p)[p]
-    
+
+if(require.extensions) {
+  require.extensions['.k'] = function(module, filename) {
+    var fs = require('fs'),
+        input = fs.readFileSync(filename, 'utf8'),
+        content = (new Kaffeine()).compile(input)
+    module.filename = "#{filename} (compiled)"
+    module._compile(content, module.filename)
+  }
+}
+
+
 module.exports = Kaffeine;
 
 // end module: kaffeine
