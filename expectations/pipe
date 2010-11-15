@@ -1,0 +1,44 @@
+#hash implicit_functions pipe implicit_return
+
+compiles:
+| = {}
+|.map = map
+to:
+__ = {}
+__.map = map
+
+compiles:
+var x = [2] | map square
+to:
+var x = __.map.call(this, [2], square)
+
+compiles:
+var x = [1,2,3,4,5,6,7] | map square | detect more_than_10
+to:
+var x = __.detect.call(this, __.map.call(this, [1,2,3,4,5,6,7], square), more_than_10)
+
+compiles:
+a | map function() {
+  return arguments[0](x[3])
+}
+to:
+__.map.call(this, a, function() {
+  return arguments[0](x[3])
+})
+
+compiles:
+a | map {
+  return arguments[0](x[3])
+}
+to:
+__.map.call(this, a, function() {
+  return arguments[0](x[3])
+})
+
+compiles:
+x | map { #.name } 
+  | detect {;}
+  
+to:
+
+__.detect.call(this, __.map.call(this, x, function() { arguments[0].name }), function() {;})

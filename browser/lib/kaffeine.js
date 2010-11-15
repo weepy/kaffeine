@@ -13,7 +13,7 @@ Kaffeine.plugins = {};
 
 //unless brackets_for_keywords reverse_blocks indented_blocks
 
-var defaultDirective = "arrow at bang prototype pipe implicit_brackets extend_for implicit_return implicit_vars multiline_strings string_interpolation"
+var defaultDirective = "hash at brackets_for_keywords prototype implicit_functions extend_for implicit_return pipe implicit_brackets bang implicit_vars multiline_strings string_interpolation"
 
 Kaffeine.fn.compile = function(text, validate) {
   if(!text.match(/\n$/)) text += "\n"; // trailing newline
@@ -44,7 +44,7 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
   
   for(var i=0; i<plugins.length; i++) {
     var name = plugins[i];
-    var plugin = Kaffeine.plugins[name];
+    var plugin = require("./plugins/"+name) //Kaffeine.plugins[name];
     if(!plugin) {
       throw(name + " - not loaded");
     }
@@ -71,8 +71,10 @@ Kaffeine.fn.validate = function(text) {
   return text
 }
 
-exports.Kaffeine = Kaffeine;
 
+//Kaffeine.plugins[p] = require("./plugins/"+p)[p]
+    
+module.exports = Kaffeine;
 
 // end module: kaffeine
 });

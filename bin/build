@@ -1,2 +1,2 @@
 brequire lib/ browser/lib/
-cp -R test/* browser/test
+./bin/buildscripts

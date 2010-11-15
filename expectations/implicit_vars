@@ -1,0 +1,59 @@
+#implicit_vars
+
+compiles:
+z = 0
+to:
+var z;
+z = 0
+
+compiles:
+
+function a() {
+  a = 2
+}
+
+to: 
+function a() {
+  var a;
+  a = 2
+}
+
+compiles: 
+z = 0
+function(a) {
+  z = 1
+}
+
+to:
+var z;
+z = 0
+function(a) {
+  z = 1
+}
+
+compiles: 
+z = 0
+function(a) {
+  y = 1, z = 1
+}
+
+to:
+var z;
+z = 0
+function(a) {
+  var y;
+  y = 1, z = 1
+}
+
+compiles: 
+var z = 0
+function(a) {
+  z = 1
+}
+
+to: 
+var z;
+z = 0
+function(a) {
+  z = 1
+}

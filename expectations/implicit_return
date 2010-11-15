@@ -1,0 +1,49 @@
+#implicit_return
+compiles:
+function A() { 1 }
+to:
+function A() { return 1 }
+
+compiles:
+function() {
+  ;1234;
+}
+to:
+function() {
+  ;return 1234;
+}
+
+  
+compiles:
+(function() {
+  {a: 1}  
+})()
+
+to:
+(function() {
+  return {a: 1}  
+})()
+
+compiles:
+function() {
+  if(false) {
+  } else {
+    1+1
+  }
+}
+to:
+function() {
+  if(false) {
+  } else {
+    1+1
+  }
+}
+compiles: 
+(function() {
+  (function() {123})
+})()()
+
+to:
+(function() {
+  return (function() {return 123})
+})()()

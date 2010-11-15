@@ -1,0 +1,17 @@
+#prototype
+compiles:
+function Animal() {}
+::fast = function() { return this.speed > 100 }
+::alive = true
+to:
+function Animal() {}
+Animal.prototype.fast = function() { return this.speed > 100 }
+Animal.prototype.alive = true
+compiles:
+function Mammal() {}
+::legs = function() { return 4 }
+Mammal::lungs = true
+to:
+function Mammal() {}
+Mammal.prototype.legs = function() { return 4 } 
+Mammal.prototype.lungs = true

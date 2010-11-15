@@ -2,7 +2,7 @@ require.module('./plugins/prototype', function(module, exports, require) {
 // start module: plugins/prototype
 
 var Token = require("../token");
-exports['prototype'] = function(stream) {
+module.exports = function(stream) {
 
   var klass = "undefined"
   stream.each(function() {

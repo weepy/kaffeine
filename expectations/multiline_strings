@@ -1,0 +1,27 @@
+#multiline_strings
+
+compiles:
+"this
+occurs 
+over 
+several 
+lines
+"
+to:
+"this\n\
+occurs\n\
+over\n\
+several\n\
+lines\n\
+"
+
+compiles:
+"this is a \
+single \
+line\
+"
+to:
+"this is a \
+single \
+line\
+"

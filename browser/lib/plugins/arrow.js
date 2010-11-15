@@ -21,6 +21,7 @@ exports.arrow = function(stream) {
       if(this.curly && this.lbracket) return true
     })
     
+    text += " "
     this.replaceWith(text)
     
     curly.updateBlock()

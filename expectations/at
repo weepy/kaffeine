@@ -1,0 +1,25 @@
+#at
+compiles:
+function A() {
+  @x = 3
+}
+to:
+function A() {
+  this.x = 3
+}
+compiles:
+run(@)
+to:
+run(this)
+
+compiles:
+@@
+to:
+this.constructor
+
+compiles:
+@@name
+to:
+this.constructor.name
+
+

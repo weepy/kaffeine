@@ -2,7 +2,7 @@ require.module('./plugins/implicit_return', function(module, exports, require) {
 // start module: plugins/implicit_return
 
 var Token = require("../token");
-exports.implicit_return = function(stream) {
+module.exports = function(stream) {
   stream.each(function() {
     if(!this.blockType || this.blockType != "function") return
     

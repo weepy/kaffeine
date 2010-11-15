@@ -3,7 +3,7 @@ require.module('./plugins/bang', function(module, exports, require) {
 
 var Token = require("../token");
 
-exports.bang = function(stream) {
+module.exports = function(stream) {
   stream.each(function(token) {
 
     if(!token.bang) return    
@@ -32,10 +32,16 @@ exports.bang = function(stream) {
     
     var body = start_fn.remove(end_fn.prev)
         body = body.collectText()
-    body = body.replace("\n", "\n  ", "g")
+    body = body.replace(/\n/g, "\n  ")
     if(!body.match(/\n$/))
       body += "\n"
-    var text = "function(" + vars + ") {"  + body + indent + "}"
+    body += indent
+    
+    body = body.replace(/\s*\n( *)$/, function(a, b) { 
+      return "\n" + b;
+    })
+    
+    var text = "function(" + vars + ") {"  + body + "}"
     if(lbracket.next != rbracket)
       text = ", " + text
     

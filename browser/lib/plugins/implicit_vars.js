@@ -2,8 +2,18 @@ require.module('./plugins/implicit_vars', function(module, exports, require) {
 // start module: plugins/implicit_vars
 
 var Token = require("../token");
-exports.implicit_vars = function(stream) {
+module.exports = function(stream) {
   var stack = [], variable, current, closure
+  
+  // remove vars
+  stream.each(function(token) {  
+    var ret = token.prev
+    if(token.text != "var") return
+    if(token.next.space)
+      token.next.remove()
+    token.remove()
+    return ret
+  })
   
   stream.each(function(token) {    
     if(!token.assign) return 

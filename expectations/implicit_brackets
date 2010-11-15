@@ -1,0 +1,55 @@
+#implicit_brackets
+compiles: 
+sq 1 + 2
+to:
+sq(1 + 2)
+
+compiles: 
+(1 + sq 2), 5
+to:
+(1 + sq(2)), 5
+
+compiles:
+sq(sq 2) == div 32, 2
+
+to:
+
+sq(sq(2)) == div(32, 2)
+
+compiles:
+sq sq 3
+to:
+sq(sq(3))
+
+compiles:
+x = [ok,0][0] true 
+
+to:
+x = [ok,0][0](true) 
+
+compiles:
+function Outer() {
+  for(I in [1,2,3,2*2])
+    ok true
+}
+
+to:
+function Outer() {
+  for(I in [1,2,3,2*2])
+    ok(true)
+}
+
+compiles:
+for(I in [1,2,3,2*2])
+  ok true
+
+to:
+for(I in [1,2,3,2*2])
+  ok(true)
+  
+compiles:
+log val == 11
+
+to: 
+
+log(val == 11)

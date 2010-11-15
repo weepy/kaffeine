@@ -94,8 +94,12 @@ function postprocess(stream) {
 base.fn.normalize = function() {
   this.each(function() {
     var next = this.next    
-    
+  
     // there are never 2 space tokens next to each other
+    if(this.next && this.next.whitespace && ["for"].indexOf(this.text) >= 0 ) {
+      this.eatRight()
+    }
+    
     if(this.space) {
       if(next && next.space) {
         this.eatRight(function() { return this.space })
@@ -109,17 +113,44 @@ base.fn.normalize = function() {
     else if(this.operator) {
       // operators are never adjacent to whitespace 
       this.eat(function() { return this.whitespace })
+      this.eat(function() { return this.whitespace })
     }
  //    else if(this.whitespace && this.next && this.next.whitespace) {
  //     this.eatRight()
  //     return this
  //   }
     else {
-      // right brackets next have previous whitespace
+      // brackets next have previous whitespace
       if(this.rbracket && this.prev.whitespace && !this.matchingBracket.global)
         this.eatLeft()
+
     }
   })
+  
+  // now let's assign code blocks to keywords without {}'s
+  this.each(function() {
+    this.markBracelessBlock()
+  })
+}
+
+base.fn.markBracelessBlock = function() {
+  delete this.bracelessBlock  
+  if(this.block || ["if", "for", "while", "try", "else", "catch"].indexOf(this.text) < 0) return
+
+  function end(tok) {
+    if(tok.block) return tok.block.matchingBracket
+    if(["if", "for", "while", "try", "else", "catch"].indexOf(tok.text) >= 0)
+      return end(tok.next.matchingBracket.nextNW())
+    return tok.nextNW().expressionEnd()
+  }
+
+  // require's brackets
+  if(!this.next.matchingBracket)
+    return
+  var next = this.next.matchingBracket.nextNW()
+    
+  this.bracelessBlock = { end: end(next) }  
+  return 
 }
 
 base.fn.after = function(head) {
@@ -266,7 +297,7 @@ base.fn.expressionStart = function(breakFn) {
     var x = this
     if(this.rbracket) return this.matchingBracket
     x = x.prev
-    if(x.whitespace || x.semi || x.assign || x.lbracket || x.comparison) return true
+    if(x.whitespace || x.semi || x.assign || x.lbracket) return true // || x.comparison
     if(breakFn && breakFn.call(x,x)) return true
 
   })
@@ -279,7 +310,7 @@ base.fn.expressionEnd = function(breakFn) {
     if(this.lbracket) return this.matchingBracket
     if(this.block) return this.block
     var x = this.next
-    if(x.whitespace || x.semi || x.assign || (x.rbracket ) || x.comparison) return true
+    if(x.whitespace || x.semi || x.assign || (x.rbracket )) return true // || x.comparison
     if(breakFn && breakFn.call(x,x)) return true
   })
 }
@@ -497,6 +528,8 @@ inherits(whitespace, base)
 whitespace.fn.whitespace = true
 whitespace.regex = / +|\n/g
 
+//whitespace.regex = /[ \n]+/g
+
 var keywords = "if for while else try catch function return var".split(" ")
 
 function word(text) { 
@@ -593,25 +626,27 @@ bracket.fn.updateBlock = function() {
     bracket: false,
     name: false
   }
+  var type
   
-  var type = this.prev.findRev(function(token) {
-    if(token.whitespace)            return null  // skip whitespace
-    else if(token.rbracket && token.rbracket) {
-      state.bracket = token.matchingBracket
-      return token.matchingBracket.prev // skip before matching bracket
-    }   
-    else if(token.word) {
-      if(blockKeywords.indexOf(token.text) >= 0)
-        return true  // found it!
-      else if(!state.name) {
-        state.name = token
-        return null  // skip variables
+  if(this.prev) {
+    type = this.prev.findRev(function(token) {
+      if(token.whitespace)            return null  // skip whitespace
+      else if(token.rbracket && token.rbracket) {
+        state.bracket = token.matchingBracket
+        return token.matchingBracket.prev // skip before matching bracket
+      }   
+      else if(token.word) {
+        if(blockKeywords.indexOf(token.text) >= 0)
+          return true  // found it!
+        else if(!state.name) {
+          state.name = token
+          return null  // skip variables
+        }
+        else return false 
       }
-      else return false 
-    }
-    else return false // fail no keyword found
-  })
-
+      else return false // fail no keyword found
+    })
+  }
   
   if(type) {
     this.blockType = type.text
@@ -652,6 +687,7 @@ bracket.fn.declareVariables = function() {
   var vars = []
   for(var j in this.vars) {
     var text = j
+    //if(this.vars[j] == "###NODEF###") continue
     if(typeof this.vars[j] == "string") 
       text += " = " + this.vars[j]
     vars.push(text)
@@ -708,7 +744,7 @@ regex.extract = function(index, input) {
   }
 }
 
-module.exports = { whitespace: whitespace, operator: operator, string: string, word: word, comment: comment, bracket: bracket, unknown: unknown, semi: semi, ize: ize, base: base}
+module.exports = { whitespace: whitespace, operator: operator, string: string, word: word, comment: comment, bracket: bracket, unknown: unknown, semi: semi, ize: ize, postprocess: postprocess, base: base}
 
 
 // end module: token

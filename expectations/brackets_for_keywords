@@ -1,0 +1,69 @@
+#brackets_for_keywords
+
+compiles:
+if true// hello
+  ok(true)
+to:
+if(true)// hello
+  ok(true)
+
+compiles:  
+for x in [1,2,3,2*2] {
+  ok(true)
+}
+to:
+for(x in [1,2,3,2*2]) {
+  ok(true)
+}
+
+compiles:
+if true {
+  ok(true)
+}
+to:
+if(true) {
+  ok(true)
+}
+
+compiles:
+if false {
+  ok(false)
+}
+else {
+  ok(true)
+}
+to:
+if(false) {
+  ok(false)
+}
+else {
+  ok(true)
+}
+
+compiles:
+for var I=0; I<1; I++ {
+  ok(true)
+}
+to:
+for(var I=0; I<1; I++) {
+  ok(true)
+}
+
+compiles:
+while I == 1 {
+  ok(true)
+  I = 0
+}
+to:
+while(I == 1) {
+  ok(true)
+  I = 0
+}
+
+compiles:
+if !false
+  ok(true)
+
+to:
+if(!false)
+  ok(true)

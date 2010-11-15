@@ -1,0 +1,26 @@
+#string_interpolation
+
+compiles:
+"\#{name}"
+to:
+"#{name}"
+
+compiles:
+"#{name}"
+to:
+("" + (name))
+
+compiles: 
+"a#{b}c"
+to:
+("a" + (b) + "c")
+
+compiles: 
+"a#{b}"
+to:
+("a" + (b))
+
+compiles:
+x = " #{"this is a string inside a interp"} "
+to:
+x = (" " + ("this is a string inside a interp") + " ")

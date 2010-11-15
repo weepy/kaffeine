@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+var fs = require("fs")
+var path = "./lib/plugins"
+var files = fs.readdirSync(path)
+
+var filez = []
+
+for(var i in files) {
+  if(files[i].match(/\.js$/))
+    filez.push(files[i].replace(/\.js$/, ""))
+}
+
+var text = "Plugins = " + JSON.stringify(filez)
+
+fs.writeFile("./browser/plugins.js", text)

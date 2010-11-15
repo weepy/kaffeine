@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+require("../lib/kaffeine")
+var path = require("path")
+var file = process.ARGV[2]
+var abs = path.join(process.cwd(), "./", file).replace(/.k$/, "")
+
+process.chdir(path.dirname(abs))
+require(abs)

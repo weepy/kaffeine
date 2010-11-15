@@ -2,7 +2,7 @@ require.module('./plugins/pipe', function(module, exports, require) {
 // start module: plugins/pipe
 
 var Token = require("../token");
-exports.pipe = function(stream) {
+module.exports = function(stream) {
 
   stream.each(function() {
     if(this.operator && (this.text == "|" || this.text == "|.")) {
@@ -27,18 +27,26 @@ exports.pipe = function(stream) {
       } else {
         r = r.matchingBracket
       }
-            
-      var R = r.next.next.find(function() {
-        if((this.next.whitespace && this.text != "return") || this.next.op == "|") return true
+      
+      
+      
+      
+      var R = r.next.next.expressionEnd(function() {
+//        if(this.block) return this.block
+//        if(this.lbracket) return this.matchingBracket
+//        if((this.next.whitespace && this.text != "return") || this.next.op == "|") return true
+        return this.text == "|"
       })
 
       var rhs = r.next.next.remove(R)
       L.before("__.")
+      
       var lhs = L.remove(this.prev)
       
       var cont = r.next
-
-      r.prev.after(new Token.word(lhs.collectText())).after(new Token.operator(",")).after(rhs)
+      
+      fn.after(".call")
+      r.prev.after("this, ").after(new Token.word(lhs.collectText())).after(", ").after(rhs)
       r.next.remove()
       this.remove()
       return r

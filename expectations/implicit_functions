@@ -1,0 +1,39 @@
+#implicit_functions
+compiles:
+{leave: objects}
+{}
+{ }
+
+to:
+{leave: objects}
+{}
+{ }
+
+compiles:
+var x = (a) { return a }
+
+to:
+var x = function(a) { return a }
+
+compiles:
+var x = { return false }
+
+to:
+var x = function() { return false }
+
+compiles:
+ok( ({ return true })() )
+
+to:
+ok( (function() { return true })() )
+
+compiles:
+function namedFn(ohyeah) {
+
+}
+
+to:
+function namedFn(ohyeah) {
+
+}
+

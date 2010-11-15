@@ -2,7 +2,7 @@ require.module('./plugins/multiline_strings', function(module, exports, require)
 // start module: plugins/multiline_strings
 
 var Token = require("../token");
-exports.multiline_strings = function(stream) {
+module.exports = function(stream) {
   var reg = /\n/
   stream.each(function() {
     if(!this.string || !reg.test(this.text)) return

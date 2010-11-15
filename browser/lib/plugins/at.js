@@ -3,7 +3,7 @@ require.module('./plugins/at', function(module, exports, require) {
 
 var Token = require("../token");
 
-exports.at = function(stream) {
+module.exports = function(stream) {
 
   stream.each(function() {
     if(this.unknown && this.text == "@") {

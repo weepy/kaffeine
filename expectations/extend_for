@@ -1,0 +1,88 @@
+#extend_for
+compiles:
+for(x in A)
+  do()
+
+to:
+for(x in A)
+  do()
+compiles:
+for(x in A*[a + b, c][1] * 5 )
+  do()
+
+to:
+for(x in A*[a + b, c][1] * 5 )
+  do()
+
+compiles:
+for(x of [1,2,3,4]) {
+  ok()
+}
+
+to:
+var _a, x;
+for(_a = 0; _a < [1,2,3,4].length; _a++) {
+  x = [1,2,3,4][_a];
+  ok()
+}
+
+compiles:
+for(x of [1,2,3,4])
+  ok()
+
+to:
+var _a, x;
+for(_a = 0; _a < [1,2,3,4].length; _a++) {
+  x = [1,2,3,4][_a];
+  ok()
+}
+
+compiles: 
+for (var i = 0; i < nodes.length; i++) {
+
+}
+
+to:
+for (var i = 0; i < nodes.length; i++) {
+
+}
+
+compiles:
+for(k, y in o)
+  x
+i
+to:
+var k, y;
+for(k in o) {
+  y = o[k];
+  x
+}
+i
+
+compiles:
+for(k, y in o)
+  if(x) {
+    return true
+  }
+
+to:
+var k, y;
+for(k in o) {
+  y = o[k];
+  if(x) {
+    return true
+  }
+}
+
+compiles:
+for(k, y in o)
+  if(x)
+    return true
+
+to:
+var k, y;
+for(k in o) {
+  y = o[k];
+  if(x)
+    return true
+}

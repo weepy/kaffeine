@@ -1,0 +1,95 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var fs = require('fs');
+var Kaffeine = require("../lib/kaffeine")
+
+function loadPlugins(source) {
+  var rel = "../lib/plugins/"    
+  var files = fs.readdirSync(source) 
+  for(var i =0; i< files.length;i++) {
+    var file = files[i]
+    if(!file.match(/\.js$/)) continue
+    file = file.replace(/\.js$/, "")
+    var path = rel + file
+    Kaffeine.plugins[file] = require(path)[file]
+  }
+}
+
+loadPlugins("./lib/plugins")
+
+function loadExpectations(path) {
+  var sections = fs.readFileSync(path).toString().split(/compiles\: *\n/)
+  var directive = sections.shift()
+  var expectations = []
+  while(sections.length) {
+    var s = sections.shift().split(/to\: *\n/)
+    var input = s[0]
+    var output = s[1]
+    expectations.push({input: (directive + input), output: output})
+  }
+  //console.log(expectations)
+  return expectations
+}
+
+function runExpectations(path, exs) {
+  var passed = [], failed = []
+  
+  for(var i=0; i< exs.length;i++) {
+    var ex = exs[i]
+    
+    var js = new Kaffeine().compile(ex.input)
+    js = trim(js)
+    ex.output = trim(ex.output)
+    if(js != ex.output) {
+      failed.push(ex)
+      //require("sys").puts("expecting:\n" + ex.output.replace(/ /g, ".") + "\nfound:\n" + js.replace(/ /g, "."))
+      var output = js.split("\n")
+      var expected = ex.output.split("\n")
+      for(var j=0; j < output.length; j++) {
+        if(expected[j] != output[j]) {
+          console.log("Difference found on in " + path + " on line: " + j)
+          console.log("expect: " + expected[j].replace(/ /g, "."))
+          console.log("actual: " + output[j].replace(/ /g, "."))
+          break
+        }
+      }
+    }
+    else
+      passed.push(ex)
+  }
+  console.log(failed.length + "/" +  passed.length + " for " + path)
+}
+
+function runAllExpectations() {
+  var to_run = []
+  var files = fs.readdirSync("./expectations")
+  for(var j=0; j<files.length;j++) {
+    var file = files[j]
+
+    if(!file.match(/^\./)) {
+      to_run.push(file)
+    }
+  }
+  
+  for(var j=0; j< to_run.length; j++) {
+    var exs = loadExpectations("./expectations/" + to_run[j])
+    runExpectations(to_run[j], exs) 
+  }
+}
+
+function trim(s) {
+  var ss = s.replace(/^\s*/, "").replace(/\s*$/, "");
+  ss = ss.replace(/ +\n/g, "\n")
+  return ss
+}
+
+
+
+var path = process.ARGV[2]
+if(path) {
+  var exs = loadExpectations(path)
+  runExpectations(path, exs)
+} else {
+  runAllExpectations()
+}
