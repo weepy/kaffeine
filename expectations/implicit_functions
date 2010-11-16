@@ -37,3 +37,13 @@ function namedFn(ohyeah) {
 
 }
 
+
+compiles:
+{
+  x: y
+}
+
+to:
+{
+  x: y
+}
