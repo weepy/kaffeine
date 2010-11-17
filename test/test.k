@@ -1,8 +1,7 @@
 | = require("./pipe")
 
 console.log "whoop. success"
-console.log(__filename);
-console.log(__dirname);
+
 
 for i of [11,22,33,44]
   console.log i
