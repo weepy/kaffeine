@@ -1,11 +1,4 @@
-#hash implicit_functions pipe implicit_return
-
-compiles:
-| = {}
-|.map = map
-to:
-__ = {}
-__.map = map
+#hash pipe_pre implicit_functions pipe implicit_return
 
 compiles:
 var x = [2] | map square
@@ -41,4 +34,4 @@ x | map { #.name }
   
 to:
 
-__.detect.call(this, __.map.call(this, x, function() { arguments[0].name }), function() {;})
+__.detect.call(this, __.map.call(this, x, function() { return arguments[0].name }), function() {;})

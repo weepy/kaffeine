@@ -21,7 +21,9 @@ module.exports = function(stream) {
     
     if(!match) return
     
-    var end = nn.expressionEnd() 
+    var end = nn.expressionEnd(function() {
+	    if(this.text == "," && this.next.next.text == ":") return true
+	  }) 
 
     if(end == null) return
     

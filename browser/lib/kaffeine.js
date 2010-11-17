@@ -13,7 +13,7 @@ Kaffeine.plugins = {};
 
 //unless brackets_for_keywords reverse_blocks indented_blocks
 
-var defaultDirective = "hash at brackets_for_keywords prototype implicit_functions extend_for implicit_return pipe implicit_brackets bang implicit_vars multiline_strings string_interpolation"
+var defaultDirective = "hash at brackets_for_keywords prototype implicit_functions extend_for pipe_pre implicit_brackets implicit_return pipe bang implicit_vars multiline_strings string_interpolation"
 
 Kaffeine.fn.compile = function(text, validate) {
   if(!text.match(/\n$/)) text += "\n"; // trailing newline

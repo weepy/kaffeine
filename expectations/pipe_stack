@@ -1,7 +1,5 @@
-#implicit_functions implicit_return pipe implicit_brackets
-
 compiles:
-x | map { # * 11 } | detect { #*# > 30 }
+x | map { a * 11 } | detect { b*b > 30 }
 
 to:
-__.detect.call(this, __.map.call(this, x, function() { return # * 11 }), function() { return #*# > 30 })
+__.detect.call(this, __.map.call(this, x, function() { return a * 11 }), function() { return b*b > 30 })

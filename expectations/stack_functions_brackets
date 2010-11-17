@@ -1,0 +1,22 @@
+compiles:
+{
+  a "b"
+}
+
+to: 
+function() {
+  return a("b")
+}
+
+compiles:
+{
+  a: b c,
+  d: e
+}
+
+to:
+
+{
+  a: b(c),
+  d: e
+}
