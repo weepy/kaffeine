@@ -23,3 +23,20 @@ nested(function() {
   })
 })
 
+compiles:
+
+nested!()
+@x = 1
+this.x = 1
+nested!()
+@x = 2
+
+to:
+var _this = this
+nested(function() {
+  _this.x = 1
+  this.x = 1
+  nested(function() {
+    _this.x = 2
+  })
+})
