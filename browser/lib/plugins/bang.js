@@ -31,7 +31,19 @@ module.exports = function(stream) {
     })
     
     var body = start_fn.remove(end_fn.prev)
-        body = body.collectText()
+    
+    var fn = this.findClosure()
+    body.find(function() {
+      if(this.was_at_symbol) {
+        var ffn = this.findClosure()
+        if(!ffn) {
+          fn.vars._this = "this"
+          this.text = "_this"
+        }
+      }
+    })
+    
+    body = body.collectText()
     body = body.replace(/\n/g, "\n  ")
     if(!body.match(/\n$/))
       body += "\n"
@@ -45,7 +57,10 @@ module.exports = function(stream) {
     if(lbracket.next != rbracket)
       text = ", " + text
     
-    rbracket.before(text)
+    var tokens = Token.ize(text)
+    tokens.banged_function = true
+    
+    rbracket.before(tokens)
     if(!rbracket.next.newline)
       rbracket.after("\n")
     //token.bang = false

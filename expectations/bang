@@ -1,4 +1,4 @@
-#bang
+#at bang
 compiles:
 sum = add!(3, 4)
 ok(sum == 7)
@@ -32,11 +32,22 @@ nested!()
 @x = 2
 
 to:
-var _this = this
+var _this = this;
 nested(function() {
   _this.x = 1
   this.x = 1
   nested(function() {
     _this.x = 2
   })
+})
+
+compiles:
+aysnc!()
+@x = 1
+function() { @x }
+to:
+var _this = this;
+aysnc(function() {
+  _this.x = 1
+  function() { this.x }
 })

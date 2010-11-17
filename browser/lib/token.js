@@ -444,7 +444,8 @@ base.fn.findClosure = function() {
     if(tok.rbracket) return tok.matchingBracket.prev // skip behind
     if(tok.blockType == 'function') return true
   })
-  return this.parent = parent  //|| this.head() // i,e if not found we're in the global scope
+  this.parent = parent  //|| this.head() // i,e if not found we're in the global scope
+  return this.parent
 }
 
 base.fn.prevNewline = function(includeThis, skipBrackets) {

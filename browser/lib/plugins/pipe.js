@@ -21,32 +21,6 @@ module.exports = function(stream) {
   })
 
 }
-  
-
-/*      if(!r.lbracket) {
-        var pair = Token.bracket.pair("()")
-        r.before(pair.L).after(pair.R)
-        r = pair.R
-      } else {
-        r = r.matchingBracket
-      }
-
-	 
-      var rhs = r.next.remove(R)
-      L.before("__.")
-      
-      
-      
-      var cont = r.next
-      
-      this.after(this.pipe_function + ".call")
-      r.prev.after("this, ").after(new Token.word(lhs.collectText())).after(", ").after(rhs)
-      r.next.remove()
-      this.remove()
-      return r
-    }
-  }) 
-}*/
 
 // end module: plugins/pipe
 });

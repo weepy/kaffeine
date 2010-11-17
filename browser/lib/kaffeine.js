@@ -79,7 +79,7 @@ if(require.extensions) {
     var fs = require('fs'),
         input = fs.readFileSync(filename, 'utf8'),
         content = (new Kaffeine()).compile(input)
-    module.filename = "#{filename} (compiled)"
+    module.filename = filename + " (compiled)"
     module._compile(content, module.filename)
   }
 }

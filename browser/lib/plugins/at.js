@@ -15,6 +15,7 @@ module.exports = function(stream) {
       }
 
       var token = new Token.word(word)
+      token.was_at_symbol = true
       this.replaceWith(token)
       if(token.next.word || token.next.lbracket) 
         token.after(new Token.operator("."))
