@@ -121,7 +121,7 @@ base.fn.normalize = function() {
  //   }
     else {
       // brackets next have previous whitespace
-      if(this.rbracket && this.prev.whitespace && !this.matchingBracket.global)
+      if(this.rbracket && this.prev.whitespace && !this.matching.global)
         this.eatLeft()
 
     }
@@ -129,27 +129,40 @@ base.fn.normalize = function() {
   
   // now let's assign code blocks to keywords without {}'s
   this.each(function() {
-    this.markBracelessBlock()
+    this.addImpliedBraces()
   })
 }
 
-base.fn.markBracelessBlock = function() {
+base.fn.addImpliedBraces = function() {
   delete this.bracelessBlock  
   if(this.block || ["if", "for", "while", "try", "else", "catch"].indexOf(this.text) < 0) return
-
+  
   function end(tok) {
-    if(tok.block) return tok.block.matchingBracket
+    if(tok.block) return tok.block.matching
     if(["if", "for", "while", "try", "else", "catch"].indexOf(tok.text) >= 0)
-      return end(tok.next.matchingBracket.nextNW())
-    return tok.nextNW().expressionEnd()
+      return end(tok.next.matching.nextNW())
+    return tok.find(function() {
+      if(this.next.newline) return true
+    })
   }
-
+  
+  var closingBracket = this.next.matching
   // require's brackets
-  if(!this.next.matchingBracket)
-    return
-  var next = this.next.matchingBracket.nextNW()
-    
-  this.bracelessBlock = { end: end(next) }  
+  if(!closingBracket) return
+  
+  var pair = bracket.pair("{}")
+  pair.L.implied = true
+  pair.R.implied = true
+  
+  var next = closingBracket.nextNW()
+
+  end(next).after(pair.R)
+  closingBracket.after(" ").after(pair.L)
+  
+  pair.R.before(pair.L.next.newline ? "\n" : " ")  
+  pair.L.updateBlock()
+  pair.L.eatLeft()
+  pair.R.eatLeft()
   return 
 }
 
@@ -295,7 +308,7 @@ base.fn.nextNW = function() {
 base.fn.expressionStart = function(breakFn) {
   return this.findRev(function() {
     var x = this
-    if(this.rbracket) return this.matchingBracket
+    if(this.rbracket) return this.matching
     x = x.prev
     if(x.whitespace || x.semi || x.assign || x.lbracket) return true // || x.comparison
     if(breakFn && breakFn.call(x,x)) return true
@@ -307,7 +320,7 @@ base.fn.expressionStart = function(breakFn) {
 
 base.fn.expressionEnd = function(breakFn) {
   return this.find(function() {
-    if(this.lbracket) return this.matchingBracket
+    if(this.lbracket) return this.matching
     if(this.block) return this.block
     var x = this.next
     if(x.whitespace || x.semi || x.assign || (x.rbracket )) return true // || x.comparison
@@ -400,6 +413,8 @@ base.fn.spitRight = function(test) {
 
 base.fn.myText = function() {
   var text = [], vars
+  if(this.implied) return ""
+  
   for(var i=0; i<this.eaten.left.length; i++)
     text.push(this.eaten.left[i].myText())
       
@@ -441,7 +456,7 @@ base.fn.collectText = function(end) {
 
 base.fn.findClosure = function() {
   var parent = this.prev.findRev(function(tok) {
-    if(tok.rbracket) return tok.matchingBracket.prev // skip behind
+    if(tok.rbracket) return tok.matching.prev // skip behind
     if(tok.blockType == 'function') return true
   })
   this.parent = parent  //|| this.head() // i,e if not found we're in the global scope
@@ -452,7 +467,7 @@ base.fn.prevNewline = function(includeThis, skipBrackets) {
   var start = includeThis ? this : this.prev
   var nl = start.findRev(function(tok) {
     if(tok.newline) return true
-    if(skipBrackets && tok.rbracket) return tok.matchingBracket.prev // skip behind
+    if(skipBrackets && tok.rbracket) return tok.matching.prev // skip behind
   })
   return nl 
 } 
@@ -461,7 +476,7 @@ base.fn.nextNewline = function(includeThis, skipBrackets) {
   var start = includeThis ? this : this.next
   var nl = start.find(function(tok) {
     if(tok.newline) return true
-    if(skipBrackets && tok.lbracket) return tok.matchingBracket.next // skip over
+    if(skipBrackets && tok.lbracket) return tok.matching.next // skip over
   })
   return nl
 }
@@ -470,7 +485,7 @@ base.fn.nextNewlineOrRbracket = function() {
   return this.next.find(function(tok) {
     if(tok.rbracket) return true
     if(tok.newline) return true
-    if(tok.lbracket) return tok.matchingBracket.next // skip over
+    if(tok.lbracket) return tok.matching.next // skip over
   })
 }
 
@@ -605,8 +620,8 @@ bracket.fn.bracket = true
 bracket.regex = /[\(\)\[\]\{\}]/g
 
 bracket.fn.matchWith = function(other) {
-  other.matchingBracket = this
-  this.matchingBracket = other
+  other.matching = this
+  this.matching = other
 }
 
 bracket.pair = function(s) {
@@ -633,8 +648,8 @@ bracket.fn.updateBlock = function() {
     type = this.prev.findRev(function(token) {
       if(token.whitespace)            return null  // skip whitespace
       else if(token.rbracket && token.rbracket) {
-        state.bracket = token.matchingBracket
-        return token.matchingBracket.prev // skip before matching bracket
+        state.bracket = token.matching
+        return token.matching.prev // skip before matching bracket
       }   
       else if(token.word) {
         if(blockKeywords.indexOf(token.text) >= 0)
@@ -672,9 +687,9 @@ bracket.fn.findArgs = function() {
   var args = {}
   var prev = this.prev.whitespace ? this.prev.prev : this.prev
   
-  if(!prev.matchingBracket) return
+  if(!prev.matching) return
   
-  var text = prev.matchingBracket.collectText(prev).replace(/[\(\) ]/g, "")
+  var text = prev.matching.collectText(prev).replace(/[\(\) ]/g, "")
   
   var words = text.split(",")
   

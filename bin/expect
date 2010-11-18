@@ -3,6 +3,7 @@
 var path = require('path');
 var fs = require('fs');
 var Kaffeine = require("../lib/kaffeine")
+var utils = require("utils")
 
 function loadPlugins(source) {
   var rel = "../lib/plugins/"    
@@ -35,30 +36,38 @@ function loadExpectations(path) {
 function runExpectations(path, exs) {
   var passed = [], failed = []
   
+  utils.print(path+": ")
   for(var i=0; i< exs.length;i++) {
     var ex = exs[i]
     
     var js = new Kaffeine().compile(ex.input)
     js = trim(js)
     ex.output = trim(ex.output)
+    
     if(js != ex.output) {
       failed.push(ex)
+      utils.print('X');
       //require("sys").puts("expecting:\n" + ex.output.replace(/ /g, ".") + "\nfound:\n" + js.replace(/ /g, "."))
       var output = js.split("\n")
       var expected = ex.output.split("\n")
       for(var j=0; j < output.length; j++) {
         if(expected[j] != output[j]) {
-          console.log("Difference found on in " + path + " on line: " + j)
-          console.log("expect: " + expected[j].replace(/ /g, "."))
-          console.log("actual: " + output[j].replace(/ /g, "."))
+          console.log("\n\nDifference found on in " + path + " on line: " + j)
+          console.log("expect: " + ex.output)//.replace(/ /g, "."))
+          console.log("actual: " + js)//.replace(/ /g, "."))
+          
           break
         }
       }
     }
-    else
+    else {
+      utils.print('.');
       passed.push(ex)
+    }
   }
-  console.log(failed.length + "/" +  passed.length + " for " + path)
+  if(failed.length == 0) utils.print(" OK")
+  utils.print('\n');
+  // console.log(failed.length + "/" +  passed.length + " for " + )
 }
 
 function runAllExpectations() {

@@ -7,14 +7,14 @@ module.exports = function(stream) {
   stream.each(function() {
     if(this.keyword && this.text == "for") { 
       var text = "",
-          brace = this.next,
+          bracket = this.next,
           skip = false,
           toks = [], var2, var1, loopWord,
           complex
           
-      var closingBracket = brace.matchingBracket
+      var closingBracket = bracket.matching
 
-      brace.next.find(function() {      
+      bracket.next.find(function() {      
         if(this.next == closingBracket) return true
         if(this.semi) { skip = true; return true }
         if(this.word && (this.text == "in" || this.text == "of") ) loopWord = this
@@ -34,7 +34,7 @@ module.exports = function(stream) {
       var iter, val
       var closure = this.findClosure()
       
-      function wrapSingleLineBlock() {
+      /*function wrapSingleLineBlock() {
         if(!this.block) {
           var pair = Token.bracket.pair("{}")
           closingBracket.after(" ").after(pair.L)
@@ -43,7 +43,7 @@ module.exports = function(stream) {
           
           var next = pair.L.nextNW()
           if(next.block) {
-            var tok = next.block.matchingBracket
+            var tok = next.block.matching
             if(tok.next.whitespace)
               tok = tok.next
           }
@@ -65,11 +65,16 @@ module.exports = function(stream) {
           pair.R.after("\n")
           pair.L.updateBlock()
         }
-      }
-
+      }*/
+      
+      var brace = bracket.matching.find(function() { if(this.curly) return true })
+      
       if(loopWord.text == "in") { 
         if(!var2) return // nothing to do !
-        wrapSingleLineBlock.call(this)
+        
+        brace.implied = false
+        brace.matching.implied = false
+        
         var2.prev.remove(var2) 
         iter = var1.text
         val = var2.text
@@ -77,8 +82,10 @@ module.exports = function(stream) {
         closure.vars[val] = true
         
       } else {
-        wrapSingleLineBlock.call(this)
-        brace.next.remove(closingBracket.prev)
+        brace.implied = false
+        brace.matching.implied = false
+
+        bracket.next.remove(closingBracket.prev)
         iter = var2 ? var2.text : closure.getUnusedVar()
         
         val = var1.text
@@ -86,7 +93,7 @@ module.exports = function(stream) {
         closure.vars[val] = true
         
         var string = iter + " = 0; " + iter + " < " + expressionText + ".length; " + iter + "++"
-        brace.after(string)          
+        bracket.after(string)          
         
       }
       
@@ -98,12 +105,6 @@ module.exports = function(stream) {
     }
   })
 }
-
-
-
-
-
-
 
 // end module: plugins/extend_for
 });

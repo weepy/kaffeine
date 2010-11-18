@@ -67,3 +67,14 @@ if !false
 to:
 if(!false)
   ok(true)
+  
+compiles:
+function() {
+  for i=0; i < n; i++
+    fn.call(this, i) 
+}
+to:
+function() {
+  for(i=0; i < n; i++)
+    fn.call(this, i)
+}

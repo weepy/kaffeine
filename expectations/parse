@@ -1,0 +1,8 @@
+compiles:
+for(i in X)
+  x
+y
+to:
+for(i in X)
+  x
+y

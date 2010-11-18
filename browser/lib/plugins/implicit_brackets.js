@@ -11,8 +11,8 @@ module.exports = function(stream) {
     if(!ws || !ws.space || !ws.next) return
     if(this.word && (nobrackets_keywords[this.text] || this.block)) return
     if(nobrackets_keywords[ws.next.text]) return
-    if(this.matchingBracket) {
-      var prev = this.matchingBracket.prevNW()
+    if(this.matching) {
+      var prev = this.matching.prevNW()
       if(["for", "if", "while", "else"].indexOf(prev.text) >= 0)
         return
     } 

@@ -8,7 +8,7 @@ module.exports = function(stream) {
     
     if(this.global) return
 
-    var end = this.matchingBracket.prev.findRev(function(tok) {
+    var end = this.matching.prev.findRev(function(tok) {
        return (tok.whitespace || tok.semi) ? null : true
     })
     
@@ -17,7 +17,7 @@ module.exports = function(stream) {
     // sure this could be a bit neater
     var start = end.findRev(function(tok) {
       if(tok.rbracket) {
-        return tok.matchingBracket        
+        return tok.matching        
       }
       else if(tok.lbracket && tok.curly) {
         var type = tok.blockType

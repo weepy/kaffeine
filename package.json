@@ -1,11 +1,19 @@
 {
   "name": "kaffeine",
   "version": "0.0.1",
-  "description": "Javascript Enhanced Syntax Compiler",
+  "description": "Enhanced Syntax for Javascript",
+  "keywords": ["javascript", "language", "compiler"],
   "author": "weepy",
-  "bin": ["./bin/kaffeine", "./bin/knode"],
+  "licenses":     [{
+    "type":       "MIT",
+    "url": "http://github.com/weepy/kaffeine/raw/master/LICENSE"
+  }],
+  "bin": { "kaffeine": "./bin/kaffeine", "knode": "./bin/knode" },
+  "directories" : {
+    "lib" : "./lib"
+  },
   "repository": "http://github.com/weepy/kaffeine",
   "dependencies": { "brequire": ">= 0.0.2"},
-  "engines" : { "node": ">= 0.3.0" },
+  "engines" : { "node": ">= 0.2.3" },
   "main": "./lib/kaffeine"
 }

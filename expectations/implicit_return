@@ -47,3 +47,16 @@ to:
 (function() {
   return (function() {return 123})
 })()()
+
+compiles:
+function() {
+  if(true)
+     123
+}
+
+
+to: 
+function() {
+  if(true)
+     123
+}

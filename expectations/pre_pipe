@@ -1,0 +1,22 @@
+#pre_pipe
+compiles:
+| = require("x")
+
+to:
+__ = require("x")
+
+compiles:
+
+|.x = y
+
+to:
+
+__.x = y
+
+compiles:
+
+x | map y*y
+
+to:
+
+x | y*y

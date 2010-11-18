@@ -1,4 +1,4 @@
-#hash pipe_pre implicit_functions pipe implicit_return
+#hash pre_pipe implicit_functions pipe implicit_return
 
 compiles:
 var x = [2] | map square

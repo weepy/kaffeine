@@ -92,4 +92,12 @@ for(i, x in a)
   for(j, y in a)
     x
 to:
+var i, x, j, y;
+for(i in a) {
+  x = a[i];
+  for(j in a) {
+    y = a[j];
+    x
+  }
+}
 

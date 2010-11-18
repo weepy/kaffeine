@@ -22,11 +22,11 @@ module.exports = function(stream) {
       func.prev.remove()
     }
     
-    var rbracket = lbracket.matchingBracket
+    var rbracket = lbracket.matching
     
     var start_fn = rbracket.next
     var end_fn = start_fn.find(function() {
-      if(this.lbracket) return this.matchingBracket.next
+      if(this.lbracket) return this.matching.next
       if(this.rbracket) return true
     })
     
