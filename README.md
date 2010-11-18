@@ -7,40 +7,45 @@ Goals
 * Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal
 * avoid nice-to-haves, concentrate on small useful feature set and pragmatism
 * Robust
-  - we don't want to have to examine the compiled javascript to determine where we have made an error (either in compilation or in writing kaffeine)
+  - want to avoid examining the compiled javascript
   - implies syntax should very unambiguous
-  - we don't want to create javascript that's _too_ far from the kaffeine
+  - want to create javascript that's not _too_ far from the kaffeine
 * Hackable, modular, extendable and testable
-* avoid siginificant whitespace. It looks nice, but is painful to work with.
+* avoid significant whitespace - looks nice, but is painful to work with.
 
 Example
 =======
 
-The following code illustrates most of Kaffeine's features:
+The following code illustrates many of Kaffeine's features:
 <pre>
-Edge::add = -> (nick, puzzle_name) {
+Edge::add = (nick, name, complete) {
   @client.select 15
   user = User.find! {id: nick}
-  puzzle = Puzzle.find! {name: puzzle_name}
+  puzzle = Puzzle.find! {name: name}
   err, data = User.client.set! "User:#{user.id}:puzzle:#{puzzle.id}"
-  yield data
+  complete()
 }
 </pre>
 
+this compiles to:
+<pre>
+Edge.prototype.add = function(nick, puzzle_name, complete) {
+  this.client.select(15)
+  User.find({id: nick}, function(user) {
+    Puzzle.find({name: puzzle_name}, function(puzzle) {
+      User.client.set(("User:" + (user.id) + ":puzzle:" + (puzzle.id)), function(err, data) {
+        return complete()
+      })
+    })
+  })
+}
+</pre>
 Plugins list
 =========
 
-Arrow
------ 
+Implicit functions
+-----------------
 
-Provides the arrow operator (->) as a alias for 'function'
-
-E.g
-<pre>
--> run(args) {
-  Legs.create(2)
-}
-</pre>
 
 Bang
 -----
@@ -115,18 +120,7 @@ for(x, i of [7,3,4])
 // sum == 3
 </pre>
 
-yield
------
 
-provides a yield keyword that can be used to callback the return value to callback that's provided as the last argument
-
-<pre>
-asyncAdd = -> (x,y) {
-  yield x + y
-}
-</pre>
-
-Note this isn't written yet
 
 string interpolation
 --------------------
@@ -151,6 +145,23 @@ getName = -> { @name }
 </pre>
 
 
+hash
+----
+
+provides the # shortcut for referring to the first argument in a function. Useful for terse function definitions, e.g:
+
+square = { #*# }
+
+additionally, #n refers to the nth argument (n >= 0)
+
+implicit_functions
+--------
+
+the function keyword can be optionally omitted, along with empty argument lists. Note {} could be ambiguously a function or an object, so it's defined to be an function, to express an empty function, use one of the following :
+
+{;}
+{null}
+function() { }
 
 Tests
 =====

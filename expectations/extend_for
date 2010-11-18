@@ -86,3 +86,10 @@ for(k in o) {
   if(x)
     return true
 }
+
+compiles:
+for(i, x in a) 
+  for(j, y in a)
+    x
+to:
+

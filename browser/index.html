@@ -1,0 +1,202 @@
+<html>
+<head>
+  <script src='ext/jquery.js'></script>
+  <script src='brequire.js'></script>
+  <script src='lib/token.js'></script>
+  <script src='plugins.js'></script>
+  <script src='index.js'></script>
+  <script src='lib/kaffeine.js'></script> 
+  <style>
+  pre      { width: 400px; padding: 10px; font-size: 12px; font-family: monaco, monospace; float: left; background: #effaff; margin-right: 30px;}
+  .clear { clear: both;;}
+  textarea { width: 100%; height: 90%; padding: 10px; font-size: 13px; font-family: monaco, monospace;}
+  .float { width: 48%; float: left; }
+  body { margin: 4px 0 0 4px; padding: 10px; background: #fff; color: #111; font-family:arial; font-size: 20px}
+  #try { display: none;}
+li, p { font-size: 16px;}
+h3, h1, h2, p { clear: both;}
+h2, h1, h3 { font-family: 'Lobster', serif; letter-spacing: 1px;}
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+
+  </style>
+  <link href="http://fonts.googleapis.com/css?family=Lobster:regular&subset=latin" rel="stylesheet" 
+type="text/css" >
+</head>
+
+<body>
+
+<h1>Kaffeine</h1>
+
+<ul>
+<li>Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal</li>
+<li>Limited but focussed feature set</li>
+<li>Hackable, modular, extendable and testable</li>
+<li>Avoid significant whitespace - looks nice, but is painful to work with.</li>
+</ul>
+<h2>Plugins</h2>
+<p>Kaffeine uses a plugin style approach, with a core/standard stack (order is important)
+
+<h2>Example: </h2>
+<p>This is an example taken from production code. It show most of Kaffeine's features:</p>
+<pre>
+Edge::add = (nick, name, complete) {
+  @client.select 15
+  user = User.find! {id: nick}
+  puzzle = Puzzle.find! {name: name}
+  err, data = client.set! "u:#{user}:p:#{puzzle}"
+  complete()
+}
+</pre>
+
+
+
+<h3>Bang</h3>
+<p>Allows function calls with callbacks to be unwrapped via a ! postfix. E.g:</p>
+
+<pre>
+fish = $.get!('/fish')
+$("stomach").append(fish)
+</pre>
+
+<h3>at</h3>
+
+<p>Provide the @ alias for 'this'. It is also linked to the parent 'this' in the case of a function defined via 'async!'. E.g:</p>
+
+<pre>
+@legs = legs
+@color = color
+</pre>
+
+<h3>implicit var</h3>
+
+<p>provides support for omitting the var keyword: the variables will be automagically defined in the closest relevant closure. E.g.</p>
+
+<pre>
+x = 1
+y = 2
+</pre>
+  
+<h3>implicit brackets</h3>
+
+<p>Provide optional brackets for function calls. E.g.</p>
+
+<pre>
+remove eggs.shell
+mix eggs, milk
+</pre>
+  
+<h3>multiline strings</h3>
+
+<p>Allow multiline strings: </p>
+
+<pre>
+html = "
+&lt;body>
+&lt;h1>SOY SAUCE&lt;/h1>
+&lt;/body>
+"
+</pre>
+
+<p>This would maintain the new lines --- but they can be suppressed with the \ character </p>
+
+
+<h3>extended for</h3>
+
+<p>Allows an 'of' operator for looping through arrays: </p>
+
+<pre>
+for(x of [7,3,4])
+  sum += x
+// sum == 14
+</pre>
+<p>Allows allows an optional second parameter to refer to the key or value: </p>
+
+<pre>
+for(x, i of [7,3,4])
+  sum += i
+// sum == 3
+</pre>
+
+
+
+<h3>string interpolation</h3>
+
+<p>provides ruby style string interpolation via #{}</p>
+
+<pre>
+letter = "Dear #{name},
+I am writing to you to inform you of #{purpose}
+Kind Regards
+#{sender}
+"
+</pre>
+
+<h3>implicit return</h3>
+
+the last statement of a function will be automagically returned (if it has a value). E.g.
+
+<pre>
+getName = { @name } 
+</pre>
+
+
+<h3>hash</h3>
+
+<p>provides the # shortcut for referring to the first argument in a function. Additionally, #n refers to the nth argument (n >= 0). Useful for terse function definitions, e.g:</p>
+
+<pre>
+square = { #*# }
+</pre>
+
+
+<h3>implicit_functions</h3>
+
+<p>the function keyword can be optionally omitted, along with empty argument lists. </p>
+<pre>
+ok = (timeout) {
+  sendNote()
+  setTimeout { run() }, timeout
+  return true
+}
+</pre>
+	
+<p>Note {} could be ambiguously a function or an object, so it's defined to be an function, to express an empty function, use one of the following :</p>
+
+<pre>
+{;}
+{null}
+function() { }
+</pre>
+
+
+<h3>pipe</h3>
+<p>Provides an alternative calling method than can be used for easily chaining. Useful for ruby style enumeration chaining without using prototypes</p>
+<pre>
+| = require "pipe_utils" // we can specify the module to use with pipe
+People | map { #.name } | detect { #.length > 3 }
+</pre>
+
+<div id=try>
+	<div class=float style='margin-right: 20px;'>
+	  <h3>Kaffeine</h3>
+	  <textarea id=kaffeine></textarea>
+	</div>
+
+	<div class=float>
+	  <h3>Javascript</h3>
+	  <textarea id=javascript></textarea>
+	</div>
+</div>
+
+
+
+</body>
+</html>
+
