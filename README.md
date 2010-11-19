@@ -38,14 +38,23 @@ npm install kaffeine (TBD)
 Use
 ===
 
-* Via command line, TBD
-* Via node, TBD
-* Via knode, TBD
+Compile a script from the command line:
+<pre>kaffeine -c /path/to/script.k</pre>
 
+See <code>kaffeine --help</code> for more
+
+
+Run a kaffeine file directly
+<pre>knode /path/to/script.k</pre>
+
+require kaffeine files in scripts (in this case my_script.k):
+<pre>
+require('kaffeine')
+require('my_script')
+</pre>
 
 TODO
 ====
 
-* work out how best to use.
 * npm install
-* nested for loops not working?
+* nested for loops problem?
