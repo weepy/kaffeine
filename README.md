@@ -5,8 +5,6 @@
  |_|\_\__,_|_| |_| \___|_|_||_\___|
 </pre>
 
-Kaffeine
-========
 
 * Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal
 * avoid nice-to-haves, concentrate on small useful feature set and pragmatism
@@ -14,7 +12,20 @@ Kaffeine
 * avoid siginificant whitespace. It looks nice, but is painful to work with.
 
 
-See weepy.github.com/kaffeine
+Example
+=======
+
+<pre>
+Edge::add = (nick, name, complete) {
+  @client.select 15
+  user = User.find! {id: nick}
+  puzzle = Puzzle.find! {name: name}
+  err, data = client.set! "u:#{user}:p:#{puzzle}"
+  complete()
+}
+</pre>
+
+See also http://weepy.github.com/kaffeine
 
 
 Tests
