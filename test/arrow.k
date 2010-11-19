@@ -1,6 +1,6 @@
 #arrow
 
-var x = (a) -> { return a }
+var x = -> (a) { return a }
 
 ok( x(true) )
 
@@ -10,7 +10,12 @@ ok( ! x() )
 ok( (-> { return true })() )
 
 
-x = (a) -> {
+x = -> (a) {
   a = this.a
   a
+}
+
+
+-> namedFn(ohyeah) {
+  
 }

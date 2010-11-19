@@ -1,13 +1,13 @@
-#class prototype
+#prototype
 
-class Animal() {
+function Animal() {
 
 }
 
 ::fast = function() { return this.speed > 100 }
 ::alive = true
 
-class Mammal extends Animal {
+function Mammal() {
 
 }
 
