@@ -1,5 +1,5 @@
-require.module('./plugins/pre_pipe', function(module, exports, require) {
-// start module: plugins/pre_pipe
+require.module('./plugins/pipe_pre', function(module, exports, require) {
+// start module: plugins/pipe_pre
 
 var Token = require("../token");
 module.exports = function(stream) {
@@ -27,5 +27,5 @@ module.exports = function(stream) {
   }) 
 }
 
-// end module: plugins/pre_pipe
+// end module: plugins/pipe_pre
 });

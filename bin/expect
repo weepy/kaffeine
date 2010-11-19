@@ -3,7 +3,7 @@
 var path = require('path');
 var fs = require('fs');
 var Kaffeine = require("../lib/kaffeine")
-var utils = require("utils")
+var util = require("util")
 
 function loadPlugins(source) {
   var rel = "../lib/plugins/"    
@@ -36,7 +36,7 @@ function loadExpectations(path) {
 function runExpectations(path, exs) {
   var passed = [], failed = []
   
-  utils.print(path+": ")
+  util.print(path+": ")
   for(var i=0; i< exs.length;i++) {
     var ex = exs[i]
     
@@ -46,7 +46,7 @@ function runExpectations(path, exs) {
     
     if(js != ex.output) {
       failed.push(ex)
-      utils.print('X');
+      util.print('X');
       //require("sys").puts("expecting:\n" + ex.output.replace(/ /g, ".") + "\nfound:\n" + js.replace(/ /g, "."))
       var output = js.split("\n")
       var expected = ex.output.split("\n")
@@ -61,12 +61,12 @@ function runExpectations(path, exs) {
       }
     }
     else {
-      utils.print('.');
+      util.print('.');
       passed.push(ex)
     }
   }
-  if(failed.length == 0) utils.print(" OK")
-  utils.print('\n');
+  if(failed.length == 0) util.print(" OK")
+  util.print('\n');
   // console.log(failed.length + "/" +  passed.length + " for " + )
 }
 

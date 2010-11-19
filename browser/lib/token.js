@@ -134,22 +134,23 @@ base.fn.normalize = function() {
 }
 
 base.fn.addImpliedBraces = function() {
-  delete this.bracelessBlock  
+ 
   if(this.block || ["if", "for", "while", "try", "else", "catch"].indexOf(this.text) < 0) return
   
+  var closingBracket = this.next.matching
+  // require's brackets
+  if(!closingBracket) return
+
   function end(tok) {
     if(tok.block) return tok.block.matching
     if(["if", "for", "while", "try", "else", "catch"].indexOf(tok.text) >= 0)
       return end(tok.next.matching.nextNW())
     return tok.find(function() {
       if(this.next.newline) return true
+      if(this.next.rbracket) return true
     })
   }
-  
-  var closingBracket = this.next.matching
-  // require's brackets
-  if(!closingBracket) return
-  
+    
   var pair = bracket.pair("{}")
   pair.L.implied = true
   pair.R.implied = true
@@ -159,10 +160,14 @@ base.fn.addImpliedBraces = function() {
   end(next).after(pair.R)
   closingBracket.after(" ").after(pair.L)
   
-  pair.R.before(pair.L.next.newline ? "\n" : " ")  
+  var indent = this.indent()
+  
+  pair.R.before(pair.L.next.newline ? "\n" + indent : " ")  
   pair.L.updateBlock()
   pair.L.eatLeft()
   pair.R.eatLeft()
+  if(pair.R.prev.whitespace)
+    pair.R.eatLeft()
   return 
 }
 

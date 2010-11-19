@@ -14,6 +14,6 @@
   },
   "repository": "http://github.com/weepy/kaffeine",
   "dependencies": { "brequire": ">= 0.0.2"},
-  "engines" : { "node": ">= 0.2.3" },
+  "engines" : { "node": ">= 0.3.0" },
   "main": "./lib/kaffeine"
 }
