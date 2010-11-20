@@ -74,5 +74,4 @@ require('my_script')
 TODO
 ====
 
-* npm install
 * nested for loops problem?

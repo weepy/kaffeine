@@ -24,15 +24,27 @@ pre {
  word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
+#try_it { text-decoration:underline; cursor: pointer; }
 
-  </style>
+body { position: relative; }
+iframe { display: none;}
+ </style>
   <link href="http://fonts.googleapis.com/css?family=Lobster:regular&subset=latin" rel="stylesheet" 
 type="text/css" >
+
+<script>
+$().ready(function() {
+  $("#try_it").click(function() {
+	$("iframe").toggle()
+})
+})
+</script>
 </head>
 
 <body>
 
 <h1>Kaffeine</h1>
+
 
 <ul>
 <li>Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal</li>
@@ -40,6 +52,9 @@ type="text/css" >
 <li>Hackable, modular, extendable and testable</li>
 <li>Avoid significant whitespace - looks nice, but is painful to work with.</li>
 </ul>
+
+<h3><a id=try_it >Try Kaffeine</a></h3>
+<iframe src='runner.html' width=100% height=400px style='border:0' border=0></iframe>
 <h2>Plugins</h2>
 <p>Kaffeine uses a plugin style approach, with a core/standard stack (order is important)
 
