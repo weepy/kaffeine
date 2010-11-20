@@ -40,8 +40,14 @@ $().ready(function() {
   $("pre").each(function() {
     var text = $(this).html()
     var pre = $("<pre>")
+    $(this).css({position: "relative"})
+    var h = $(this).height()
     pre.html(compile(text))
     pre.insertAfter(this)
+    var arrow = $("<div class=arrow>-></div>")
+    arrow.css({position: "absolute", right: 0, top: h/2, marginRight: -24, fontSize: 14, fontWeight: "bold", color: "red"})
+    $(this).append(arrow)
+    
   })
 })
 
