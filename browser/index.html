@@ -125,6 +125,18 @@ mix eggs, milk.off ? milk : null
 outer inner innermost
 </pre>
   
+<h3>implicit brackets for keywords</h3>
+<p>keywords such as "for", or "if" can omit their brackets (as long as the statement doesn't become amiguous). The brackets are inserted either before a newline, a left brace '{' or the return keyword.
+<pre>
+for i in A
+  run A[i]
+
+if name == "john" return false
+
+while we_have_time() { run tasks }
+</pre>
+
+
 <h3>multiline strings</h3>
 
 <p>Allows for multiline strings: </p>
