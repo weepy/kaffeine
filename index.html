@@ -125,6 +125,18 @@ mix eggs, milk.off ? milk : null
 outer inner innermost
 </pre>
   
+<h3>implicit brackets for keywords</h3>
+<p>keywords such as "for", or "if" can omit their brackets (as long as the statement doesn't become amiguous). The brackets are inserted either before a newline, a left brace '{' or the return keyword.
+<pre>
+for i in A
+  run A[i]
+
+if name == "john" return false
+
+while we_have_time() { run tasks }
+</pre>
+
+
 <h3>multiline strings</h3>
 
 <p>Allows for multiline strings: </p>
@@ -237,13 +249,15 @@ result = input | fn a, b | fn2 c | fn3 d
 <p>For example, it is very useful for ruby style enumeration chaining without using prototypes, and other utilities</p>
 <pre>
 | = require "pipe_utils"
+
 People | map { #.name } | detect { #.length > 3 }
 
 opts = opts | extend default
 5 | times { if(!send()) return false }
 
 names | asyncMap (name, fn) {
-  User.find {name: name}, fn
+  user = User.find! {name: name}
+  fn(user)
 }, complete
 </pre>
 
