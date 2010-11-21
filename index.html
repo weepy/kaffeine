@@ -79,15 +79,28 @@ Edge::add = (nick, name, complete, opts) {
 <pre>
 fish = $.get!('/fish')
 $("stomach").append(fish)
+ok = stomach.save!()
+meal.complete = ok
 </pre>
 
 <h3>at</h3>
 
-<p>Provide the @ alias for 'this'. It is also linked to the parent 'this' in the case of a function defined via 'async!'. E.g:</p>
+<p>Provide the @ alias for 'this'. E.g:</p>
 
 <pre>
 @legs = legs
 @color = color
+</pre>
+
+<p>In the case of an unwrapped function, @ will be rewritten to refer to the original this, for convenience. Use <code>this</code> to refer to the actuak <code>this</code></p>
+
+<pre>
+Fish.prototype.eat = {
+  @food = getFood!()
+  @stomach.ingest! @food
+  poop = @stomach.digest! @food
+  this.next(poop)
+}
 </pre>
 
 <h3>implicit var</h3>
@@ -95,8 +108,11 @@ $("stomach").append(fish)
 <p>provides support for omitting the var keyword: the variables will be automagically defined in the closest relevant closure. E.g.</p>
 
 <pre>
-x = 1
-y = 2
+x = null
+{
+  x = 1
+  y = 2
+}
 </pre>
   
 <h3>implicit brackets</h3>
@@ -105,23 +121,30 @@ y = 2
 
 <pre>
 remove eggs.shell
-mix eggs, milk
+mix eggs, milk.off ? milk : null
+outer inner innermost
 </pre>
   
 <h3>multiline strings</h3>
 
-<p>Allow multiline strings: </p>
+<p>Allows for multiline strings: </p>
 
 <pre>
-html = "
+var html = "
 &lt;body>
 &lt;h1>SOY SAUCE&lt;/h1>
 &lt;/body>
 "
 </pre>
 
-<p>This would maintain the new lines --- but they can be suppressed with the \ character </p>
-
+<p>Maintains new lines --- but can be suppressed with the \ character (which provides parity with normal javascript):</p>
+<pre>
+var html = "\
+&lt;body>\
+&lt;h1>SOY SAUCE&lt;/h1>\
+&lt;/body>\
+"
+</pre>
 
 <h3>extended for</h3>
 
@@ -130,18 +153,21 @@ html = "
 <pre>
 for(x of [7,3,4])
   sum += x
-// sum == 14
 </pre>
-<p>Allows allows an optional second parameter to refer to the key or value: </p>
+<p>An optional second parameter will refer to the key: </p>
 
 <pre>
 for(x, i of [7,3,4])
   sum += i
-// sum == 3
+
 </pre>
 
+<p>Also allows an optional second parameter for the <code>in</code> keyword:</p>
 
-
+<pre>
+for(key, val in A)
+  zip += "#key:#val"
+</pre>
 <h3>string interpolation</h3>
 
 <p>provides ruby style string interpolation via #{}</p>
@@ -156,11 +182,13 @@ Kind Regards
 
 <h3>implicit return</h3>
 
-the last statement of a function will be automagically returned (if it has a value). E.g.
+<p>the last statement of a function will be automagically returned. E.g.</p>
 
 <pre>
 getName = { @name } 
 </pre>
+
+<p>This will only work for variables, objects and functions. I.e. an final if statement will result no return value</p>
 
 
 <h3>hash</h3>
@@ -169,6 +197,7 @@ getName = { @name }
 
 <pre>
 square = { #*# }
+times = { #*#1 }
 </pre>
 
 
@@ -183,7 +212,7 @@ ok = (timeout) {
 }
 </pre>
 	
-<p>Note {} could be ambiguously a function or an object, so it's defined to be an function, to express an empty function, use one of the following :</p>
+<p>Note {} could be a function or an object, so to avoid ambiguity, it's defined to be an object. To express an empty function, use one of the following forms:</p>
 
 <pre>
 {;}
@@ -193,15 +222,34 @@ function() { }
 
 
 <h3>pipe</h3>
-<p>Provides an alternative calling method than can be used for easily chaining. Useful for ruby style enumeration chaining without using prototypes</p>
+<p>Provides an alternative calling method than can be used for easily chaining (UNIX style passing). </p>	
+
 <pre>
-| = require "pipe_utils" // we can specify the module to use with pipe
+result = input | fn args
+</pre>
+
+<p>Chaining input to output:
+<pre>
+result = input | fn a, b | fn2 c | fn3 d
+</pre>
+
+
+<p>For example, it is very useful for ruby style enumeration chaining without using prototypes, and other utilities</p>
+<pre>
+| = require "pipe_utils"
 People | map { #.name } | detect { #.length > 3 }
+
+opts = opts | extend default
+5 | times { if(!send()) return false }
+
+names | asyncMap (name, fn) {
+  User.find {name: name}, fn
+}, complete
 </pre>
 
 
 <h3>operators</h3>
-<p>Provides a couple of extra assignment operators, <code>||=</code> and <code>.=</code></p>
+<p>2 extra assignment operators, <code>||=</code> and <code>.=</code></p>
 <pre>
 location.href .= replace("?old", "?new")
 name .= toUpperCase()
