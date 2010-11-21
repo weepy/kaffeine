@@ -61,7 +61,8 @@ $().ready(function() {
 <h2>Example: </h2>
 <p>This is an example taken from production code. It show most of Kaffeine's features:</p>
 <pre>
-Edge::add = (nick, name, complete) {
+Edge::add = (nick, name, complete, opts) {
+  opts ||= {}
   @client.select 15
   user = User.find! {id: nick}
   puzzle = Puzzle.find! {name: name}
