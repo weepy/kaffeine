@@ -198,6 +198,16 @@ function() { }
 People | map { #.name } | detect { #.length > 3 }
 </pre>
 
+
+<h3>operators</h3>
+<p>Provides a couple of extra assignment operators, <code>||=</code> and <code>.=</code></p>
+<pre>
+location.href .= replace("?old", "?new")
+name .= toUpperCase()
+opts ||= {}
+</pre>
+
+
 <div id=try>
 	<div class=float style='margin-right: 20px;'>
 	  <h3>Kaffeine</h3>

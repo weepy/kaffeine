@@ -1,0 +1,35 @@
+#operators
+
+compiles:
+
+x ||= 5
+
+to:
+
+x = x || 5
+
+compiles:
+
+x[1] ||= x*[1,2]
+
+to:
+
+x[1] = x[1] || x*[1,2]
+
+
+compiles:
+
+x .= length
+
+to:
+
+x = x.length
+
+compiles:
+
+x(1).hello[1] .= toUpperCase()
+
+to:
+
+x(1).hello[1] = x(1).hello[1].toUpperCase()
+

@@ -8,12 +8,12 @@ function Kaffeine(options) {
 }
 
 Kaffeine.fn = Kaffeine.prototype;
-Kaffeine.VERSION = "0.0.1";
+Kaffeine.VERSION = "0.0.2";
 Kaffeine.plugins = {};
 
 //unless brackets_for_keywords reverse_blocks indented_blocks
 
-var defaultDirective = "hash at brackets_for_keywords prototype implicit_functions extend_for pre_pipe implicit_brackets implicit_return pipe bang implicit_vars multiline_strings string_interpolation"
+var defaultDirective = "hash at operators brackets_for_keywords prototype implicit_functions extend_for pre_pipe implicit_brackets implicit_return pipe bang implicit_vars multiline_strings string_interpolation"
 
 Kaffeine.fn.compile = function(text, validate) {
   if(!text.match(/\n$/)) text += "\n"; // trailing newline

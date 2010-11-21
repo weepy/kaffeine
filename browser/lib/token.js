@@ -146,8 +146,9 @@ base.fn.addImpliedBraces = function() {
     if(["if", "for", "while", "try", "else", "catch"].indexOf(tok.text) >= 0)
       return end(tok.next.matching.nextNW())
     return tok.find(function() {
+      if(this.lbracket) return this.matching
       if(this.next.newline) return true
-      if(this.next.rbracket) return true
+      if(this.next.rbracket && this.next.curly) return true
     })
   }
     
