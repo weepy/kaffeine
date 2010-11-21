@@ -8,7 +8,7 @@ function Kaffeine(options) {
 }
 
 Kaffeine.fn = Kaffeine.prototype;
-Kaffeine.VERSION = "0.0.2";
+Kaffeine.VERSION = "0.0.3";
 Kaffeine.plugins = {};
 
 //unless brackets_for_keywords reverse_blocks indented_blocks

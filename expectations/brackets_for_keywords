@@ -78,3 +78,10 @@ function() {
   for(i=0; i < n; i++)
     fn.call(this, i)
 }
+
+compiles:
+if x == 2 return true
+x
+to:
+if(x == 2) return true
+x
