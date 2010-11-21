@@ -61,7 +61,8 @@ $().ready(function() {
 <h2>Example: </h2>
 <p>This is an example taken from production code. It show most of Kaffeine's features:</p>
 <pre>
-Edge::add = (nick, name, complete) {
+Edge::add = (nick, name, complete, opts) {
+  opts ||= {}
   @client.select 15
   user = User.find! {id: nick}
   puzzle = Puzzle.find! {name: name}
@@ -197,6 +198,16 @@ function() { }
 | = require "pipe_utils" // we can specify the module to use with pipe
 People | map { #.name } | detect { #.length > 3 }
 </pre>
+
+
+<h3>operators</h3>
+<p>Provides a couple of extra assignment operators, <code>||=</code> and <code>.=</code></p>
+<pre>
+location.href .= replace("?old", "?new")
+name .= toUpperCase()
+opts ||= {}
+</pre>
+
 
 <div id=try>
 	<div class=float style='margin-right: 20px;'>
