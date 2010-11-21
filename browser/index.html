@@ -237,13 +237,15 @@ result = input | fn a, b | fn2 c | fn3 d
 <p>For example, it is very useful for ruby style enumeration chaining without using prototypes, and other utilities</p>
 <pre>
 | = require "pipe_utils"
+
 People | map { #.name } | detect { #.length > 3 }
 
 opts = opts | extend default
 5 | times { if(!send()) return false }
 
 names | asyncMap (name, fn) {
-  User.find {name: name}, fn
+  user = User.find! {name: name}
+  fn(user)
 }, complete
 </pre>
 
