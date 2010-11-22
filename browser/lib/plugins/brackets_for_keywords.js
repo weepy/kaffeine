@@ -14,13 +14,25 @@ module.exports = function(stream) {
     
     var pair = Token.bracket.pair("()")
     
+    var tok = this
+    
     var end = this.find(function(token) {
       if(token.lbracket && token.curly) return true
       if(token.lbracket) return token.matching
       if(token.next.text == "return") return true
       if(token.newline) return true
-//        if(token.operator && token.op == ",") return true
+      if(token.text == ",") {
+        if(token.prev.prev != tok) {
+          return true
+        }
+      }
     })
+    
+    if(end.text == ",") {
+      end.spitRight()
+      end = end.next
+      end.prev.remove()
+    }
     
     if(!end.whitespace)
       end.spitRight()

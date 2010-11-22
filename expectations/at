@@ -26,7 +26,7 @@ compiles:
 @[k]
 
 to:
-this[]
+this[k]
 
 compiles:
 @(x)
