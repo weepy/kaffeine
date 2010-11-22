@@ -76,8 +76,5 @@ require('my_script')
 TODO
 ====
 
-
-* break, continue should delimit with 'if'
 * need --- operator for delimiting bangs!
-* @[k]
 * nested for loops - is there a problem
