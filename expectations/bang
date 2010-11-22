@@ -51,3 +51,36 @@ aysnc(function() {
   _this.x = 1
   function() { this.x }
 })
+
+
+
+/*
+maybe later:
+
+compiles:
+if ! User.exists! @name {
+  User.create! {name: @name}
+}
+
+to:
+__user = User.exists! @name
+if ! __user {
+  User.create! {name: @name}
+}
+...
+
+
+
+compiles: 
+callback(User.find! @name)
+
+to:
+__u = User.find! @name
+callback __u
+to:
+
+User.find(@name, function(__u) {
+  callback(__u)
+})
+
+*/
