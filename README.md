@@ -1,7 +1,7 @@
 <pre>
   _  __      __  __     _           
  | |/ /__ _ / _|/ _|___(_)_ _  ___  
- | ' </ _` |  _|  _/ -_) | ' \/ -_) 
+ | ' &lt;/ _` |  _|  _/ -_) | ' \/ -_) 
  |_|\_\__,_|_| |_| \___|_|_||_\___|
 </pre>
 
@@ -9,7 +9,7 @@
 * Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal
 * avoid nice-to-haves, concentrate on small useful feature set and pragmatism
 * Hackable, modular, extendable and testable
-* avoid siginificant whitespace. It looks nice, but is painful to work with.
+* whitespace is _not_ significant. Looks nice, but is painful to work with.
 
 
 Example
@@ -51,7 +51,9 @@ depends on brequire (http://github.com/weepy/brequire).
 Install
 =======
 
-npm install kaffeine (TBD)
+npm install kaffeine
+
+requires node >= 0.3.1 
 
 Use
 ===
@@ -74,4 +76,8 @@ require('my_script')
 TODO
 ====
 
-* nested for loops problem?
+
+* break, continue should delimit with 'if'
+* need --- operator for delimiting bangs!
+* @[k]
+* nested for loops - is there a problem

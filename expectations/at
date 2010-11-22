@@ -22,4 +22,15 @@ compiles:
 to:
 this.constructor.name
 
+compiles:
+@[k]
+
+to:
+this[]
+
+compiles:
+@(x)
+
+to:
+this(x)
 
