@@ -16,12 +16,6 @@ function base(text) {
   this.eaten = {left:[], right:[]}
 }
 
-// var operatorWords = {
-//   "in": true,
-//   "instanceof": true
-// }
-
-
 base.id = 0
 base.fn = base.prototype
 base.klasses = [whitespace, word, string, comment, regex, operator, bracket, semi]
@@ -115,10 +109,7 @@ base.fn.normalize = function() {
       this.eat(function() { return this.whitespace })
       this.eat(function() { return this.whitespace })
     }
- //    else if(this.whitespace && this.next && this.next.whitespace) {
- //     this.eatRight()
- //     return this
- //   }
+
     else {
       // brackets next have previous whitespace
       if(this.rbracket && this.prev.whitespace && !this.matching.global)
@@ -181,49 +172,9 @@ base.fn.after = function(head) {
   }
   this.next = head
   head.prev = this
-
-  //this.normalize(head, tail)
-  
   return tail
 }
 
-// base.fn.normalize = function(head, tail) {
-//   head.mergeSpace()
-//   tail.mergeSpace()
-//     
-//   var list = []
-//   if(head.prev) {
-//     list.push(head)
-//     list.push(head.prev)
-//   }
-//   if(tail.next) {
-//     list.push(tail)
-//     list.push(tail.next)
-//   }
-//   
-//   for(var i=0; i<list.length; i++) {
-//     var tok = list[i]
-//     if(tok.operator) {
-//       tok.eat(function() { 
-//         return this.whitespace 
-//       })
-//     }
-//   }
-// }
-
-
-// base.fn.mergeSpace = function() {
-//    
-//   if(!this.space) return
-//   if(this.prev && this.prev.space) {
-//     this.text += this.prev.text
-//     this.prev.remove()
-//   }
-//   if(this.next && this.next.space) {
-//     this.text += this.next.text
-//     this.next.remove()
-//   }
-// }
     
 base.fn.before = function(head) {
   if(typeof head == "string") head = /*Token.*/ize(head)
@@ -235,9 +186,6 @@ base.fn.before = function(head) {
   }
   this.prev = tail
   tail.next = this
-  
-  //this.normalize(head, tail)
-  
   return head
 }
 
@@ -321,8 +269,7 @@ base.fn.expressionStart = function(breakFn) {
 
   })
 }
-//if(opts.commas && x.op == ",") return true
-//if(opts.operators && x.operator) return true
+
 
 base.fn.expressionEnd = function(breakFn) {
   return this.find(function() {
@@ -359,16 +306,6 @@ base.fn.each = function(fn, dir) {
   }
   return last.head()
 }
-
-// base.fn.hungry = function() {
-//   if(this.prev && this.prev.whitespace)  
-//     this.eatLeft()
-//   if(this.next && this.next.whitespace)
-//     this.eatRight()
-// }
-
-
-
 
 base.fn.eat = function(test) {
   this.eatLeft(test)
@@ -445,20 +382,6 @@ base.fn.collectText = function(end) {
   return text.join("")
 }
 
-
-// base.fn.unhungry = function() {
-//   var left = this.text.match(/^\s*/)[0]
-//   var right = this.text.match(/\s*$/)[0]
-//   if(left) {
-//     this.before(new whitespace(left))
-//     this.text = this.text.replace(/^\s*/, "")
-//   }
-//   if(right) {
-//     this.after(new whitespace(right))
-//     this.text = this.text.replace(/\s*$/, "")
-//   }
-//   
-// }
 
 base.fn.findClosure = function() {
   var parent = this.prev.findRev(function(tok) {
@@ -550,7 +473,7 @@ inherits(whitespace, base)
 whitespace.fn.whitespace = true
 whitespace.regex = / +|\n/g
 
-//whitespace.regex = /[ \n]+/g
+
 
 var keywords = "if for while else try catch function return var".split(" ")
 
@@ -593,13 +516,14 @@ comment.regex = /\/\*|\/\//g
 var comparisonOperators = ["<=","<",">=", ">", "==", "!=", "===", "!==", "||", "&&"]
 function operator(text) { 
   base.call(this, text)
-  this.op = this.text 
+  //this.op = this.text 
   this.assign = /^=$/.test(text)  
   this.comparison = comparisonOperators.indexOf(this.text) >= 0
 }
 inherits(operator, base)
 operator.fn.operator = true
-operator.regex = /[!%^&*\-=+:,.|\\~<>\?]+|\/|\/=/g // we dont support operators containing forward slash other than '/' and '/='  (too difficult to compare with // and /*)
+operator.regex = /[!%^&*\-=+:,.|\\~<>\?]+|\/|\/=/g 
+// we dont support operators containing forward slash other than '/' and '/='  (too difficult to compare with // and /*)
 
 function semi(text) { 
   base.call(this, text)
@@ -709,7 +633,6 @@ bracket.fn.declareVariables = function() {
   var vars = []
   for(var j in this.vars) {
     var text = j
-    //if(this.vars[j] == "###NODEF###") continue
     if(typeof this.vars[j] == "string") 
       text += " = " + this.vars[j]
     vars.push(text)
@@ -766,7 +689,19 @@ regex.extract = function(index, input) {
   }
 }
 
-module.exports = { whitespace: whitespace, operator: operator, string: string, word: word, comment: comment, bracket: bracket, unknown: unknown, semi: semi, ize: ize, postprocess: postprocess, base: base}
+module.exports = { 
+  whitespace: whitespace, 
+  operator: operator, 
+  string: string, 
+  word: word, 
+  comment: comment, 
+  bracket: bracket, 
+  unknown: unknown, 
+  semi: semi, 
+  ize: ize, 
+  postprocess: postprocess, 
+  base: base
+}
 
 
 // end module: token

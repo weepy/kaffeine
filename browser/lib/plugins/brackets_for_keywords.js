@@ -19,7 +19,6 @@ module.exports = function(stream) {
     var end = this.find(function(token) {
       if(token.lbracket && token.curly) return true
       if(token.lbracket) return token.matching
-      if(token.next.text == "return") return true
       if(token.newline) return true
       if(token.text == ",") {
         if(token.prev.prev != tok) {
