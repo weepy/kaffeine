@@ -33,3 +33,25 @@ to:
 
 x(1).hello[1] = x(1).hello[1].toUpperCase()
 
+
+compiles:
+a <- b
+to: 
+__extend(a, b)
+function __extend(a,b) {
+  for(var i in b) {
+    a[i] = b[i]
+  }
+}
+
+compiles:
+a <- b
+z = a*z[123] <- b.options().z
+to: 
+__extend(a, b)
+z = __extend(a*z[123], b.options().z)
+function __extend(a,b) {
+  for(var i in b) {
+    a[i] = b[i]
+  }
+}

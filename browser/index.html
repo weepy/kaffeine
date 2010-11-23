@@ -11,7 +11,7 @@
   .clear { clear: both;;}
   textarea { width: 100%; height: 90%; padding: 10px; font-size: 13px; font-family: monaco, monospace;}
   .float { width: 48%; float: left; }
-  body { margin: 4px 0 0 4px; padding: 10px; background: #fff; color: #111; font-family:arial; font-size: 20px}
+  body { margin: 4px 0 0 4px; padding: 10px; background: #fff; color: #111; font-family:Verdana; font-size: 20px}
   #try { display: none;}
 li, p { font-size: 16px;}
 h3, h1, h2, p { clear: both;}
@@ -92,7 +92,7 @@ meal.complete = ok
 @color = color
 </pre>
 
-<p>In the case of an unwrapped function, @ will be rewritten to refer to the original this, for convenience. Use <code>this</code> to refer to the actuak <code>this</code></p>
+<p>In the case of an unwrapped function, @ will be rewritten to refer to the original this, for convenience. Use <code>this</code> to refer to the actual <code>this</code></p>
 
 <pre>
 Fish.prototype.eat = {
@@ -269,7 +269,11 @@ location.href .= replace("?old", "?new")
 name .= toUpperCase()
 opts ||= {}
 </pre>
-
+<p>Also an extend operator <b><-</b>
+<pre>
+a <- b 
+options = options <- { size: "small", num: 10}
+</pre>
 
 <div id=try>
 	<div class=float style='margin-right: 20px;'>

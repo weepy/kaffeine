@@ -38,7 +38,7 @@ $().ready(function() {
   $("#kaffeine").focus()
   
   $("pre").each(function() {
-    var text = $(this).html()
+    var text = $(this).html().replace("&lt;-", "<-", "g")
     var pre = $("<pre>")
     $(this).css({position: "relative"})
     var h = $(this).height()
