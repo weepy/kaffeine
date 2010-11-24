@@ -4,7 +4,7 @@ require.module('./command', function(module, exports, require) {
 var Kaffeine = require("./kaffeine"),
     fs =             require('fs'),
     path =           require('path'),
-    optparse =       require('./optparse'),
+    optparse =       require('optparse'),
     util =           require("util"),
     sources = [],
     options = {}
@@ -30,12 +30,14 @@ var SWITCHES = [
   ['-w', '--watch',         'watch scripts for changes, and recompile'],
   ['-v', '--version',       'display Kaffeine version'],
   ['-h', '--help',          'display this help message'],
-  ['-g', '--growl',         'growl about error\'s in compilation. requires growl notify']
+  ['-g', '--growl',         'growl about error\'s in compilation. requires growl notify'],
+  ['-j', '--javascript-clientside',    'output clientside javascript version']
 ]
 
 function parseOptions() {
   optionParser = new optparse.OptionParser(SWITCHES, "kaffeine compiles .k files to Kaffeine. run 'kaffeine help' for more info")
   var o = options =  optionParser.parse(process.argv)
+  
   // options.run = false //  !(o.compile || o.print || o.lint)
   // options.print = false // !!(o.print || (o.eval || o.stdio && o.compile))
   sources = options.arguments.slice(2, options.arguments.length)
@@ -44,6 +46,7 @@ function parseOptions() {
 exports.run = function() {
   parseOptions()
   loadPlugins("./lib/plugins")
+  
   if(options.help) return usage()                              
   if(options.version) return version()                            
   var separator = sources.indexOf('--')

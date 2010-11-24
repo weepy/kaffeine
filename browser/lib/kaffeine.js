@@ -15,12 +15,17 @@ Kaffeine.plugins = {};
 
 var defaultDirective = "hash at operators brackets_for_keywords prototype implicit_functions extend_for pre_pipe implicit_brackets implicit_return pipe bang implicit_vars multiline_strings string_interpolation"
 
-Kaffeine.fn.compile = function(text, validate) {
+Kaffeine.fn.compile = function(text, o) {
   if(!text.match(/\n$/)) text += "\n"; // trailing newline
   var directive = text.match(/^#\s*([^\n]*)\s*\n/) || [1,defaultDirective];
   var plugins = directive[1].replace(/\s+/g," ").replace(/ $/,"").split(" ");
   text = text.slice(directive[0].length);
   var ret =  this.runPlugins(text, plugins);
+  
+  o = o || {}
+  if(o.brequire_module) {
+    ret =  "require.module('" + o.brequire_module + "', function(module, exports, require) { \n" + ret + "\n});\n"
+  }
   // if(validate)
   //   ret = this.validate(ret)
   return ret

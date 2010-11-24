@@ -13,3 +13,20 @@ for(var i in files) {
 var text = "Plugins = " + JSON.stringify(filez)
 
 fs.writeFile("./browser/plugins.js", text)
+
+
+// concat all files for client side:
+
+var js = "// Kaffeine for the browser. Include this file _after_ all your external Kaffeine scripts.\n// Internal Kaffeine scripts will be loaded on document load"
+
+js += fs.readFileSync("./browser/brequire.js") + "\n"
+js += fs.readFileSync("./browser/lib/token.js") + "\n"
+js += fs.readFileSync("./browser/lib/kaffeine.js") + "\n"
+
+
+for(var i in files)
+  js += fs.readFileSync("./browser/lib/plugins/" + files[i]) + "\n"
+
+js += fs.readFileSync("./lib/browser.js")
+
+fs.writeFile("./browser/kaffeine-browser.js", js)
