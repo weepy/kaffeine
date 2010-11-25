@@ -749,7 +749,7 @@ Kaffeine.plugins = {};
 
 //unless brackets_for_keywords reverse_blocks indented_blocks
 
-var defaultDirective = "hash at operators brackets_for_keywords prototype implicit_functions extend_for pre_pipe implicit_brackets implicit_return pipe bang implicit_vars multiline_strings string_interpolation"
+var defaultDirective = "multiline_strings string_interpolation hash at operators brackets_for_keywords prototype implicit_functions extend_for pre_pipe implicit_brackets implicit_return pipe bang default_args implicit_vars"
 
 Kaffeine.fn.compile = function(text, o) {
   if(!text.match(/\n$/)) text += "\n"; // trailing newline
@@ -1011,6 +1011,47 @@ module.exports = function(stream) {
 
 
 // end module: plugins/brackets_for_keywords
+});
+
+require.module('./plugins/default_args', function(module, exports, require) {
+// start module: plugins/default_args
+
+var Token = require("../token");
+
+module.exports = function(stream) {
+
+  stream.each(function() {
+    if(this.text != "function") return 
+    var block = this.block
+    var bracket = this.block.prevNW().matching
+    
+    var inserts = []
+    this.find(function() {    
+      if(this == bracket.matching) return true
+      if(this.text == "=") {
+        var v = this.prev.text
+        var e = this.next.expressionEnd(function() {
+          if(this.text == ",") return true
+        })
+        var val = this.next.remove(e).collectText()
+        var ret = this.prev
+        this.remove()
+        
+        inserts.push(v +" = " + v + " == null ? " + val + " : " + v)
+        return ret
+      }
+    })
+    
+    if(inserts.length)
+      this.block.after("\n" + this.indent() + "  " + inserts.join(", ") + ";")
+    
+    block.args = block.findArgs()
+  })
+}
+
+
+
+// end module: plugins/default_args
 });
 
 require.module('./plugins/extend_for', function(module, exports, require) {
@@ -1382,20 +1423,20 @@ module.exports = function(stream) {
     if(!inserted) {
       var g = stream.block
       if(!g.global) throw "WTF!"
-      g.matching.before(__extend.toString() + "\n")
+      g.matching.before(new Token.word(__extend))
       inserted = true
     }
     return ret
   })
 }
 
-function __extend(a,b) {
-  var c = {}
-  a = a || {}
-  for(var i in b) c[i] = b[i]
-  for(var i in a) c[i] = a[i]
-  return c
-}
+var __extend = "\nfunction __extend(a,b) {\n\
+  var c = {}, i;\n\
+  a = a || {};\n\
+  for(i in b) c[i] = b[i];\n\
+  for(i in a) c[i] = a[i];\n\
+  return c;\n\
+}"
 
 // end module: plugins/operators
 });

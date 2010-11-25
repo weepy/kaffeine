@@ -1,0 +1,34 @@
+#default_args
+
+compiles:
+function(x=1) {
+
+}
+
+to:
+function(x) {
+  x = x == null ? 1 : x;
+
+}
+
+compiles:
+function(a, x={}) {
+  ax = 2
+}
+
+to:
+function(a, x) {
+  x = x == null ? {} : x;
+  ax = 2
+}
+
+compiles:
+function(x=1, r=[], a=3) {
+  
+}
+
+to: 
+function(x, r, a) {
+  x = x == null ? 1 : x, r = r == null ? [] : r, a = a == null ? 3 : a;
+
+}

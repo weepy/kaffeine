@@ -19,15 +19,15 @@ $().ready(function() {
   
   function compile() {
     var K = new Kaffeine()
-    try {
+    //try {
       var text = K.compile($("#kaffeine").val())
-    }
+    /*}
     catch(e) {
       if(e.plugin)
         var text = "Error in plugin " + e.plugin + ":\n"  + e.toString() +"\n Current Stream: \n" + K.currentStream.collectText()
       else 
         var text = e.toString() //console.log(e) // ignore ...
-    }
+    }*/
     $("#javascript").val(text)
   }
 

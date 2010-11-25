@@ -38,24 +38,26 @@ compiles:
 a <- b
 to: 
 __extend(a, b)
+
 function __extend(a,b) {
-  var c = {}
-  a = a || {}
-  for(var i in b) c[i] = b[i]
-  for(var i in a) c[i] = a[i]
-  return c
+  var c = {}, i;
+  a = a || {};
+  for(i in b) c[i] = b[i];
+  for(i in a) c[i] = a[i];
+  return c;
 }
 
 compiles:
 a <- b
 z = a*z[123] <- b.options().z
-to: 
+to:
 __extend(a, b)
 z = __extend(a*z[123], b.options().z)
+
 function __extend(a,b) {
-  var c = {}
-  a = a || {}
-  for(var i in b) c[i] = b[i]
-  for(var i in a) c[i] = a[i]
-  return c
+  var c = {}, i;
+  a = a || {};
+  for(i in b) c[i] = b[i];
+  for(i in a) c[i] = a[i];
+  return c;
 }

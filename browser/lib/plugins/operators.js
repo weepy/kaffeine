@@ -47,20 +47,20 @@ module.exports = function(stream) {
     if(!inserted) {
       var g = stream.block
       if(!g.global) throw "WTF!"
-      g.matching.before(__extend.toString() + "\n")
+      g.matching.before(new Token.word(__extend))
       inserted = true
     }
     return ret
   })
 }
 
-function __extend(a,b) {
-  var c = {}
-  a = a || {}
-  for(var i in b) c[i] = b[i]
-  for(var i in a) c[i] = a[i]
-  return c
-}
+var __extend = "\nfunction __extend(a,b) {\n\
+  var c = {}, i;\n\
+  a = a || {};\n\
+  for(i in b) c[i] = b[i];\n\
+  for(i in a) c[i] = a[i];\n\
+  return c;\n\
+}"
 
 // end module: plugins/operators
 });
