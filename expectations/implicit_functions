@@ -47,3 +47,9 @@ to:
 {
   x: y
 }
+
+compiles:
+(sq) {}
+
+to:
+function(sq) {}

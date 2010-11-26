@@ -60,3 +60,16 @@ function() {
   if(true)
      123
 }
+
+compiles:
+function() {
+  new K()
+}
+
+to: 
+function() {
+  return new K()
+}
+
+
+
