@@ -35,3 +35,14 @@ x | map { #.name }
 to:
 
 __.detect.call(this, __.map.call(this, x, function() { return arguments[0].name }), function() {;})
+
+compiles:
+x | each function() {
+  a | map x
+}
+
+to:
+__.each.call(this, x, function() {
+  return __.map.call(this, a, x)
+})
+

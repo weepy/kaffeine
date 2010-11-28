@@ -244,6 +244,14 @@ base.fn.replaceWith = function(head) {
   return tail
 }
 
+base.fn.append = function(tokens) {
+  if(typeof tokens == "string") tokens = /*Token*/ize(tokens)
+  var tail = this.tail()
+  tail.next = tokens
+  tokens.prev = tail
+}
+
+
 base.fn.find = function(fn, skip) {
   var token = this
   var i = 0
@@ -1451,19 +1459,32 @@ module.exports = function(stream) {
     if(this.text != "|") return
     var pipe = this
 	  var L = this.expressionStart()
-    var lhs = L.remove(pipe.prev).collectText()
+    var lhs = L.remove(pipe.prev) //.collectText()
 
     var R = pipe.next.expressionEnd(function() {
      return this.text == "|"
     })
 
-    var rhs = pipe.next.remove(R).collectText()
+    var rhs = pipe.next.remove(R) //.collectText()
     var ret = pipe.prev
-    pipe.replaceWith("__." + pipe.pipe_function + ".call(this, " + lhs + ", " + rhs + ")")
+    
+    pair = Token.bracket.pair("()")
+    
+    tokens = Token.ize("__." + pipe.pipe_function + ".call")
+    tokens.append(pair.L)
+    tokens.append("this, ")
+    tokens.append(lhs)
+    tokens.append(", ")
+    tokens.append(rhs)
+    tokens.append(pair.R)
+    
+    pipe.replaceWith(tokens) //"__." + pipe.pipe_function + ".call(this, " + lhs + ", " + rhs + ")")
     return ret
   })
 
 }
+
+
 
 // end module: plugins/pipe
 });
@@ -1506,7 +1527,7 @@ require.module('./plugins/prototype', function(module, exports, require) {
 var Token = require("../token");
 module.exports = function(stream) {
 
-  var klass = "undefined"
+  var klass = ""
   stream.each(function() {
     
     if(this.namedFunction) {

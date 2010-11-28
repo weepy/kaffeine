@@ -217,6 +217,14 @@ base.fn.replaceWith = function(head) {
   return tail
 }
 
+base.fn.append = function(tokens) {
+  if(typeof tokens == "string") tokens = /*Token*/ize(tokens)
+  var tail = this.tail()
+  tail.next = tokens
+  tokens.prev = tail
+}
+
+
 base.fn.find = function(fn, skip) {
   var token = this
   var i = 0

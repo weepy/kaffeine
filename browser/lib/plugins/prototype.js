@@ -4,7 +4,7 @@ require.module('./plugins/prototype', function(module, exports, require) {
 var Token = require("../token");
 module.exports = function(stream) {
 
-  var klass = "undefined"
+  var klass = ""
   stream.each(function() {
     
     if(this.namedFunction) {
