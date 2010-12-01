@@ -42,8 +42,8 @@ __extend(a, b)
 function __extend(a,b) {
   var c = {}, i;
   a = a || {};
-  for(i in b) c[i] = b[i];
   for(i in a) c[i] = a[i];
+  for(i in b) c[i] = b[i];
   return c;
 }
 
@@ -57,7 +57,7 @@ z = __extend(a*z[123], b.options().z)
 function __extend(a,b) {
   var c = {}, i;
   a = a || {};
-  for(i in b) c[i] = b[i];
   for(i in a) c[i] = a[i];
+  for(i in b) c[i] = b[i];
   return c;
 }

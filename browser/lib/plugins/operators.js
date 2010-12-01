@@ -24,7 +24,9 @@ module.exports = function(stream) {
     if(op != "." ) lhs += " "
 
     var tokens = Token.ize(lhs)
+    //tokens.normalize()
     token.after(tokens, tokens.tail())
+    if(op.prev.whitespace) op.eatLeft()
     
   })
   

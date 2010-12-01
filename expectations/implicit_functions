@@ -49,7 +49,7 @@ to:
 }
 
 compiles:
-(sq) {}
+(sq) {;}
 
 to:
-function(sq) {}
+function(sq) {;}

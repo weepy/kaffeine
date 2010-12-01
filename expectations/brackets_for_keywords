@@ -101,6 +101,7 @@ for(i, v in A) i++
 
 compiles:
 if (x) y()
-
+x
 to:
 if (x) y()
+x

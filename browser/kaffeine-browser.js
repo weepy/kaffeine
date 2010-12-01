@@ -956,7 +956,7 @@ module.exports = function(stream) {
   stream.each(function() {
     if(ks.indexOf(this.text) < 0 ) return
     
-    var n = this.next
+    var n = this.nextNW()
     if(n.lbracket && n.round) return
     
     var pair = Token.bracket.pair("()")
@@ -1412,7 +1412,9 @@ module.exports = function(stream) {
     if(op != "." ) lhs += " "
 
     var tokens = Token.ize(lhs)
+    //tokens.normalize()
     token.after(tokens, tokens.tail())
+    if(op.prev.whitespace) op.eatLeft()
     
   })
   
