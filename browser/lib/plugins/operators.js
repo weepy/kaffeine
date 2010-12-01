@@ -57,8 +57,8 @@ module.exports = function(stream) {
 var __extend = "\nfunction __extend(a,b) {\n\
   var c = {}, i;\n\
   a = a || {};\n\
-  for(i in b) c[i] = b[i];\n\
   for(i in a) c[i] = a[i];\n\
+  for(i in b) c[i] = b[i];\n\
   return c;\n\
 }"
 

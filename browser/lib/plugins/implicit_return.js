@@ -32,7 +32,11 @@ module.exports = function(stream) {
         }
         else return false          
       }
-      else if(tok.prev.whitespace || tok.prev.semi  || tok.prev.lbracket) 
+      else if(tok.prev.whitespace) {
+        if(tok.prev.prev.text == "new") return tok.prev.prev
+        else return true
+      }
+      else if(tok.prev.semi  || tok.prev.lbracket) 
         return true
       else 
         return null

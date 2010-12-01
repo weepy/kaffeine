@@ -32,16 +32,16 @@ $().ready(function() {
     var lines = text.split("\n")
     
     // add lines
-    var max = 0
-    for(var i=0; i< lines.length; i++) {
-      if(lines[i].length > max)
-        max = lines[i].length
-    }
-      
-    for(var i=0; i< lines.length; i++) {
-      var l = max - lines[i].length + 2
-      lines[i] = lines[i] + (new Array(l)).join(" ") + "// " + (i+1)      
-    }
+    // var max = 0
+    // for(var i=0; i< lines.length; i++) {
+    //   if(lines[i].length > max)
+    //     max = lines[i].length
+    // }
+    //   
+    // for(var i=0; i< lines.length; i++) {
+    //   var l = max - lines[i].length + 2
+    //   lines[i] = lines[i] + (new Array(l)).join(" ") + "// " + (i+1)      
+    // }
     
     $("#javascript").val(lines.join("\n"))
   }

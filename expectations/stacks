@@ -63,3 +63,16 @@ function() {
   for(i=0; i < n; i++)
     fn.call(this, i)
 }
+
+compiles:
+x = {
+  x ||= y
+}
+
+to:
+
+var x;
+x = function() {
+  return x = x || y
+}
+
