@@ -52,3 +52,11 @@ x | reverse | y
 
 to:
 __.reverse.call(this, __.y.call(this, x))
+
+compiles:
+
+x | map {;} | .join()
+
+to:
+
+(__.map.call(this, x, function() {;})).join()
