@@ -19,16 +19,31 @@ $().ready(function() {
   
   function compile() {
     var K = new Kaffeine()
-    try {
+    //try {
       var text = K.compile($("#kaffeine").val())
-    }
+    /*}
     catch(e) {
       if(e.plugin)
         var text = "Error in plugin " + e.plugin + ":\n"  + e.toString() +"\n Current Stream: \n" + K.currentStream.collectText()
       else 
         var text = e.toString() //console.log(e) // ignore ...
-    }
-    $("#javascript").val(text)
+    }*/
+    
+    var lines = text.split("\n")
+    
+    // add lines
+    // var max = 0
+    // for(var i=0; i< lines.length; i++) {
+    //   if(lines[i].length > max)
+    //     max = lines[i].length
+    // }
+    //   
+    // for(var i=0; i< lines.length; i++) {
+    //   var l = max - lines[i].length + 2
+    //   lines[i] = lines[i] + (new Array(l)).join(" ") + "// " + (i+1)      
+    // }
+    
+    $("#javascript").val(lines.join("\n"))
   }
 
   if($("#kaffeine").val())
