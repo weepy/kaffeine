@@ -21,12 +21,9 @@ module.exports = function(stream) {
       lhs = token.text + lhs
     })
 
-    if(op != "." ) lhs += " "
-
-    var tokens = Token.ize(lhs)
-    //tokens.normalize()
+    var tokens = Token.ize(lhs)    
+    if(op != "." ) tokens.tail().eaten.right.push(Token.ize(" "))
     token.after(tokens, tokens.tail())
-    if(op.prev.whitespace) op.eatLeft()
     
   })
   

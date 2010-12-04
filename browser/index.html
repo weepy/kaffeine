@@ -24,7 +24,7 @@ pre {
  word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
-#try_it { text-decoration:underline; cursor: pointer; }
+#try_it { text-decoration:underline; cursor: pointer; color: red;}
 
 body { position: relative; }
 iframe { display: none;}
@@ -53,25 +53,24 @@ $().ready(function() {
 <li>Avoid significant whitespace - looks nice, but is painful to work with.</li>
 </ul>
 
-<h3><a id=try_it >Try Kaffeine</a></h3>
-<iframe src='runner.html' width=100% height=400px style='border:0' border=0></iframe>
+
 <h2>Plugins</h2>
 <p>Kaffeine uses a plugin style approach, with a core/standard stack (order is important)
 
 <h2>Example: </h2>
 <p>This is an example taken from production code. It show most of Kaffeine's features:</p>
 <pre>
-Edge::add = (nick, name, complete, opts) {
-  opts ||= {}
+Edge::add = (nick, name, complete, opts={}) {
   @client.select 15
   user = User.find! {id: nick}
   puzzle = Puzzle.find! {name: name}
-  err, data = client.set! "u:#{user}:p:#{puzzle}"
-  complete()
+  err = client.set! "#{user}:#{puzzle}"
+  if !err, complete()
 }
 </pre>
 
-
+<h3>Try Kaffeine Live: <a id=try_it >click here</a></h3>
+<iframe src='runner.html' width=100% height=400px style='border:0' border=0></iframe>
 
 <h3>Bang</h3>
 <p>Allows function calls with callbacks to be unwrapped via a ! postfix. E.g:</p>
@@ -83,6 +82,8 @@ ok = stomach.save!()
 meal.complete = ok
 </pre>
 
+<p>This is super useful for simplifying nested asynchronous calls (esp with nodejs)</p>
+  
 <h3>at</h3>
 
 <p>Provide the @ alias for 'this'. E.g:</p>
@@ -126,7 +127,7 @@ outer inner innermost
 </pre>
   
 <h3>implicit brackets for keywords</h3>
-<p>keywords such as "for", or "if" can omit their brackets (as long as the statement doesn't become amiguous). The brackets are inserted either before a newline, a left brace '{' or the return keyword.
+<p>keywords such as "for", or "if" can omit their brackets (as long as the statement doesn't become amiguous). The brackets are inserted either before a newline, a left brace '{' or a comma (for one liners)
 <pre>
 for i in A
   run A[i]
