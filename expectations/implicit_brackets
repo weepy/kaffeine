@@ -53,3 +53,9 @@ log val == 11
 to: 
 
 log(val == 11)
+
+compiles:
+Puzzle.new {a: a}
+
+to:
+Puzzle.new({a: a})

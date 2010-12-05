@@ -1212,7 +1212,7 @@ module.exports = function(stream) {
   stream.tail().each(function() {
     var ws = this.next
     if(!ws || !ws.space || !ws.next) return
-    if(this.word && (nobrackets_keywords[this.text] || this.block)) return
+    if(this.word && ((nobrackets_keywords[this.text] && this.prev.text != ".") || this.block)) return
     if(nobrackets_keywords[ws.next.text]) return
     if(this.matching) {
       var prev = this.matching.prevNW()
