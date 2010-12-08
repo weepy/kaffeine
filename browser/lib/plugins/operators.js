@@ -12,7 +12,7 @@ module.exports = function(stream) {
       var op = "."
     else return
     
-    token.after(op)  
+    optoken = token.after(op)  
     token.text = "="
 
     var lhs = "" 
@@ -21,12 +21,15 @@ module.exports = function(stream) {
       lhs = token.text + lhs
     })
 
-    if(op != "." ) lhs += " "
+    
 
     var tokens = Token.ize(lhs)
-    //tokens.normalize()
+    
+    if(op != "." ) tokens.tail().eaten.right.push(Token.ize(" "))
+  
     token.after(tokens, tokens.tail())
-    if(op.prev.whitespace) op.eatLeft()
+    
+    
     
   })
   
