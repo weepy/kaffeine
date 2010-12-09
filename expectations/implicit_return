@@ -78,6 +78,16 @@ function() { return !x }
 to:
 function() { return !x }  
 
+compiles:
 
+function() {
+gello
+!ch
+}
 
+to: 
 
+function() {
+return gello
+!ch
+}
