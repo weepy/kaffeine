@@ -61,3 +61,9 @@ function __extend(a,b) {
   for(i in b) c[i] = b[i];
   return c;
 }
+
+compiles:
+if side == 1, letter .= toLowerCase()
+
+to:
+if side == 1, letter = letter.toLowerCase()
