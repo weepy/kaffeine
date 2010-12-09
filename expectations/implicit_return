@@ -71,6 +71,12 @@ function() {
   return new K()
 }
 
+compiles:
+
+function() { return !x }  
+
+to:
+function() { return !x }  
 
 
 
