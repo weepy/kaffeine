@@ -18,7 +18,13 @@
 
 <div class=float style='margin-right: 20px;'>
   <h3>Kaffeine</h3>
-  <textarea id=kaffeine></textarea>
+  <textarea id=kaffeine>
+fn = (opts = {}) {
+  user = User.find! {id: nick}
+  puzzle = Puzzle.find! {name: name}
+  err, data = client.set! "u:#{user}:p:#{puzzle}"
+}  
+  </textarea>
 </div>
 
 <div class=float>
