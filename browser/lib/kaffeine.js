@@ -62,7 +62,7 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
       throw(err)
     }
   }
-  return stream.head().collectText().replace(/^function\(\)\{\n/,"").replace(/\n\}$/,"");
+  return stream.head().collectText().replace(/^function\(\)\{/,"").replace(/\n\}$/,"");
 };
 
 Kaffeine.fn.validate = function(text) {

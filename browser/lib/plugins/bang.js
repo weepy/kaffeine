@@ -45,15 +45,19 @@ module.exports = function(stream) {
     
     body = body.collectText()
     body = body.replace(/\n/g, "\n  ")
-    if(!body.match(/\n$/))
-      body += "\n"
-    body += indent
+    // if(!body.match(/\n$/))
+    //       body += "\n"
+    //     body += indent
+    body += " "
     
     body = body.replace(/\s*\n( *)$/, function(a, b) { 
       return "\n" + b;
     })
     
+
+    body = body.replace(/\n$/, " ") 
     var text = "function(" + vars + ") {"  + body + "}"
+    
     if(lbracket.next != rbracket)
       text = ", " + text
     
@@ -61,8 +65,8 @@ module.exports = function(stream) {
     tokens.banged_function = true
     
     rbracket.before(tokens)
-    if(!rbracket.next.newline)
-      rbracket.after("\n")
+    // if(!rbracket.next.newline)
+    //   rbracket.after("\n")
     //token.bang = false
     token.text = token.text.slice(0,token.text.length-1)
     return token.next

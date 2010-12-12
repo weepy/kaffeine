@@ -31,6 +31,7 @@ module.exports = function(stream) {
       }
 
       var expressionText = loopWord.next.next.collectText(closingBracket.prev)          
+      if(expressionText.match(/ /)) expressionText = "(" + expressionText +")"
       var iter, val
       var closure = this.findClosure()
       

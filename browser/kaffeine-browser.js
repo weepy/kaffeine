@@ -181,11 +181,8 @@ base.fn.addImpliedBraces = function() {
   
   var indent = this.indent()
   
-  if(pair.R.prev.newline) {
-    pair.R.prev.remove()
-  }
-  pair.R.before(" ")   //pair.L.next.newline ? " " + indent : 
-  
+  pair.R.before(" ")
+  //pair.R.before(pair.L.next.newline ? "\n" + indent : " ")  
   pair.L.updateBlock()
   pair.L.eatLeft()
   pair.R.eatLeft()
@@ -811,7 +808,7 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
       throw(err)
     }
   }
-  return stream.head().collectText().replace(/^function\(\)\{\n/,"").replace(/\n\}$/,"");
+  return stream.head().collectText().replace(/^function\(\)\{/,"").replace(/\n\}$/,"");
 };
 
 Kaffeine.fn.validate = function(text) {
@@ -922,15 +919,19 @@ module.exports = function(stream) {
     
     body = body.collectText()
     body = body.replace(/\n/g, "\n  ")
-    if(!body.match(/\n$/))
-      body += "\n"
-    body += indent
+    // if(!body.match(/\n$/))
+    //       body += "\n"
+    //     body += indent
+    body += " "
     
     body = body.replace(/\s*\n( *)$/, function(a, b) { 
       return "\n" + b;
     })
     
+
+    body = body.replace(/\n$/, " ") 
     var text = "function(" + vars + ") {"  + body + "}"
+    
     if(lbracket.next != rbracket)
       text = ", " + text
     
@@ -938,8 +939,8 @@ module.exports = function(stream) {
     tokens.banged_function = true
     
     rbracket.before(tokens)
-    if(!rbracket.next.newline)
-      rbracket.after("\n")
+    // if(!rbracket.next.newline)
+    //   rbracket.after("\n")
     //token.bang = false
     token.text = token.text.slice(0,token.text.length-1)
     return token.next
@@ -1050,13 +1051,13 @@ module.exports = function(stream) {
         var ret = this.prev
         this.remove()
         
-        inserts.push(v +" = " + v + " == null ? " + val + " : " + v)
+        inserts.push(v +" = " + v + "==null ? " + val + " : " + v)
         return ret
       }
     })
     
     if(inserts.length)
-      this.block.after(" " + this.indent() + "  " + inserts.join(", ") + ";")
+      this.block.after(" " + inserts.join(", ") + ";")
     
     block.args = block.findArgs()
   })
@@ -1100,6 +1101,7 @@ module.exports = function(stream) {
       }
 
       var expressionText = loopWord.next.next.collectText(closingBracket.prev)          
+      if(expressionText.match(/ /)) expressionText = "(" + expressionText +")"
       var iter, val
       var closure = this.findClosure()
       
@@ -1510,6 +1512,7 @@ module.exports = function(stream) {
       if(this.text=="|." || this.next.assign) {
         this.text = "__" + this.text.slice(1)
         delete this.operator 
+        this.eaten = {left:[],right:[]}
         this.word = true
         return 
       }

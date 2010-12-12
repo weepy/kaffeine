@@ -69,8 +69,7 @@ for(k, y in o)
     return true
 
 to:
-var k, y;
-for(k in o) { y = o[k];
+var k, y; for(k in o) { y = o[k];
   if(x)
     return true }
 

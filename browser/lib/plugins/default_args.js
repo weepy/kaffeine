@@ -22,13 +22,13 @@ module.exports = function(stream) {
         var ret = this.prev
         this.remove()
         
-        inserts.push(v +" = " + v + " == null ? " + val + " : " + v)
+        inserts.push(v +" = " + v + "==null ? " + val + " : " + v)
         return ret
       }
     })
     
     if(inserts.length)
-      this.block.after(" " + this.indent() + "  " + inserts.join(", ") + ";")
+      this.block.after(" " + inserts.join(", ") + ";")
     
     block.args = block.findArgs()
   })
