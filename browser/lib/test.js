@@ -1,9 +1,0 @@
-require.module('lib/test', function(exports, require) {
-//////////////////////
-
-
-
-
-
-/////////////////////////
-})

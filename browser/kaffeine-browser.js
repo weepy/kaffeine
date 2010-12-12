@@ -1401,7 +1401,7 @@ module.exports = function(stream) {
       var op = "."
     else return
     
-    token.after(op)  
+    optoken = token.after(op)  
     token.text = "="
 
     var lhs = "" 
