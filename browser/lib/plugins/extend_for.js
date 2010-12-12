@@ -97,7 +97,7 @@ module.exports = function(stream) {
         
       }
       
-      var text = "\n  " + this.indent() + val + " = " + (complex ? "_xpr" : expressionText) + "[" + iter + "];"
+      var text = " "/* + this.indent()*/ + val + " = " + (complex ? "_xpr" : expressionText) + "[" + iter + "];"
             
       this.block.after(text)
      

@@ -400,7 +400,8 @@ base.fn.myText = function() {
 
   if(this.vars) {
     vars = this.declareVariables()
-    text.push(vars)
+    this.nextNW().before(new word(vars))
+    //text.push(vars)
   }
   for(var i=0; i<this.eaten.right.length; i++)
     text.push(this.eaten.right[i].myText())
@@ -674,9 +675,9 @@ bracket.fn.declareVariables = function() {
   }
   if(!vars.length) return ""
 
-  var string = "var " + vars.join(", ") + ";"
-  var space = this.global ? "" : "  "
-  string = "\n" + space + this.indent() + string // should find current indent really
+  var string = "var " + vars.join(", ") + "; "
+  var space = this.global ? "" : " "
+  string = string // should find current indent really
   return string
 }
 
@@ -1051,7 +1052,7 @@ module.exports = function(stream) {
     })
     
     if(inserts.length)
-      this.block.after("\n" + this.indent() + "  " + inserts.join(", ") + ";")
+      this.block.after(" " + this.indent() + "  " + inserts.join(", ") + ";")
     
     block.args = block.findArgs()
   })
@@ -1161,7 +1162,7 @@ module.exports = function(stream) {
         
       }
       
-      var text = "\n  " + this.indent() + val + " = " + (complex ? "_xpr" : expressionText) + "[" + iter + "];"
+      var text = " "/* + this.indent()*/ + val + " = " + (complex ? "_xpr" : expressionText) + "[" + iter + "];"
             
       this.block.after(text)
      
