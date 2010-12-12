@@ -20,9 +20,7 @@ for(x of [1,2,3,4]) {
 }
 
 to:
-var _a, x;
-for(_a = 0; _a < [1,2,3,4].length; _a++) {
-  x = [1,2,3,4][_a];
+var _a, x; for(_a = 0; _a < [1,2,3,4].length; _a++) { x = [1,2,3,4][_a];
   ok()
 }
 
@@ -31,11 +29,8 @@ for(x of [1,2,3,4])
   ok()
 
 to:
-var _a, x;
-for(_a = 0; _a < [1,2,3,4].length; _a++) {
-  x = [1,2,3,4][_a];
-  ok()
-}
+var _a, x; for(_a = 0; _a < [1,2,3,4].length; _a++) { x = [1,2,3,4][_a];
+  ok() }
 
 compiles: 
 for (var i = 0; i < nodes.length; i++) {
@@ -52,11 +47,8 @@ for(k, y in o)
   x
 i
 to:
-var k, y;
-for(k in o) {
-  y = o[k];
-  x
-}
+var k, y; for(k in o) { y = o[k];
+  x }
 i
 
 compiles:
@@ -66,13 +58,10 @@ for(k, y in o)
   }
 
 to:
-var k, y;
-for(k in o) {
-  y = o[k];
+var k, y; for(k in o) { y = o[k];
   if(x) {
     return true
-  }
-}
+  } }
 
 compiles:
 for(k, y in o)
@@ -81,23 +70,16 @@ for(k, y in o)
 
 to:
 var k, y;
-for(k in o) {
-  y = o[k];
+for(k in o) { y = o[k];
   if(x)
-    return true
-}
+    return true }
 
 compiles:
 for(i, x in a) 
   for(j, y in a)
     x
 to:
-var i, x, j, y;
-for(i in a) {
-  x = a[i];
-  for(j in a) {
-    y = a[j];
-    x
-  }
-}
+var i, x, j, y; for(i in a) { x = a[i];
+  for(j in a) { y = a[j];
+    x } }
 

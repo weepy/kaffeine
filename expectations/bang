@@ -4,5 +4,4 @@ sum = add!(3, 4)
 ok(sum == 7)
 to:
 add(3, 4, function(sum) {
-  ok(sum == 7)    
-})
+  ok(sum == 7) })

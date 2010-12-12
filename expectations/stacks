@@ -42,13 +42,7 @@ exports.testAddEdge = function(is, done) {
             User.client.get("User:jonah:love:n", function(err, data) {
               is.equal(data, "1")
               
-              return done()
-            })
-          })
-        })
-      })
-    })
-  })
+              return done() }) }) }) }) }) })
 }
 
 compiles:
@@ -58,9 +52,8 @@ compiles:
 }
 
 to:
-function() {
-  var i;
-  for(i=0; i < n; i++)
+function() { 
+  var i; for(i=0; i < n; i++)
     fn.call(this, i)
 }
 
@@ -71,8 +64,7 @@ x = {
 
 to:
 
-var x;
-x = function() {
+var x; x = function() {
   return x = x || y
 }
 
@@ -80,9 +72,6 @@ compiles:
 for x of row.split "" 
   log letter
 to:
-var _a, x;
-for(_a = 0; _a < row.split("").length; _a++) {
-  x = row.split("")[_a];
-  log(letter)
-}
+var _a, x; for(_a = 0; _a < row.split("").length; _a++) { x = row.split("")[_a];
+  log(letter) }
 

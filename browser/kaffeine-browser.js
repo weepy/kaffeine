@@ -181,7 +181,11 @@ base.fn.addImpliedBraces = function() {
   
   var indent = this.indent()
   
-  pair.R.before(pair.L.next.newline ? "\n" + indent : " ")  
+  if(pair.R.prev.newline) {
+    pair.R.prev.remove()
+  }
+  pair.R.before(" ")   //pair.L.next.newline ? " " + indent : 
+  
   pair.L.updateBlock()
   pair.L.eatLeft()
   pair.R.eatLeft()

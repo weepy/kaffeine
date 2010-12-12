@@ -3,8 +3,7 @@
 compiles:
 z = 0
 to:
-var z;
-z = 0
+var z; z = 0
 
 compiles:
 
@@ -14,8 +13,7 @@ function a() {
 
 to: 
 function a() {
-  var a;
-  a = 2
+  var a; a = 2
 }
 
 compiles: 
@@ -25,8 +23,7 @@ function(a) {
 }
 
 to:
-var z;
-z = 0
+var z; z = 0
 function(a) {
   z = 1
 }
@@ -38,11 +35,9 @@ function(a) {
 }
 
 to:
-var z;
-z = 0
+var z; z = 0
 function(a) {
-  var y;
-  y = 1, z = 1
+  var y; y = 1, z = 1
 }
 
 compiles: 
@@ -52,8 +47,7 @@ function(a) {
 }
 
 to: 
-var z;
-z = 0
+var z; z = 0
 function(a) {
   z = 1
 }
