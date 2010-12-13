@@ -11,7 +11,6 @@ module.exports = function(stream) {
       if(this.text=="|." || this.next.assign) {
         this.text = "__" + this.text.slice(1)
         delete this.operator 
-        this.eaten = {left:[],right:[]}
         this.word = true
         return 
       }

@@ -759,7 +759,7 @@ Kaffeine.plugins = {};
 
 //unless brackets_for_keywords reverse_blocks indented_blocks
 
-var defaultDirective = "multiline_strings string_interpolation hash at operators brackets_for_keywords prototype implicit_functions extend_for pre_pipe implicit_brackets implicit_return pipe bang default_args implicit_vars"
+var defaultDirective = "multiline_strings string_interpolation hash at brackets_for_keywords operators prototype implicit_functions extend_for pre_pipe implicit_brackets implicit_return pipe bang default_args implicit_vars"
 
 Kaffeine.fn.compile = function(text, o) {
   if(!text.match(/\n$/)) text += "\n"; // trailing newline
@@ -778,7 +778,7 @@ Kaffeine.fn.compile = function(text, o) {
 };
 
 Kaffeine.fn.runPlugins = function(text, plugins, options) {
-  text = "function(){\n" + text + "\n}"; // wrap in closure so we have a global closure and also no problems with start and end of text
+  text = "function(){ " + text + "\n}"; // wrap in closure so we have a global closure and also no problems with start and end of text
   var stream = Token.ize(text);
   //stream = Token.postprocess(stream);
   
@@ -929,7 +929,7 @@ module.exports = function(stream) {
     })
     
 
-    body = body.replace(/\n$/, " ") 
+    body = body.replace(/\n *$/, " ") 
     var text = "function(" + vars + ") {"  + body + "}"
     
     if(lbracket.next != rbracket)
@@ -1320,12 +1320,13 @@ module.exports = function(stream) {
     })
     
     if(!start) return
-    
+    if(start.text == "return") return
     if(start.prev.prev && start.prev.prev.text == "return") return
     
     start
       .before(new Token.whitespace(" "))
       .before(new Token.word("return"))
+    
   })
 }
 
@@ -1512,7 +1513,6 @@ module.exports = function(stream) {
       if(this.text=="|." || this.next.assign) {
         this.text = "__" + this.text.slice(1)
         delete this.operator 
-        this.eaten = {left:[],right:[]}
         this.word = true
         return 
       }

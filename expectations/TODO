@@ -1,0 +1,24 @@
+compiles:
+
+x | reverse | y
+
+to:
+__.reverse.call(this, __.y.call(this, x))
+
+compiles:
+
+x | map {;} | .join()
+
+to:
+
+(__.map.call(this, x, function() {;})).join()
+
+compiles:
+x | map a 
+  | detect b
+  | times 2
+to:
+
+__.times.call(this, 
+  __.detect.call(this, 
+    __.map.call(this, x, function() { return arguments[0].name }), function() {;}), 2)

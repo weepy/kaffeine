@@ -63,7 +63,7 @@ function __extend(a,b) {
 }
 
 compiles:
-if side == 1, letter .= toLowerCase()
+if(side == 1) letter .= toLowerCase()
 
 to:
-if side == 1, letter = letter.toLowerCase()
+if(side == 1) letter = letter.toLowerCase()

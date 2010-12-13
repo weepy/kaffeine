@@ -43,12 +43,13 @@ module.exports = function(stream) {
     })
     
     if(!start) return
-    
+    if(start.text == "return") return
     if(start.prev.prev && start.prev.prev.text == "return") return
     
     start
       .before(new Token.whitespace(" "))
       .before(new Token.word("return"))
+    
   })
 }
 

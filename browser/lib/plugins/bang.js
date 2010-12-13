@@ -55,7 +55,7 @@ module.exports = function(stream) {
     })
     
 
-    body = body.replace(/\n$/, " ") 
+    body = body.replace(/\n *$/, " ") 
     var text = "function(" + vars + ") {"  + body + "}"
     
     if(lbracket.next != rbracket)
