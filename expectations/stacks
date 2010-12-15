@@ -81,3 +81,5 @@ if side == 1, letter .= toLowerCase()
 
 to:
 if(side == 1) letter = letter.toLowerCase()
+
+

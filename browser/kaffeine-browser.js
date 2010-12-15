@@ -1223,7 +1223,7 @@ module.exports = function(stream) {
     if(nobrackets_keywords[ws.next.text]) return
     if(this.matching) {
       var prev = this.matching.prevNW()
-      if(["for", "if", "while", "else"].indexOf(prev.text) >= 0)
+      if(["for", "if", "while", "else", "catch"].indexOf(prev.text) >= 0)
         return
     } 
     var nn = ws.next

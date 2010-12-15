@@ -59,3 +59,11 @@ Puzzle.new {a: a}
 
 to:
 Puzzle.new({a: a})
+
+compiles:
+try {
+} catch (e) {}
+to:
+try {
+} catch (e) {}
+
