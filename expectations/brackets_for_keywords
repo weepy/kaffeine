@@ -105,3 +105,11 @@ x
 to:
 if (x) y()
 x
+
+compiles:
+if x 
+    || y {}
+    
+to:
+if(x
+   || y) {}
