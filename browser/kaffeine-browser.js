@@ -918,6 +918,7 @@ module.exports = function(stream) {
     })
     
     body = body.collectText()
+    var endsWithNL = body.match(/\n *$/)
     body = body.replace(/\n/g, "\n  ")
     // if(!body.match(/\n$/))
     //       body += "\n"
@@ -929,7 +930,8 @@ module.exports = function(stream) {
     })
     
 
-    body = body.replace(/\n *$/, " ") 
+    if(!endsWithNL)
+      body = body.replace(/\n *$/, " ") 
     var text = "function(" + vars + ") {"  + body + "}"
     
     if(lbracket.next != rbracket)
@@ -969,20 +971,20 @@ module.exports = function(stream) {
     
     var tok = this
     
-    // var end = this.find(function(token) {
-    //   if(token.lbracket && token.curly) return true
-    //   if(token.lbracket) return token.matching
-    //   if(token.newline) return true
-    //   if(token.text == ",") {
-    //     if(token.prev.prev != tok) {
-    //       return true
-    //     }
-    //   }
-    // })
+    var end = this.find(function(token) {
+      if(token.lbracket && token.curly) return true
+      if(token.lbracket) return token.matching
+      if(token.newline) return true
+      if(token.text == ",") {
+        if(token.prev.prev != tok) {
+          return true
+        }
+      }
+    })
     
-    var end = this.nextNW().expressionEnd(function() {
-      if(this.text == ",") return true
-    }).next
+    // var end = this.nextNW().expressionEnd(function() {
+    //   if(this.text == ",") return true
+    // }).next
     
     if(end.text == ",") {
       end.spitRight()

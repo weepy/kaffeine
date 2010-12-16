@@ -1,7 +1,25 @@
 #at bang
 compiles:
-sum = add!(3, 4)
-ok(sum == 7)
+function() {
+  sum = add!(3, 4)
+  ok(sum == 7)
+}
+
 to:
-add(3, 4, function(sum) {
-  ok(sum == 7) })
+ function() {
+  add(3, 4, function(sum) {
+    ok(sum == 7) })
+}
+
+compiles:
+function() {
+  create!()
+  //x
+ }
+
+to:
+function() {
+  create(function() {
+    //x
+   }) }
+

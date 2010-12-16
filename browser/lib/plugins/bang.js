@@ -44,6 +44,7 @@ module.exports = function(stream) {
     })
     
     body = body.collectText()
+    var endsWithNL = body.match(/\n *$/)
     body = body.replace(/\n/g, "\n  ")
     // if(!body.match(/\n$/))
     //       body += "\n"
@@ -55,7 +56,8 @@ module.exports = function(stream) {
     })
     
 
-    body = body.replace(/\n *$/, " ") 
+    if(!endsWithNL)
+      body = body.replace(/\n *$/, " ") 
     var text = "function(" + vars + ") {"  + body + "}"
     
     if(lbracket.next != rbracket)

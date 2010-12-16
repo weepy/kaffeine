@@ -24,3 +24,4 @@ compiles:
 x = " #{"this is a string inside a interp"} "
 to:
 x = (" " + ("this is a string inside a interp") + " ")
+

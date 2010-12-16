@@ -16,20 +16,20 @@ module.exports = function(stream) {
     
     var tok = this
     
-    // var end = this.find(function(token) {
-    //   if(token.lbracket && token.curly) return true
-    //   if(token.lbracket) return token.matching
-    //   if(token.newline) return true
-    //   if(token.text == ",") {
-    //     if(token.prev.prev != tok) {
-    //       return true
-    //     }
-    //   }
-    // })
+    var end = this.find(function(token) {
+      if(token.lbracket && token.curly) return true
+      if(token.lbracket) return token.matching
+      if(token.newline) return true
+      if(token.text == ",") {
+        if(token.prev.prev != tok) {
+          return true
+        }
+      }
+    })
     
-    var end = this.nextNW().expressionEnd(function() {
-      if(this.text == ",") return true
-    }).next
+    // var end = this.nextNW().expressionEnd(function() {
+    //   if(this.text == ",") return true
+    // }).next
     
     if(end.text == ",") {
       end.spitRight()
