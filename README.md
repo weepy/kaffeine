@@ -25,7 +25,9 @@ Edge::add = (nick, name, complete) {
 }
 </pre>
 
-See also http://weepy.github.com/kaffeine
+READ MORE HERE ---> http://weepy.github.com/kaffeine <-----
+
+also on IRC: #kaffeine.js
 
 
 Tests
@@ -77,4 +79,4 @@ TODO
 ====
 
 * need --- operator for delimiting bangs!
-* nested for loops - is there a problem
+* nested for loops - is there a problem ? 
