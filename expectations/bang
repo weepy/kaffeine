@@ -23,3 +23,19 @@ function() {
     //x
    }) }
 
+
+compiles:
+x = null
+{
+  create!()
+  x = 10
+}
+
+to:
+var x;
+x = null
+function() {
+  create(function() {
+    return x = 10
+  })
+}

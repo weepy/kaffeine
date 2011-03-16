@@ -67,3 +67,13 @@ if(side == 1) letter .= toLowerCase()
 
 to:
 if(side == 1) letter = letter.toLowerCase()
+
+compiles:
+x {
+  @y ||= @x = new A
+}
+
+to:
+x(function() {
+  return this.y = this.y || this.x = new A
+})
