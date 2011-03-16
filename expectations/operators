@@ -69,11 +69,11 @@ to:
 if(side == 1) letter = letter.toLowerCase()
 
 compiles:
-x {
-  @y ||= @x = new A
-}
+x(function() {
+  this.y ||= this.x = new A
+})
 
 to:
 x(function() {
-  return this.y = this.y || this.x = new A
+  this.y = this.y || this.x = new A
 })

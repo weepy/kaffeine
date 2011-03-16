@@ -51,3 +51,36 @@ var z; z = 0
 function(a) {
   z = 1
 }
+
+compiles:
+function f() {
+
+}
+x = 0
+
+to:
+var x; function f() {
+
+}
+x = 0
+
+compiles:
+a = 0, z = 0
+to:
+var a, z; a = 0, z = 0
+
+compiles:
+x=0
+function() {
+  function(){
+    x = 1
+  }
+}
+
+to:
+var x; x=0
+function() {
+  function(){
+    x = 1
+  }
+}

@@ -1,4 +1,4 @@
-#string_interpolation
+#multiline_strings string_interpolation
 
 compiles:
 "\#{name}"
@@ -25,3 +25,10 @@ x = " #{"this is a string inside a interp"} "
 to:
 x = (" " + ("this is a string inside a interp") + " ")
 
+compiles:
+"#{name}
+#{test}"
+
+to:
+("" + (name) + "\n\
+" + (test))

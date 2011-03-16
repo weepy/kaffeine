@@ -53,10 +53,11 @@ function runExpectations(path, exs) {
       for(var j=0; j < output.length; j++) {
         if(expected[j] != output[j]) {
           console.log("\n\nDifference found on in " + path + " on line: " + j)
+          console.log("input: " + ex.input)
           console.log("expect: " + ex.output)//.replace(/ /g, "."))
           console.log("actual: " + js)//.replace(/ /g, "."))
           
-          break
+          return //break
         }
       }
     }

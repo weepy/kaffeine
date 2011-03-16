@@ -1,14 +1,35 @@
 #at bang
 compiles:
+function(callback) {
+  callback(add!(3,4))
+}
+to:
+function(callback) {
+  add(3,4, function(_bang) { callback(_bang) })
+}
+
+compiles:
 function() {
   sum = add!(3, 4)
   ok(sum == 7)
 }
 
 to:
- function() {
-  add(3, 4, function(sum) {
-    ok(sum == 7) })
+function() {
+  add(3, 4, function(_bang) { sum = _bang
+  ok(sum == 7) })
+}
+
+
+
+compiles:
+function() {
+  sum = add!(3, 4).length
+}
+
+to:
+function() {
+  add(3, 4, function(_bang) { sum = _bang.length })
 }
 
 compiles:
@@ -20,22 +41,59 @@ function() {
 to:
 function() {
   create(function() {
-    //x
-   }) }
+  //x
+ }) }
+ 
 
 
 compiles:
 x = null
-{
+function() {
   create!()
   x = 10
 }
 
 to:
-var x;
 x = null
 function() {
   create(function() {
-    return x = 10
-  })
+  x = 10 })
+}
+
+
+compiles:
+x = null
+function() {
+  create!()
+  @x = 10
+}
+
+to:
+x = null
+function() {
+  var _this = this; create(function() {
+  _this.x = 10 })
+}
+
+
+compiles:
+function() {
+  x, y = get!()
+  alert(x)
+}
+
+to:
+function() {
+  get(function(_bang, _bang2) { x = _bang, y = _bang2 
+  alert(x) })
+}
+
+compiles:
+function() {
+  x, y = get!()
+}
+
+to:
+function() {
+  get(function(_bang, _bang2) { x = _bang, y = _bang2 })
 }
