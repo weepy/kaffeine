@@ -1,6 +1,0 @@
-compiles:
-for x of row.split "" 
-  log letter
-to:
-var _a, x; for(_a = 0; _a < (row.split("")).length; _a++) { x = (row.split(""))[_a];
-  log(letter) }

@@ -1,9 +1,0 @@
-compiles: 
-
-count = (cb) {
-  cb(User.all!().length)
-}
-
-to:
-
-x
