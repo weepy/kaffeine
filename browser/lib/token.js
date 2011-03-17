@@ -267,6 +267,16 @@ base.fn.nextNW = function() {
 }
 
 
+base.fn.lineStart = function(breakFn) {
+  return this.findRev(function() {
+    var x = this
+    if(this.rbracket) return this.matching
+    x = x.prev
+    if(x.lbracket && x.curly && this.blockType != "object") return true
+    if(x.whitespace || x.semi) return true
+    // if(breakFn && breakFn.call(x,x)) return true
+  })
+}
   
 base.fn.expressionStart = function(breakFn) {
   return this.findRev(function() {

@@ -97,3 +97,24 @@ to:
 function() {
   get(function(_bang, _bang2) { x = _bang, y = _bang2 })
 }
+
+compiles:
+function() {
+  x = get!().length
+}
+
+to:
+function() {
+  get(function(_bang) { x = _bang.length })
+}
+
+compiles:
+function() {
+  x = get!.length
+}
+
+to:
+function() {
+  get(function(_bang) { x = _bang.length })
+}
+
