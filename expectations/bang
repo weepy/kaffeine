@@ -34,7 +34,7 @@ function() {
 
 compiles:
 function() {
-  create!()
+  create!
   //x
  }
 
@@ -49,7 +49,7 @@ function() {
 compiles:
 x = null
 function() {
-  create!()
+  create!
   x = 10
 }
 
@@ -64,7 +64,7 @@ function() {
 compiles:
 x = null
 function() {
-  create!()
+  create!
   @x = 10
 }
 
@@ -78,7 +78,7 @@ function() {
 
 compiles:
 function() {
-  x, y = get!()
+  x, y = get!
   alert(x)
 }
 
@@ -90,7 +90,7 @@ function() {
 
 compiles:
 function() {
-  x, y = get!()
+  x, y = get!
 }
 
 to:
@@ -100,7 +100,7 @@ function() {
 
 compiles:
 function() {
-  x = get!().length
+  x = get!.length
 }
 
 to:
