@@ -420,6 +420,8 @@ base.fn.collectText = function(end) {
 }
 
 
+
+
 base.fn.findClosure = function() {
   var parent = this.prev.findRev(function(tok) {
     if(tok.rbracket) return tok.matching.prev // skip behind

@@ -91,3 +91,13 @@ function() {
 return gello
 !ch
 }
+
+compiles:
+function() {
+  throw "hello"
+}
+
+to:
+function() {
+  throw "hello"
+}

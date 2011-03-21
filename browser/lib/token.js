@@ -372,6 +372,9 @@ base.fn.spitRight = function(test) {
   return token
 }
 
+base.fn.myTextNoComments = function() {
+  return this.comment ? "" : this.myText()
+}
 
 base.fn.myText = function() {
   var text = [], vars

@@ -1,4 +1,5 @@
 #at bang
+
 compiles:
 function(callback) {
   callback(add!(3,4))
@@ -118,3 +119,22 @@ function() {
   get(function(_bang) { x = _bang.length })
 }
 
+compiles: 
+function() {
+  puzzle1.users!("played").length.should.eql(0)
+}
+to:
+function() {
+  puzzle1.users("played", function(_bang) {   _bang.length.should.eql(0) })
+}
+
+
+compiles:
+function() {
+  callback(count!)
+}
+
+to:
+function() {
+  count(function(_bang) { callback(_bang) })
+}
