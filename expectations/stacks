@@ -26,24 +26,25 @@ exports.testAddEdge = function(is, done) {
   client.select(15)
   client.FLUSHDB()
 
-  User.create({id: "jonah"}, function(_bang) { var u; u = _bang
-  Puzzle.create({id: 2}, function(_bang) { var p; p = _bang
+  User.create({id: "jonah"}, function(_0) { var u; u = _0
+  Puzzle.create({id: 2}, function(_1) { var p; p = _1
 
-  User.client.get("User:jonah:love:n", function(_bang, _bang2) { var err, data; err = _bang, data = _bang2
+  User.client.get("User:jonah:love:n", function(_2, _3) { var err, data; err = _2, data = _3
   is.equal(data, null)
 
-  u.link(p.id, "love", function(_bang) { var ok; ok = _bang
+  u.link(p.id, "love", function(_4) { var ok; ok = _4
   is.ok(ok)
 
   //logKeys()
-  User.client.sismember("User:jonah:love","2", function(_bang, _bang2) { err = _bang, data = _bang2
+  User.client.sismember("User:jonah:love","2", function(_5, _6) { err = _5, data = _6
   is.equal(data, 1)
 
-  User.client.get("User:jonah:love:n", function(_bang, _bang2) { err = _bang, data = _bang2
+  User.client.get("User:jonah:love:n", function(_7, _8) { err = _7, data = _8
   is.equal(data, "1")
 
   return done() }) }) }) }) }) })
 }
+
 
 
 compiles:

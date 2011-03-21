@@ -2,6 +2,15 @@
 
 compiles:
 function() {
+  err, data = get_it!
+}
+
+to: 
+function() {
+  get_it(function(_0, _1) { err = _0, data = _1 })
+}
+compiles:
+function() {
   x = {
     count: User.count!, 
     puzzles: User.puzzles!("today") 
