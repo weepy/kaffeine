@@ -251,3 +251,20 @@ function() {
   count(function(_0) { a(callback(_0)) })
 }
 
+compiles:
+function() {
+  count!
+  x = 10
+  ---
+  say!
+  x = 20
+}
+
+to:
+function() {
+  count(function() {
+  x = 10 })
+
+  say(function() {
+  x = 20 })
+}
