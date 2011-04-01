@@ -1,23 +1,24 @@
 <html>
 <head>
-  <script src='ext/jquery.js'></script>
-  <script src='brequire.js'></script>
-  <script src='lib/token.js'></script>
-  <script src='plugins.js'></script>
+  <script src='jquery.js'></script>
+  <script src='kaffeine-browser.js'></script> 
   <script src='runner.js'></script>
-  <script src='lib/kaffeine.js'></script> 
+  <link rel=stylesheet href='clearss.css' type='text/css' charset='utf-8' />  
+
   <style>
   textarea { width: 100%; height: 90%; padding: 10px; font-size: 13px; font-family: monaco, monospace;}
   .float { width: 48%; float: left; }
   body { margin: 4px 0 0 4px; padding: 0;}
   h3 { margin: 0; padding: 0; line-height: 1em;}
+  .error { color: red;}
+  .clear { clear: both;}
   </style>
 </head>
 
 <body>
 
 <div class=float style='margin-right: 20px;'>
-  <h3>Kaffeine</h3>
+  <h3>Kaffeine <span class=error></span></h3>
   <textarea id=kaffeine>
 fn = (opts = {}) {
   user = User.find! {id: nick}
@@ -32,6 +33,13 @@ fn = (opts = {}) {
   <textarea id=javascript></textarea>
 </div>
 
+<div class=clear> 
+  <p>
+    <input id=beautify type=radio name=r value="beautify"></input> <label>Beautify </label>
+    <input id=same type=radio name=r checked></input> <label>Maintain lines </label>
+    <input id=minify type=radio name=r  value="uglify"></input> <label>Uglify</label>
+  </p>
+</div>
 
 
 </body>

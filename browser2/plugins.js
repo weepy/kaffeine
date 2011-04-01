@@ -1,0 +1,1 @@
+Plugins = ["at","bang","brackets_for_keywords","default_args","extend_for","hash","implicit_brackets","implicit_functions","implicit_return","implicit_vars","multiline_strings","operators","pipe","pre_pipe","prototype","string_interpolation","undouble_brackets"]

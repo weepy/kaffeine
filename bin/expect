@@ -2,7 +2,7 @@
 
 var path = require('path');
 var fs = require('fs');
-var Kaffeine = require("../lib/kaffeine")
+var Kaffeine = require("../lib")
 var util = require("util")
 
 function loadPlugins(source) {
@@ -53,7 +53,7 @@ function runExpectations(path, exs) {
       for(var j=0; j < output.length; j++) {
         if(expected[j] != output[j]) {
           console.log("\n\nDifference found on in " + path + " on line: " + j)
-          console.log("input: " + ex.input)
+          console.log("input: " + ex.input.replace(/\n/g,"\\n\n"))
           console.log("expect: " + ex.output)//.replace(/ /g, "."))
           console.log("actual: " + js)//.replace(/ /g, "."))
           
@@ -77,7 +77,7 @@ function runAllExpectations() {
   for(var j=0; j<files.length;j++) {
     var file = files[j]
 
-    if(!file.match(/^\./)) {
+    if(!file.match(/^[._]/)) {
       to_run.push(file)
     }
   }

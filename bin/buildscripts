@@ -1,32 +1,7 @@
 #!/usr/bin/env node
-var fs = require("fs")
-var path = "./lib/plugins"
-var files = fs.readdirSync(path)
 
-var filez = []
-
-for(var i in files) {
-  if(files[i].match(/\.js$/))
-    filez.push(files[i].replace(/\.js$/, ""))
-}
-
-var text = "Plugins = " + JSON.stringify(filez)
-
-fs.writeFile("./browser/plugins.js", text)
-
-
-// concat all files for client side:
-
-var js = "// Kaffeine for the browser. Include this file _after_ all your external Kaffeine scripts.\n// Internal Kaffeine scripts will be loaded on document load"
-
-js += fs.readFileSync("./browser/brequire.js") + "\n"
-js += fs.readFileSync("./browser/lib/token.js") + "\n"
-js += fs.readFileSync("./browser/lib/kaffeine.js") + "\n"
-
-
-for(var i in files)
-  js += fs.readFileSync("./browser/lib/plugins/" + files[i]) + "\n"
-
-js += fs.readFileSync("./lib/browser.js")
-
-fs.writeFile("./browser/kaffeine-browser.js", js)
+require("brequire")("./lib")
+  .module_base("kaffeine")
+  .include_lib()
+  // .inspect()
+  .write("./browser/kaffeine-browser.js")

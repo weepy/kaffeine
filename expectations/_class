@@ -1,0 +1,39 @@
+#class super
+
+compiles:
+class UI {
+  
+}
+
+to:
+function UI() {
+  return;
+}
+
+compiles:
+class UI(x, y) {
+  x = 1
+}
+
+to:
+function UI(x, y) {
+  x = 1
+  return;
+}
+
+compiles:
+class UI(x, y) extends Parent {
+  x = 1
+}
+
+to:
+function UI(x, y) {
+  x = 1
+  return;
+}
+
+__extends(Parent, UI)
+
+function __extends(super, parent) {
+
+} 

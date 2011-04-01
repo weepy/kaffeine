@@ -85,3 +85,14 @@ to:
 if(side == 1) letter = letter.toLowerCase()
 
 
+compiles: 
+function() {
+  if User.find! @id, @error "already exists"
+  done()
+}
+
+to:
+function() {
+  var _this = this; User.find(this.id, function(_0) { if(_0) _this.error("already exists")
+  return done() })
+}

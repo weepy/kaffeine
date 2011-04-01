@@ -268,3 +268,29 @@ function() {
   say(function() {
   x = 20 })
 }
+
+compiles: 
+function() {
+  if(User.find!(id)) {
+    error("already exists")
+  }
+  done()
+}
+
+to:
+function() {
+  User.find(id, function(_0) { if(_0) {
+    error("already exists")
+  }
+  done() })
+}
+
+compiles:
+function() {
+  client.set!(u)
+}
+
+to:
+function() {
+  client.set(u, function() { })
+}

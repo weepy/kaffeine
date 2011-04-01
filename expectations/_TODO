@@ -1,0 +1,62 @@
+compiles:
+x | reverse
+
+to:
+__.reverse.call(this, x)
+
+
+
+compiles:
+
+x | reverse | y
+
+to:
+__.y.call(this, __.reverse.call(this, x))
+
+compiles:
+
+x | map {;} | .join()
+
+to:
+
+(__.map.call(this, x, function() {;})).join()
+
+compiles:
+x | map a 
+  | detect b
+  
+
+__.detect.call(this, 
+  __.map.call(this, x, a), b)
+
+compiles:
+x | map a 
+  | detect b
+  | times 2
+to:
+
+__.times.call(this, 
+  __.detect.call(this, 
+  __.map.call(this, x, a), b ) )
+
+compiles:
+{
+  x++
+  1
+}
+
+to:
+function() {
+  x++
+  return 1
+}
+
+compiles:
+function() {}
+{}
+{ }
+
+to:
+function() {}
+{}
+{ }

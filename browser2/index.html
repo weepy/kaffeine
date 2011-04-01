@@ -1,0 +1,310 @@
+<html>
+<head>
+  <script src='ext/jquery.js'></script>
+  <script src='brequire.js'></script>
+  <script src='lib/token.js'></script>
+  <script src='plugins.js'></script>
+  <script src='index.js'></script>
+  <script src='lib/kaffeine.js'></script> 
+  <style>
+  pre      { width: 400px; padding: 10px; font-size: 12px; font-family: monaco, monospace; float: left; background: #effaff; margin-right: 30px;}
+  .clear { clear: both;;}
+  textarea { width: 100%; height: 90%; padding: 10px; font-size: 13px; font-family: monaco, monospace;}
+  .float { width: 48%; float: left; }
+  body { margin: 4px 0 0 4px; padding: 10px; background: #fff; color: #111; font-family:Verdana; font-size: 20px}
+  #try { display: none;}
+li, p { font-size: 16px;}
+h3, h1, h2, p { clear: both;}
+h2, h1, h3 { font-family: 'Lobster', serif; letter-spacing: 1px;}
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+#try_it { text-decoration:underline; cursor: pointer; color: red;}
+
+body { position: relative; }
+iframe { display: none;}
+ </style>
+  <link href="http://fonts.googleapis.com/css?family=Lobster:regular&subset=latin" rel="stylesheet" 
+type="text/css" >
+
+<script>
+$().ready(function() {
+  $("#try_it").click(function() {
+	$("iframe").toggle()
+})
+})
+</script>
+</head>
+
+<body>
+
+<h1>Kaffeine</h1>
+
+
+<ul>
+<li>Progressively enhance Javascript syntax: ensure vanilla Javascript still works as normal</li>
+<li>Limited but focussed feature set</li>
+<li>Hackable, modular, extendable and testable</li>
+<li>Avoid significant whitespace - looks nice, but is painful to work with.</li>
+</ul>
+
+
+<h2>Plugins</h2>
+<p>Kaffeine uses a plugin style approach, with a core/standard stack (order is important)
+
+<h2>Example: </h2>
+<p>This is an example taken from production code. It show most of Kaffeine's features:</p>
+<pre>
+Edge::add = (nick, name, complete, opts={}) {
+  @client.select 15
+  user = User.find! {id: nick}
+  puzzle = Puzzle.find! {name: name}
+  err = client.set! "#{user}:#{puzzle}"
+  if !err, complete()
+}
+</pre>
+
+<h3>Try Kaffeine Live: <a id=try_it >click here</a></h3>
+<iframe src='runner.html' width=100% height=400px style='border:0' border=0></iframe>
+
+<h3>Bang</h3>
+<p>Allows function calls with callbacks to be unwrapped via a ! postfix. E.g:</p>
+
+<pre>
+fish = $.get!('/fish')
+$("stomach").append(fish)
+ok = stomach.save!()
+meal.complete = ok
+</pre>
+
+<p>This is super useful for simplifying nested asynchronous calls (esp with nodejs)</p>
+  
+<h3>at</h3>
+
+<p>Provide the @ alias for 'this'. E.g:</p>
+
+<pre>
+@legs = legs
+@color = color
+</pre>
+
+<p>In the case of an unwrapped function, @ will be rewritten to refer to the original this, for convenience. Use <code>this</code> to refer to the actual <code>this</code></p>
+
+<pre>
+Fish.prototype.eat = {
+  @food = getFood!()
+  @stomach.ingest! @food
+  poop = @stomach.digest! @food
+  this.next(poop)
+}
+</pre>
+
+<h3>implicit var</h3>
+
+<p>provides support for omitting the var keyword: the variables will be automagically defined in the closest relevant closure. E.g.</p>
+
+<pre>
+x = null
+{
+  x = 1
+  y = 2
+}
+</pre>
+  
+<h3>implicit brackets</h3>
+
+<p>Provide optional brackets for function calls. E.g.</p>
+
+<pre>
+remove eggs.shell
+mix eggs, milk.off ? milk : null
+outer inner innermost
+</pre>
+  
+<h3>implicit brackets for keywords</h3>
+<p>keywords such as "for", or "if" can omit their brackets (as long as the statement doesn't become amiguous). The brackets are inserted either before a newline, a left brace '{' or a comma (for one liners)
+<pre>
+for i in A
+  run A[i]
+
+if name == "john", return false
+
+while we_have_time() { run tasks }
+</pre>
+
+
+<h3>multiline strings</h3>
+
+<p>Allows for multiline strings: </p>
+
+<pre>
+var html = "
+&lt;body>
+&lt;h1>SOY SAUCE&lt;/h1>
+&lt;/body>
+"
+</pre>
+
+<p>Maintains new lines --- but can be suppressed with the \ character (which provides parity with normal javascript):</p>
+<pre>
+var html = "\
+&lt;body>\
+&lt;h1>SOY SAUCE&lt;/h1>\
+&lt;/body>\
+"
+</pre>
+
+<h3>extended for</h3>
+
+<p>Allows an 'of' operator for looping through arrays: </p>
+
+<pre>
+for(x of [7,3,4])
+  sum += x
+</pre>
+<p>An optional second parameter will refer to the key: </p>
+
+<pre>
+for(x, i of [7,3,4])
+  sum += i
+
+</pre>
+
+<p>Also allows an optional second parameter for the <code>in</code> keyword:</p>
+
+<pre>
+for(key, val in A)
+  zip += "#key:#val"
+</pre>
+<h3>string interpolation</h3>
+
+<p>provides ruby style string interpolation via #{}</p>
+
+<pre>
+letter = "Dear #{name},
+I am writing to you to inform you of #{purpose}
+Kind Regards
+#{sender}
+"
+</pre>
+
+<h3>implicit return</h3>
+
+<p>the last statement of a function will be automagically returned. E.g.</p>
+
+<pre>
+getName = { @name } 
+</pre>
+
+<p>This will only work for variables, objects and functions. I.e. an final if statement will result no return value</p>
+
+
+<h3>hash</h3>
+
+<p>provides the # shortcut for referring to the first argument in a function. Additionally, #n refers to the nth argument (n >= 0). Useful for terse function definitions, e.g:</p>
+
+<pre>
+square = { #*# }
+times = { #*#1 }
+</pre>
+
+
+<h3>implicit_functions</h3>
+
+<p>the function keyword can be optionally omitted, along with empty argument lists. </p>
+<pre>
+ok = (timeout) {
+  sendNote()
+  setTimeout { run() }, timeout
+  return true
+}
+</pre>
+	
+<p>Note {} could be a function or an object, so to avoid ambiguity, it's defined to be an object. To express an empty function, use one of the following forms:</p>
+
+<pre>
+{;}
+{null}
+function() { }
+</pre>
+
+
+<h3>pipe</h3>
+<p>Provides an alternative calling method than can be used for easily chaining (UNIX style passing). </p>	
+
+<pre>
+result = input | fn args
+</pre>
+
+<p>Chaining input to output:
+<pre>
+result = input | fn a, b | fn2 c | fn3 d
+</pre>
+
+
+<p>For example, it is very useful for ruby style enumeration chaining without using prototypes, and other utilities</p>
+<pre>
+| = require "pipe_utils"
+
+People | map { #.name } | detect { #.length > 3 }
+
+opts = opts | extend default
+5 | times { if(!send()) return false }
+
+names | asyncMap (name, fn) {
+  user = User.find! {name: name}
+  fn(user)
+}, complete
+</pre>
+
+
+<h3>operators</h3>
+<p>2 extra assignment operators, <code>||=</code> and <code>.=</code></p>
+<pre>
+location.href .= replace("?old", "?new")
+name .= toUpperCase()
+opts ||= {}
+</pre>
+<p>Also an extend operator <b><-</b>
+<pre>
+a <- b 
+options = options <- { size: "small", num: 10}
+</pre>
+
+<h2>default args</h2>
+<p>Allows defaults for null or undefined arguments. Nb - uses non strict comparison with null</p>
+<pre>
+(x=1, r=[], a=3) {
+  x + 4
+}
+</pre>
+
+<div id=try>
+	<div class=float style='margin-right: 20px;'>
+	  <h3>Kaffeine</h3>
+	  <textarea id=kaffeine></textarea>
+	</div>
+
+	<div class=float>
+	  <h3>Javascript</h3>
+	  <textarea id=javascript></textarea>
+	</div>
+</div>
+
+
+<h2>Install</h2>
+
+<p><code>npm install kaffeine</code></p>
+
+<h2>Source</h2>
+<p><a href='https://github.com/weepy/kaffeine'>https://github.com/weepy/kaffeine</a>
+
+<br/><br/><br/><br/>
+</body>
+</html>
+
