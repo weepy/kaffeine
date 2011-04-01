@@ -1,0 +1,34 @@
+<!DOCTYPE html><html><head><title>Kaffeine</title><link rel="stylesheet" href="../main.css"><link rel="stylesheet" href="../fonts/stylesheet.css"><script src="../js/jquery.js"></script><script src="../js/kaffeine-browser.js"></script><script src="../js/index.js"></script><script src="../js/highlighter.js"></script><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body><div id="container"><h1><a href="http://weepy.github.com/kaffeine">Kaffeine</a></h1><p class="tagline">Extended Javascript for Pros</p><div id="ribbon"><a href="http://weepy.github.com/kaffeine">Fork me on GitHub</a></div><ul id="menu"><li><a href="../index.html">Overview</a></li><li><a href="../docs/at.html">@ alias</a></li><li><a href="../docs/unwrapping_async_calls.html">unwrapping async calls</a></li><li><a href="../docs/implicit_variables.html">Implicit Variables</a></li><li><a href="../docs/for_loop_extensions.html">for loop Extensions</a></li><li><a href="../docs/implicit_brackets.html">Implicit Brackets</a></li><li><a href="../docs/string_extensions.html">String Extensions</a></li><li><a href="../docs/function_extensions.html">Function Extensions</a></li><li><a href="../docs/operators.html">Operators</a></li><li><a href="../docs/try.html" class="live">Try Kaffeine Live!</a></li></ul><div id="content">
+  <h2>Implicit Brackets</h2>
+
+<p>Kaffeine provides support for</p>
+
+<h3>optional brackets in function calls</h3>
+
+<pre>
+remove eggs.shell
+mix eggs, milk.off ? milk : null
+outer inner innermost
+</pre>
+
+
+<h3>optional brackets for keywords</h3>
+
+<p>keywords such as <code>for</code> and <code>if</code> can omit their brackets (as long as the statement does not become amiguous).
+The brackets are inserted either before a newline, a left brace &lsquo;{&rsquo; or a comma (for one liners)</p>
+
+<pre>
+// for
+for i in A
+  run A[i]
+
+// if
+if name == "john", return false
+
+// while
+while we_have_time { 
+  run tasks 
+}
+</pre>
+
+</div></div></body></html>

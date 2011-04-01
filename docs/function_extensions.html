@@ -1,0 +1,102 @@
+<!DOCTYPE html><html><head><title>Kaffeine</title><link rel="stylesheet" href="../main.css"><link rel="stylesheet" href="../fonts/stylesheet.css"><script src="../js/jquery.js"></script><script src="../js/kaffeine-browser.js"></script><script src="../js/index.js"></script><script src="../js/highlighter.js"></script><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body><div id="container"><h1><a href="http://weepy.github.com/kaffeine">Kaffeine</a></h1><p class="tagline">Extended Javascript for Pros</p><div id="ribbon"><a href="http://weepy.github.com/kaffeine">Fork me on GitHub</a></div><ul id="menu"><li><a href="../index.html">Overview</a></li><li><a href="../docs/at.html">@ alias</a></li><li><a href="../docs/unwrapping_async_calls.html">unwrapping async calls</a></li><li><a href="../docs/implicit_variables.html">Implicit Variables</a></li><li><a href="../docs/for_loop_extensions.html">for loop Extensions</a></li><li><a href="../docs/implicit_brackets.html">Implicit Brackets</a></li><li><a href="../docs/string_extensions.html">String Extensions</a></li><li><a href="../docs/function_extensions.html">Function Extensions</a></li><li><a href="../docs/operators.html">Operators</a></li><li><a href="../docs/try.html" class="live">Try Kaffeine Live!</a></li></ul><div id="content">
+  <h2>Function Extensions</h2>
+
+<h3>implicit_functions</h3>
+
+<p>The function keyword can be optionally omitted, along with empty argument lists:</p>
+
+<pre>
+ok = (timeout) {
+  sendNote()
+  setTimeout { run() }, timeout
+  return true
+}
+</pre>
+
+
+<h4>Gotcha</h4>
+
+<p>according to this definition <code>{}</code> or <code>{ }</code> could be a <code>function</code> or an <code>object</code>, so to avoid ambiguity:
+it is defined to be an <code>object</code>.</p>
+
+<p>To express an empty function, make sure it has some code within. For example:</p>
+
+<pre>
+{;}
+{null}
+function() {}
+</pre>
+
+
+<h3>implicit return</h3>
+
+<p>The last statement of a function will be automagically returned (Ruby style). For example</p>
+
+<pre>
+getName = { @name } 
+</pre>
+
+
+<p>This will only work for returnable statements, i.e. variables, objects and functions. So an final <code>if</code> statement will result no return value</p>
+
+<pre>
+getName = { 
+  if truthy 
+    @name 
+} 
+</pre>
+
+
+<h4>gotcha</h4>
+
+<p>A constructor must not return an array or an object to work properly. So make sure you do not accidently do this</p>
+
+<p>Animal = (name) {
+  @name = name
+  @friends = []  // wrong => new Animal() won&rsquo;t work properly
+}</p>
+
+<p>Animal = (name) {
+  @friends = []<br/>
+  @name = name   // better => providing you&rsquo;re sure that name will be a string or null
+}</p>
+
+<p>Animal = (name) {
+  @friends = []<br/>
+  @name = name <br/>
+  return         // best => cannot break
+}</p>
+
+<h3>hash alias</h3>
+
+<p>Kaffeine provides <code>#</code> shortcut for referring to the first argument in a function.
+Additionally, <code>#n</code> refers to the nth argument (n >= 0). Useful for terse function definitions:</p>
+
+<pre>
+//
+square = { 
+  #*# 
+}
+
+//
+times = { 
+  #*#1 
+}
+</pre>
+
+
+<h3>default arguments</h3>
+
+<p>This module allows support for ruby-syle defaults for <code>null</code> or <code>undefined</code> arguments.
+Note, this uses non strict comparison with null, meaning falsy values such as <code>0</code> or <code>&ldquo;&rdquo;</code> can be used as default.</p>
+
+<pre>
+fn = 
+(x=1, a=0) {
+  log x, a
+}
+
+fn 5  // => 5, 0
+</pre>
+
+</div></div></body></html>

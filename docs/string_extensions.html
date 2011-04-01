@@ -1,0 +1,55 @@
+<!DOCTYPE html><html><head><title>Kaffeine</title><link rel="stylesheet" href="../main.css"><link rel="stylesheet" href="../fonts/stylesheet.css"><script src="../js/jquery.js"></script><script src="../js/kaffeine-browser.js"></script><script src="../js/index.js"></script><script src="../js/highlighter.js"></script><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body><div id="container"><h1><a href="http://weepy.github.com/kaffeine">Kaffeine</a></h1><p class="tagline">Extended Javascript for Pros</p><div id="ribbon"><a href="http://weepy.github.com/kaffeine">Fork me on GitHub</a></div><ul id="menu"><li><a href="../index.html">Overview</a></li><li><a href="../docs/at.html">@ alias</a></li><li><a href="../docs/unwrapping_async_calls.html">unwrapping async calls</a></li><li><a href="../docs/implicit_variables.html">Implicit Variables</a></li><li><a href="../docs/for_loop_extensions.html">for loop Extensions</a></li><li><a href="../docs/implicit_brackets.html">Implicit Brackets</a></li><li><a href="../docs/string_extensions.html">String Extensions</a></li><li><a href="../docs/function_extensions.html">Function Extensions</a></li><li><a href="../docs/operators.html">Operators</a></li><li><a href="../docs/try.html" class="live">Try Kaffeine Live!</a></li></ul><div id="content">
+  <h2>String Extensions</h2>
+
+<h3>multiline strings</h3>
+
+<p>Allows for multiline strings:</p>
+
+<pre>
+list = "1. Eggs
+2. SOY SAUCE
+3. Milk
+"
+</pre>
+
+
+<p>It maintains newlines, but this can be suppressed with the \ character (which conveniently provides parity with normal javascript)</p>
+
+<pre>
+html = "1. Eggs \
+2. SOY SAUCE \
+3. Milk "
+</pre>
+
+
+<h3>String Interpolation</h3>
+
+<p>This module provides ruby style string interpolation via #{} within double quoted strings</p>
+
+<pre>
+name = "#{first} #{second}"
+age = "#{this_year - birth_year}"
+</pre>
+
+
+<p>This following example uses both multiline and string interpolation at once</p>
+
+<pre>
+letter = "Dear #{name},
+I am writing to you to inform you of #{purpose}
+Kind Regards
+#{sender}
+"
+</pre>
+
+
+<p>To surpress the interpolation use \#, or single quoted strings:</p>
+
+<pre>
+a = "\#{hello}"
+b = '#{hello}'
+</pre>
+
+
+
+</div></div></body></html>

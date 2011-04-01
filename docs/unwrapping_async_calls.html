@@ -1,0 +1,98 @@
+<!DOCTYPE html><html><head><title>Kaffeine</title><link rel="stylesheet" href="../main.css"><link rel="stylesheet" href="../fonts/stylesheet.css"><script src="../js/jquery.js"></script><script src="../js/kaffeine-browser.js"></script><script src="../js/index.js"></script><script src="../js/highlighter.js"></script><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body><div id="container"><h1><a href="http://weepy.github.com/kaffeine">Kaffeine</a></h1><p class="tagline">Extended Javascript for Pros</p><div id="ribbon"><a href="http://weepy.github.com/kaffeine">Fork me on GitHub</a></div><ul id="menu"><li><a href="../index.html">Overview</a></li><li><a href="../docs/at.html">@ alias</a></li><li><a href="../docs/unwrapping_async_calls.html">unwrapping async calls</a></li><li><a href="../docs/implicit_variables.html">Implicit Variables</a></li><li><a href="../docs/for_loop_extensions.html">for loop Extensions</a></li><li><a href="../docs/implicit_brackets.html">Implicit Brackets</a></li><li><a href="../docs/string_extensions.html">String Extensions</a></li><li><a href="../docs/function_extensions.html">Function Extensions</a></li><li><a href="../docs/operators.html">Operators</a></li><li><a href="../docs/try.html" class="live">Try Kaffeine Live!</a></li></ul><div id="content">
+  <h3>Unwrapping async calls with &lsquo;!&rsquo;</h3>
+
+<p>A ! postfix to a function call signals to Kaffeine that this is an unwrapped async call masquerading as a normal function call.
+Kaffeine will recompile it into a normal function call with the follow code wrapping into an async callback.</p>
+
+<p>h4 Here is simple example</p>
+
+<pre>
+// simple call
+fish = $.get! '/fish'     
+$("stomach").append fish
+
+// another simple call with implied ()
+ok = stomach.save!        
+meal.complete = ok
+</pre>
+
+
+<p>This is super useful for simplifying nested asynchronous calls (esp with nodejs) and works nicely in a number of scenarios:</p>
+
+<pre>
+// create convenient sleep function
+sleep = { setTimeout #1, #0 }
+
+// use it
+test_check = {
+  if !@chess.isCheck() {
+    sleep! 400
+    alert "STALEMATE"
+  }
+}
+</pre>
+
+
+
+
+<pre>
+// assignment from multi argument callback
+x = {
+  err, x = $.get! "/"
+  if !err, process x
+}
+</pre>
+
+
+
+
+<pre>
+// three async calls unwrapped in series
+app.get "/stats", (req, res) {
+  res.send {
+    user_count: User.count!,
+    task_count: Task.count!,
+    pending_tasks: Task.count! "pending",
+  }
+}
+
+</pre>
+
+
+
+
+<pre>
+// if clause and as a function parameter
+handle = (callback) {
+  if valid_session! @ {
+    callback get_session!
+  } else 
+    callback false
+}
+</pre>
+
+
+<h3>When does the function unwrapping &lsquo;stop&rsquo;?</h3>
+
+<ul>
+<li>at an unmatched right bracket (e.g. the end of a function or arg list),</li>
+<li>The end of the file</li>
+<li>Or the <code>&mdash;&ndash;</code> operator &ndash; added for completeness, but I have never actually needed it.</li>
+</ul>
+
+
+<pre>
+x = {
+  result = shoot! user1
+  if result, user1.die!
+  ---
+  result = shoot! user2
+  if result, user.die!
+  ---
+  result = shoot! user3
+  if result, user.die!
+  ---
+}
+</pre>
+
+</div></div></body></html>

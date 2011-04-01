@@ -1,0 +1,41 @@
+<!DOCTYPE html><html><head><title>Kaffeine</title><link rel="stylesheet" href="../main.css"><link rel="stylesheet" href="../fonts/stylesheet.css"><script src="../js/jquery.js"></script><script src="../js/kaffeine-browser.js"></script><script src="../js/index.js"></script><script src="../js/highlighter.js"></script><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body><div id="container"><h1><a href="http://weepy.github.com/kaffeine">Kaffeine</a></h1><p class="tagline">Extended Javascript for Pros</p><div id="ribbon"><a href="http://weepy.github.com/kaffeine">Fork me on GitHub</a></div><ul id="menu"><li><a href="../index.html">Overview</a></li><li><a href="../docs/at.html">@ alias</a></li><li><a href="../docs/unwrapping_async_calls.html">unwrapping async calls</a></li><li><a href="../docs/implicit_variables.html">Implicit Variables</a></li><li><a href="../docs/for_loop_extensions.html">for loop Extensions</a></li><li><a href="../docs/implicit_brackets.html">Implicit Brackets</a></li><li><a href="../docs/string_extensions.html">String Extensions</a></li><li><a href="../docs/function_extensions.html">Function Extensions</a></li><li><a href="../docs/operators.html">Operators</a></li><li><a href="../docs/try.html" class="live">Try Kaffeine Live!</a></li></ul><div id="content">
+  <h2><code>@</code> and <code>@@</code></h2>
+
+<p>This module provides an Ruby style aliases for:</p>
+
+<ul>
+<li><code>this</code> in the form of <code>@</code></li>
+<li><code>this.constructor</code> in the form of <code>@@</code></li>
+</ul>
+
+
+<h3>Example</h3>
+
+<pre>
+Animal = (type, color) {
+  @type = type
+  @color = color
+  @@count += 1
+  @@all.push @
+}
+</pre>
+
+
+<h2>@ in bang function calls</h2>
+
+<p>In the case of unwrapped async calls via the <code>bang</code> postfix, <code>@</code> will actually refer to the outer <code>this</code>.</p>
+
+<p>Since we can refer to both via this method, binding becomes unecessary.</p>
+
+<h3>Example</h3>
+
+<pre>
+Class.cacheData = {
+  d = $.get! "/" 
+  @data = d      // outer this
+  this.data = d  // inner this
+  return @
+}
+</pre>
+
+</div></div></body></html>

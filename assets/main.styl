@@ -1,0 +1,234 @@
+@font-face
+  font-family 'ChunkFiveRoman'
+  src url('./chunk5/chunkfive-webfont.woff') format('woff')
+  /*    src url('../chunk5/chunkfive-webfont.eot')*/
+  /*    src url('../chunk5/chunkfive-webfont.eot?iefix') format('eot'),  , url('./chunk5/chunkfive-webfont.ttf') format('truetype'), url('./chunk5/chunkfive-webfont.svg#webfontJtgJeuxc') format('svg')*/
+  font-weight normal
+  font-style normal
+
+large = 80px
+small = 14px
+dark-gray = #222
+light-gray = lighten(dark-gray, 15%)
+red = #a00
+
+border-radius(args...)
+  -webkit-border-radius args
+  -moz-border-radius args
+  border-radius args
+
+user-select(type)
+  -webkit-user-select type
+
+box-shadow(args...)
+  -moz-box-shadow args
+  -webkit-box-shadow args
+  box-shadow args
+
+transform(args...)
+  -webkit-transform args
+  -moz-transform args
+
+ribbon(color)
+  position absolute
+  top 2.5em
+  right -3.75em
+  transform rotate(45deg)
+  background-color color
+  padding 1px 0
+  overflow hidden
+  box-shadow 1px 1px 3px rgba(0,0,0,0.3)
+  a
+    color #fff
+    border 1px solid desaturate(lighten(color, 40%), 20%)
+    display block
+    margin 0.05em 0
+    padding 0.5em 3.5em
+    text-align center
+    text-decoration none
+
+inset()
+  background #fff
+  border-radius 5px
+  box-shadow rgba(dark-gray, 0.1) -1px -1px
+
+html
+  dark = #acf
+  light = #cff
+  background dark
+  background -moz-linear-gradient(-90deg, dark, light) fixed
+  background -webkit-gradient(linear, left top, left bottom, from(dark), to(light)) fixed
+
+body
+  padding 120px 150px 120px 200px
+  font small/1.4 'helvetica neue', helvetica, arial, sans-serif
+  color dark-gray
+  overflow-x hidden
+h1 
+  font-family ChunkFiveRoman
+  font-size 80px
+  font-weight normal
+  color #5AA1F7
+  a
+    color #5AA1F7
+    text-shadow #FFFFFF 0px 0px 10px
+    font-style italic
+h2
+h4
+h3
+  text-transform capitalize
+  color black
+  a
+    color black
+    &hover
+      text-decoration none
+
+h1
+  margin 10px 0 0 0
+  font-weight bold
+  font-size large
+
+h2
+  margin 0
+  font-size 22px
+
+h3
+  font-size 18px
+
+h4
+  font-size 14px
+a
+  text-decoration none
+  color #B90101
+  &hover
+    text-decoration underline
+
+strong
+  color red
+
+ul
+  margin 0
+  padding 0 25px
+  li
+    list-style circle
+
+
+
+     
+.tagline
+  color #403E3E
+  font-size 20px
+  font-style italic
+  letter-spacing 0.5px
+  margin -10px 0 0
+  padding 0
+  em
+    font-style normal
+    &.expressive
+      color dark-gray
+    &.dynamic
+      color lighten(dark-gray, 20%)
+    &.robust
+      color lighten(dark-gray, 40%)
+    &.css
+      color lighten(dark-gray, 60%)
+
+#container
+  text-align center
+  #content
+    margin 0 auto
+    padding-top 40px
+    width 950px
+    text-align left
+
+.code
+  position relative
+  overflow hidden
+  pre
+    float left
+
+
+
+#menu
+  background none repeat scroll 0 0 #fff
+  border 1px solid #DDDDDD
+  border-radius 5px 5px 5px 5px
+  top -5px
+  box-shadow 0 4px 4px rgba(34, 34, 34, 0.1) inset
+  color black
+  left 0px
+  margin 0
+  opacity 0.95
+  padding 15px 0 10px 5px
+  position fixed
+  text-align left
+  z-index 1000
+  height 100%
+  li
+    list-style none
+    a
+      color #000
+      display block
+      font-size 12px
+      font-weight normal
+      padding 1px 5px
+      width 125px
+      &hover
+        color black
+        text-decoration none
+      
+
+.example
+  margin-top 25px
+
+
+
+
+div.code pre, div.code textarea 
+  background none repeat scroll 0 0 #fff
+  float left
+  margin 10px 10px 15px 0px
+  width 448px
+  
+.code pre.idle
+  background-color #fff
+  color #000
+
+pre
+  border-left 5px solid #ccc
+  padding 3px 0 3px 12px
+  font 12px\/1.4 monaco, 'helvetica neue', helvetica
+  white-space pre-wrap
+  word-wrap break-word
+    
+p, li
+  code
+    padding 2px 4px
+    color lighten(black, 10%)
+    font-size 85%
+    inset()
+  a.live
+    color red
+
+.javascript
+  color black
+  .comment 
+    color gray
+  .string 
+    color green
+  .keywords 
+    color blue
+  .global 
+    color blue
+  .brackets 
+    color red
+
+#ribbon
+  ribbon(black)
+  
+iframe 
+  border 0
+  background transparent
+  width 950px
+  height 550px
+

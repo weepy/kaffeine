@@ -1,37 +1,47 @@
 <html>
 <head>
-  <script src='ext/jquery.js'></script>
-  <script src='brequire.js'></script>
-  <script src='lib/token.js'></script>
-  <script src='plugins.js'></script>
-  <script src='runner.js'></script>
-  <script src='lib/kaffeine.js'></script> 
+  <script src='js/jquery.js'></script>
+  <script src='js/kaffeine-browser.js'></script> 
+  <script src='js/runner.js'></script>
+
   <style>
-  textarea { width: 100%; height: 90%; padding: 10px; font-size: 13px; font-family: monaco, monospace;}
+  body {
+    font: 14px / 1.4 "helvetica neue", helvetica, arial, sans-serif;
+    color: #222;
+  }
+  textarea { border: 0; border-left: 5px solid #ddd; width: 430px; margin-right: 10px; height: 80%; padding: 10px; font-size: 13px; font-family: monaco, monospace;}
   .float { width: 48%; float: left; }
-  body { margin: 4px 0 0 4px; padding: 0;}
+  body { margin: 4px 0 0 4px; padding: 10px;}
   h3 { margin: 0; padding: 0; line-height: 1em;}
+  .error { color: red;}
+  .clear { clear: both;}
   </style>
 </head>
 
 <body>
 
-<div class=float style='margin-right: 20px;'>
-  <h3>Kaffeine</h3>
-  <textarea id=kaffeine>
-fn = (opts = {}) {
-  user = User.find! {id: nick}
-  puzzle = Puzzle.find! {name: name}
-  err, data = client.set! "u:#{user}:p:#{puzzle}"
-}  
-  </textarea>
-</div>
+<div class=code>
+  <div class=float>
+<textarea id=kaffeine style='border-left: 0'>
+zoo = {}
+zoo.lion = true
+</textarea>
 
-<div class=float>
-  <h3>Javascript</h3>
-  <textarea id=javascript></textarea>
-</div>
+  </div>
 
+  <div class=float>
+    <textarea id=javascript></textarea>
+  </div>
+
+</div>
+  
+<div class=clear> 
+  <p>
+    <input id=beautify type=radio name=r value="beautify"></input> <label>Beautify </label>
+    <input id=same type=radio name=r checked></input> <label>Maintain lines </label>
+    <input id=minify type=radio name=r  value="uglify"></input> <label>Uglify</label>
+  </p>
+</div>
 
 
 </body>

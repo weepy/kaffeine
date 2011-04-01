@@ -1,0 +1,83 @@
+!!! 5
+html
+  head
+    title Kaffeine
+    link(rel='stylesheet', href='main.css')
+    link(rel='stylesheet', href='fonts/stylesheet.css')
+    script(src='js/jquery.js')
+    script(src="js/kaffeine-browser.js")
+    script(src='js/index.js')
+    script(src='js/highlighter.js')
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+  body
+    #container
+      h1 
+        a(href='http://weepy.github.com/kaffeine') Kaffeine
+      p.tagline Extended Javascript for Pros
+      #ribbon
+        a(href='http://weepy.github.com/kaffeine') Fork me on GitHub
+      ul#menu
+        li
+          a(href='index.html') Overview
+        li
+          a(href='docs/at.html') @ alias
+        li
+          a(href='docs/unwrapping_async_calls.html') unwrapping async calls
+        li
+          a(href='docs/implicit_variables.html') Implicit Variables
+        li
+          a(href='docs/for_loop_extensions.html') for loop Extensions
+        li
+          a(href='docs/implicit_brackets.html') Implicit Brackets
+        li
+          a(href='docs/string_extensions.html') String Extensions
+        li
+          a(href='docs/function_extensions.html') Function Extensions
+        li
+          a(href='docs/operators.html') Operators
+        li
+          a.live(href='docs/try.html') Try Kaffeine Live!
+
+      #content
+
+        p 
+          | Kaffeine is a set of extensions to the Javascript syntax that attempt to make it nicer to use. 
+          | It compiles directly into javascript that is very similar, readable and line for line equivalent to the input (you can beautify if you like). 
+        
+        h2 Philosophy
+        ul
+          li opt-in extensions: vanilla Javascript works as normal
+          li limited but focussed feature set
+          li Hackable, modular, extendable and testable
+          li Line-for-line equivalence for easy debugging (unless beautified)
+        .example
+          h2 Overview
+
+          pre.javascript
+            // Implicit variable declarions:
+            zoo = {}
+
+            // Imlicit function definition:
+            square = { # * # }
+
+            // implicit brackets for functions
+            open door
+            
+            // alternative method calling mechanism
+            users | select { #.age > 18 } 
+
+            /* for loop extensions */
+            for user of users
+              send.welcome user
+            
+            // unwrapping async calls via the ! postfix
+            if Job.count! > 10 {
+              data = retrieve!
+              process data
+            } 
+          
+          .features
+            h3 Features
+            ul
+              li Optional colons         
+              li Optional semi-colons
