@@ -96,3 +96,18 @@ function() {
   var _this = this; User.find(this.id, function(_0) { if(_0) _this.error("already exists")
   return done() })
 }
+
+compiles:
+
+do {
+  // stuff 
+} while true
+
+
+to:
+
+do {
+  // stuff 
+} while(true)
+
+

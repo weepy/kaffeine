@@ -5,7 +5,6 @@ to:
 __.reverse.call(this, x)
 
 
-
 compiles:
 
 x | reverse | y
@@ -60,3 +59,24 @@ to:
 function() {}
 {}
 { }
+
+
+compiles:
+x = {
+ y
+ bind!
+  x(y)
+  ---
+  z
+}
+
+to:
+var x; x = function() {
+ y
+ bind(function() {
+  x(y) })
+
+  z
+}
+
+
