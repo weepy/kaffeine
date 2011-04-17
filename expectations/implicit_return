@@ -101,3 +101,15 @@ to:
 function() {
   throw "hello"
 }
+
+compiles: 
+
+function() {
+  return typeof step === 'string';
+}
+
+to: 
+
+function() { 
+  return typeof step === 'string';
+}
