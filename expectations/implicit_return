@@ -113,3 +113,16 @@ to:
 function() { 
   return typeof step === 'string';
 }
+
+compiles: 
+
+function() {
+  return x instanceof y
+}
+
+to: 
+
+function() { 
+  return x instanceof y
+}
+

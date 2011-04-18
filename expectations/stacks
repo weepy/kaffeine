@@ -110,4 +110,45 @@ do {
   // stuff 
 } while(true)
 
+compiles:
 
+x = {
+   x = y(/\\/g, '\\\\');
+   x = y(/"/g, '\\"');
+   return '"'+argument+'"';
+ };
+
+
+to: 
+
+var x; x = function() {
+   x = y(/\\/g, '\\\\');
+   x = y(/"/g, '\\"');
+   return '"'+argument+'"';
+ };
+ 
+compiles: 
+CurlCommand.escapeConfigValue = function(argument) {
+     argument += '';
+     argument = argument.replace(/\\/g, '\\\\');
+     argument = argument.replace(/"/g, '\\"');
+     argument = argument.replace(/\n/g, '\\n');
+     argument = argument.replace(/\t/g, '\\t');
+     argument = argument.replace(/\r/g, '\\r');
+     argument = argument.replace(/\v/g, '\\v');
+     return '"'+argument+'"';
+   };
+   
+to:
+
+CurlCommand.escapeConfigValue = function(argument) {
+     argument += '';
+     argument = argument.replace(/\\/g, '\\\\');
+     argument = argument.replace(/"/g, '\\"');
+     argument = argument.replace(/\n/g, '\\n');
+     argument = argument.replace(/\t/g, '\\t');
+     argument = argument.replace(/\r/g, '\\r');
+     argument = argument.replace(/\v/g, '\\v');
+     return '"'+argument+'"';
+   };
+   
