@@ -1,3 +1,0 @@
-# cp bin/brequire /usr/local/bin
-# echo "brequire installed"
-echo "deprecated"
