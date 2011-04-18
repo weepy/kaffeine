@@ -1,4 +1,39 @@
 #implicit_return
+
+
+compiles: 
+
+function() {
+  return x instanceof y
+}
+
+to: 
+
+function() { 
+  return x instanceof y
+}
+
+
+compiles: 
+function A() { 1*1+1 }
+
+to:
+function A() { return 1*1+1 }
+
+compiles:
+
+
+function() {
+  return x * y
+}
+
+
+to:
+
+function() {
+  return x * y
+}
+
 compiles:
 function A() { 1 }
 to:
@@ -112,17 +147,5 @@ to:
 
 function() { 
   return typeof step === 'string';
-}
-
-compiles: 
-
-function() {
-  return x instanceof y
-}
-
-to: 
-
-function() { 
-  return x instanceof y
 }
 

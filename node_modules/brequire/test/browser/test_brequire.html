@@ -1,0 +1,67 @@
+<style>
+body { font-family: arial; padding: 10px 300px;}
+.pass {color: #080;}
+.fail {color: #c00;}
+</style>
+<h1>brequire browser tests</h1>
+
+<script src=lib/shape.bundle.js></script>
+
+<h2>&bull; require("./shapes/circle.js") (from bundle) :
+
+<script>
+var Circle = require("./shapes/circle.js")
+var circle = new Circle(5)
+
+if(circle.area() == 75) {
+  document.write("<b class=pass>passed</b>")
+}
+else {
+  document.write("<b class=fail>failed</b>")
+}
+</script>
+</h2>
+
+<script src=lib/brequire.js></script>
+<script src=lib/pi.js></script>
+<script src=lib/shape.js></script>
+<script src=lib/shapes/circle.js></script>
+
+<h2>&bull; require("./shapes/circle.js") :
+
+<script>
+
+var Circle = require("./shapes/circle.js")
+var circle = new Circle(5)
+
+if(circle.area() == 75) {
+  document.write("<b class=pass>passed</b>")
+}
+else {
+  document.write("<b class=fail>failed</b>")
+}
+</script>
+</h2>
+
+<script src=lib/user_alt.bundle.js></script>
+
+<h2>&bull; require("user_alt") :
+
+<script>
+document.write(require("user_alt") == "admin" ? "<b class=pass>passed</b>" : "<b class=fail>failed</b>")
+</script>
+</h2>
+
+
+<script src=lib/single/single.js></script>
+
+<h2>&bull; require("./single.js") :
+
+<script>
+var pass = true
+if(require("./single.js") != "single!") pass = false
+if(require("./single") != "single!") pass = false
+document.write(pass ? "<b class=pass>passed</b>" : "<b class=fail>failed</b>")
+</script>
+</h2>
+

@@ -1,0 +1,27 @@
+
+
+compiles:
+
+   x = y(/"/g, '\\"');
+   return '"'+argument+'"';
+
+
+to:
+
+x
+
+
+compiles: 
+
+exports.parse = (fen) {
+  replace(/([0-9])/g, { (new Array(1+#1 /1)).join(".") })
+}
+
+exports.unparse = (board) {
+ rows.join "/"
+}
+
+to:
+
+x
+
