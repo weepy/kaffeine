@@ -101,6 +101,8 @@ UI.prototype.render = function() {
   return this.__super__.render.call(this)
 }
 
+compiles:
+
 UI#render = {
   super
 }
