@@ -28,7 +28,7 @@ class UI(x, y) extends Parent {
 
 to:
 function UI(x, y)  {
-  Parent.apply(this, arguments); x = 1
+  x = 1
 }
 __extends(UI, Parent)
 
@@ -74,7 +74,7 @@ class UI(x, y) extends Parent {
 
 to:
 function UI(x, y)  {
-  Parent.apply(this, arguments); x = 1
+  x = 1
 }
 __extends(UI, Parent)
 
