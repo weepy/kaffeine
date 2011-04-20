@@ -1,4 +1,4 @@
-#prototype hash
+#hash prototype
 compiles:
 function Animal() {}
 Animal#fast = function() { return this.speed > 100 }
