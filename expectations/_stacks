@@ -1,0 +1,96 @@
+compiles:
+exports.testAddEdge = (is, done) {
+  client.select 15
+  client.FLUSHDB()
+  
+  u = User.create! {id: "jonah"}
+  p = Puzzle.create! {id: 2}
+  
+  err, data = User.client.get! "User:jonah:love:n"
+  is.equal data, null
+  
+  ok = u.link! p.id, "love"
+  is.ok ok
+
+  //logKeys()
+  err, data = User.client.sismember! "User:jonah:love","2"
+  is.equal data, 1
+  
+  err, data = User.client.get! "User:jonah:love:n"
+  is.equal data, "1"
+  
+  done()
+}
+to:
+exports.testAddEdge = function(is, done) {
+  client.select(15)
+  client.FLUSHDB()
+  
+  User.create({id: "jonah"}, function(u) {  
+    Puzzle.create({id: 2}, function(p) {
+    
+      User.client.get("User:jonah:love:n", function(err, data) {
+        is.equal(data, null)
+        
+        u.link(p.id, "love", function(ok) {
+          is.ok(ok)
+          
+          //logKeys()
+          User.client.sismember("User:jonah:love","2", function(err, data) {
+            is.equal(data, 1)
+          
+            User.client.get("User:jonah:love:n", function(err, data) {
+              is.equal(data, "1")
+              
+              return done() }) }) }) }) }) })
+}
+
+compiles:
+{
+  for var i=0; i < n; i++
+    fn.call @, i 
+}
+
+to:
+function() { 
+  var i; for(i=0; i < n; i++)
+    fn.call(this, i)
+}
+
+compiles:
+x = {
+  x ||= y
+}
+
+to:
+
+var x; x = function() {
+  return x = x || y
+}
+
+compiles:
+for x of row.split "" 
+  log letter
+to:
+var _a, x; for(_a = 0; _a < (row.split("")).length; _a++) { x = (row.split(""))[_a];
+  log(letter) }
+
+
+compiles:
+if side == 1, letter .= toLowerCase()
+
+to:
+if(side == 1) letter = letter.toLowerCase()
+
+compiles:
+x {
+  @y ||= @x = new A
+}
+
+to:
+x(function() {
+  return this.y = this.y || this.x = new A
+})
+
+
+

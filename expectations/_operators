@@ -35,33 +35,7 @@ x(1).hello[1] = x(1).hello[1].toUpperCase()
 
 
 compiles:
-a => b
-to:
-__merge(a, b) 
-
-function __merge(a,b) {
-  a = a || {};
-  for(var k in a) b[k] = a[k];
-  return b;
-}
-
-compiles:
-c = a -> b
-
-to:
-
-c = __extend(a, b)
-
-function __extend(a,b) {
-  var c = {};
-  a = a || {};
-  for(var k in b) c[k] = b[k];
-  for(var k in a) c[k] = a[k];
-  return c;
-}
-
-compiles:
-a -> b
+a <- b
 to: 
 __extend(a, b)
 
@@ -74,8 +48,8 @@ function __extend(a,b) {
 }
 
 compiles:
-a -> b
-z = a*z[123] -> b.options().z
+a <- b
+z = a*z[123] <- b.options().z
 to:
 __extend(a, b)
 z = __extend(a*z[123], b.options().z)
@@ -96,10 +70,10 @@ if(side == 1) letter = letter.toLowerCase()
 
 compiles:
 x(function() {
-  this.y ||= this.x = new A
+  return this.y ||= this.x = new A
 })
 
 to:
 x(function() {
-  this.y = this.y || this.x = new A
+  return this.y = this.y || this.x = new A
 })

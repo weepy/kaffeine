@@ -17,4 +17,4 @@ arguments[2]
 compiles:
 #myVar
 to:
-arguments[myVar]
+#myVar

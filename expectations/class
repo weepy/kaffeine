@@ -8,8 +8,7 @@ class UI {
 to:
 function UI() {
 
-}
-
+};
 
 compiles:
 class UI(x, y) {
@@ -19,18 +18,17 @@ class UI(x, y) {
 to:
 function UI(x, y) {
   x = 1
-}
+}; 
 
 compiles:
 class UI(x, y) extends Parent {
   x = 1
-}
+}; 
 
 to:
 function UI(x, y)  {
   x = 1
-}
-__extends(UI, Parent)
+}; __extends(UI, Parent);  
 
 function __extends(child, parent) {
   var __hasProp = Object.prototype.hasOwnProperty;
@@ -46,13 +44,12 @@ compiles:
 
 class UI(x, y) extends X {
   super(x, y)
-}
+};
 
 to:
 function UI(x, y)  {
   X.call(this, x, y)
-}
-__extends(UI, X)
+}; __extends(UI, X);  
 
 function __extends(child, parent) {
   var __hasProp = Object.prototype.hasOwnProperty;
@@ -75,8 +72,7 @@ class UI(x, y) extends Parent {
 to:
 function UI(x, y)  {
   x = 1
-}
-__extends(UI, Parent)
+}; __extends(UI, Parent); 
 
 function __extends(child, parent) {
   var __hasProp = Object.prototype.hasOwnProperty;
@@ -89,7 +85,6 @@ function __extends(child, parent) {
 }
 
 compiles:
-
 
 UI#render = {
   super()
@@ -112,4 +107,50 @@ to:
 UI.prototype.render = function() {
   return this.__super__.render.apply(this, arguments)
 }
+
+compiles:
+
+class Z(key) {
+  @head = null
+  @key = key
+}
+
+to:
+
+function Z(key) {
+  @head = null
+  @key = key
+}; 
+
+compiles:
+class Z
+
+to:
+function Z(){;}; 
+
+
+compiles:
+class Z; class A
+
+to:
+function Z(){;}; function A(){;};
+
+compiles:
+
+class Z extends Y
+
+to:
+
+function Z(){ Y.apply(this, arguments);}; __extends(Z, Y);
+
+function __extends(child, parent) {
+  var __hasProp = Object.prototype.hasOwnProperty;
+  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+  function ctor() { this.constructor = child; }
+  ctor.prototype = parent.prototype;
+  child.prototype = new ctor;
+  child.__super__ = parent.prototype;
+  return child;
+}
+
 
