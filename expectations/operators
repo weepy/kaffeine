@@ -1,6 +1,22 @@
 #operators
 
 compiles:
+if(side == 1) letter .= toLowerCase()
+
+to:
+if(side == 1) letter = letter.toLowerCase()
+
+compiles:
+x(function() {
+  this.y ||= this.x = new A
+})
+
+to:
+x(function() {
+  this.y = this.y || this.x = new A
+})
+
+compiles:
 
 x ||= 5
 
@@ -33,11 +49,20 @@ to:
 
 x(1).hello[1] = x(1).hello[1].toUpperCase()
 
-
 compiles:
-a => b
+c = a <- b
 to:
-__merge(a, b) 
+c = __merge(a, b)
+
+function __merge(a,b) {
+  a = a || {};
+  for(var k in a) b[k] = a[k];
+  return b;
+}
+compiles:
+a <- b
+to: 
+__merge(a, b)
 
 function __merge(a,b) {
   a = a || {};
@@ -46,60 +71,16 @@ function __merge(a,b) {
 }
 
 compiles:
-c = a -> b
-
+a <- b
+z = a*z[123] <- b.options().z
 to:
+__merge(a, b)
+z = __merge(a*z[123], b.options().z)
 
-c = __extend(a, b)
-
-function __extend(a,b) {
-  var c = {};
+function __merge(a,b) {
   a = a || {};
-  for(var k in b) c[k] = b[k];
-  for(var k in a) c[k] = a[k];
-  return c;
+  for(var k in a) b[k] = a[k];
+  return b;
 }
 
-compiles:
-a -> b
-to: 
-__extend(a, b)
 
-function __extend(a,b) {
-  var c = {}, i;
-  a = a || {};
-  for(i in a) c[i] = a[i];
-  for(i in b) c[i] = b[i];
-  return c;
-}
-
-compiles:
-a -> b
-z = a*z[123] -> b.options().z
-to:
-__extend(a, b)
-z = __extend(a*z[123], b.options().z)
-
-function __extend(a,b) {
-  var c = {}, i;
-  a = a || {};
-  for(i in a) c[i] = a[i];
-  for(i in b) c[i] = b[i];
-  return c;
-}
-
-compiles:
-if(side == 1) letter .= toLowerCase()
-
-to:
-if(side == 1) letter = letter.toLowerCase()
-
-compiles:
-x(function() {
-  this.y ||= this.x = new A
-})
-
-to:
-x(function() {
-  this.y = this.y || this.x = new A
-})
