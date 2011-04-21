@@ -55,7 +55,7 @@ to:
 c = __merge(a, b)
 
 function __merge(a,b) {
-  a = a || {};
+  b = b || {};
   for(var k in a) b[k] = a[k];
   return b;
 }
@@ -65,7 +65,7 @@ to:
 __merge(a, b)
 
 function __merge(a,b) {
-  a = a || {};
+  b = b || {};
   for(var k in a) b[k] = a[k];
   return b;
 }
@@ -78,7 +78,7 @@ __merge(a, b)
 z = __merge(a*z[123], b.options().z)
 
 function __merge(a,b) {
-  a = a || {};
+  b = b || {};
   for(var k in a) b[k] = a[k];
   return b;
 }
