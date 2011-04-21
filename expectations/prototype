@@ -1,17 +1,24 @@
 #hash prototype
 compiles:
+
 function Animal() {}
-Animal#fast = function() { return this.speed > 100 }
-Animal#alive = true
+Animal::fast = function() { return this.speed > 100 }
+Animal::alive = true
+
 to:
+
 function Animal() {}
 Animal.prototype.fast = function() { return this.speed > 100 }
 Animal.prototype.alive = true
+
 compiles:
+
 function Mammal() {}
-Mammal#legs = function() { return # }
-#lungs = true
+Mammal::legs = function() { return # }
+::lungs = true
+
 to:
+
 function Mammal() {}
 Mammal.prototype.legs = function() { return arguments[0] } 
 Mammal.prototype.lungs = true

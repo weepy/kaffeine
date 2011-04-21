@@ -86,7 +86,7 @@ function __extends(child, parent) {
 
 compiles:
 
-UI#render = {
+UI::render = {
   super()
 }
 
@@ -98,7 +98,7 @@ UI.prototype.render = function() {
 
 compiles:
 
-UI#render = {
+UI::render = {
   super
 }
 
