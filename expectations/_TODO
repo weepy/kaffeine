@@ -80,3 +80,21 @@ var x; x = function() {
 }
 
 
+compiles:
+
+x = {
+  if @_puzzle, return callback @_puzzle
+
+  @_puzzle = Puzzle.find! @puzzle_id()
+  callback @_puzzle
+}
+
+to:
+ var x; x = function() {
+  var _this = this; if(this._puzzle) return callback(this._puzzle)
+
+  Puzzle.find(this.puzzle_id(), function(_0) { _this._puzzle = _0
+  return callback(_this._puzzle) })
+}
+
+
