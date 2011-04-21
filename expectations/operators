@@ -56,8 +56,8 @@ c = __merge(a, b)
 
 function __merge(a,b) {
   b = b || {};
-  for(var k in a) b[k] = a[k];
-  return b;
+  for(var k in b) a[k] = b[k];
+  return a;
 }
 compiles:
 a <- b
@@ -66,8 +66,8 @@ __merge(a, b)
 
 function __merge(a,b) {
   b = b || {};
-  for(var k in a) b[k] = a[k];
-  return b;
+  for(var k in b) a[k] = b[k];
+  return a;
 }
 
 compiles:
@@ -79,8 +79,18 @@ z = __merge(a*z[123], b.options().z)
 
 function __merge(a,b) {
   b = b || {};
-  for(var k in a) b[k] = a[k];
-  return b;
+  for(var k in b) a[k] = b[k];
+  return a;
 }
 
+compiles: 
 
+a <- (b <- c) 
+to:
+__merge(a, (__merge(b, c)))
+
+function __merge(a,b) {
+  b = b || {};
+  for(var k in b) a[k] = b[k];
+  return a;
+}
