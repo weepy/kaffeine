@@ -11,7 +11,7 @@ compiles:
 
 to:
 
-__.x = y
+var __ = require('pipe_utils');  __.x = y
 
 compiles:
 
@@ -19,4 +19,4 @@ x | map y*y
 
 to:
 
-x | y*y
+var __ = require('pipe_utils'); x | y*y
