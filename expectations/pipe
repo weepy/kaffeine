@@ -1,5 +1,10 @@
 #hash pre_pipe implicit_functions pipe implicit_return
+compiles:
+klass.properties = klass.properties | clone | extend props
 
+
+to:
+var __ = require('pipe_utils'); klass.properties = __.extend.call(this, __.clone.call(this, klass.properties), props)
 
 compiles: 
 a | map x

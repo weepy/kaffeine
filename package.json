@@ -2,7 +2,7 @@
   "name": "kaffeine",
   "version": "0.0.8",
   "description": "Enhanced Syntax for Javascript",
-  "keywords": ["javascript", "language", "compiler", "coffeescript"],
+  "keywords": ["javascript", "language", "compiler", "coffeescript", "altjs"],
   "author": "weepy",
   "licenses":     [{
     "type":       "MIT",

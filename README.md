@@ -27,7 +27,7 @@ Edge::add = (nick, name, complete) {
 
 READ MORE HERE ---> http://weepy.github.com/kaffeine <-----
 
-also on IRC: #kaffeine.js
+also on IRC: #altjs
 
 
 Tests
