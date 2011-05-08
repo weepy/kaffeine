@@ -36,7 +36,8 @@ function __extends(child, parent) {
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
-  child.__super__ = parent.prototype;
+  child.__super__ = parent;
+  child.prototype.__super__ = parent.prototype;
   return child;
 }
 
@@ -48,7 +49,7 @@ class UI(x, y) extends X {
 
 to:
 function UI(x, y)  {
-  X.call(this, x, y)
+  this.constructor.__super__.call(this, x, y)
 }; __extends(UI, X);  
 
 function __extends(child, parent) {
@@ -57,7 +58,8 @@ function __extends(child, parent) {
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
-  child.__super__ = parent.prototype;
+  child.__super__ = parent;
+  child.prototype.__super__ = parent.prototype;
   return child;
 }
 
@@ -80,7 +82,8 @@ function __extends(child, parent) {
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
-  child.__super__ = parent.prototype;
+  child.__super__ = parent;
+  child.prototype.__super__ = parent.prototype;
   return child;
 }
 
@@ -141,7 +144,7 @@ class Z extends Y
 
 to:
 
-function Z(){ Y.apply(this, arguments);}; __extends(Z, Y);
+function Z(){ this.constructor.__super__.apply(this, arguments);}; __extends(Z, Y);
 
 function __extends(child, parent) {
   var __hasProp = Object.prototype.hasOwnProperty;
@@ -149,7 +152,8 @@ function __extends(child, parent) {
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
-  child.__super__ = parent.prototype;
+  child.__super__ = parent;
+  child.prototype.__super__ = parent.prototype;
   return child;
 }
 
