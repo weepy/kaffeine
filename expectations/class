@@ -1,4 +1,4 @@
-#class implicit_functions super prototype implicit_return
+#class implicit_functions prototype super implicit_return
 
 compiles:
 class UI {
@@ -36,8 +36,7 @@ function __extends(child, parent) {
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
-  child.__super__ = parent;
-  child.prototype.__super__ = parent.prototype;
+  child.__super__ = parent.prototype;
   return child;
 }
 
@@ -49,7 +48,7 @@ class UI(x, y) extends X {
 
 to:
 function UI(x, y)  {
-  this.constructor.__super__.call(this, x, y)
+  UI.__super__.constructor.call(this, x, y)
 }; __extends(UI, X);  
 
 function __extends(child, parent) {
@@ -58,8 +57,7 @@ function __extends(child, parent) {
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
-  child.__super__ = parent;
-  child.prototype.__super__ = parent.prototype;
+  child.__super__ = parent.prototype;
   return child;
 }
 
@@ -82,8 +80,7 @@ function __extends(child, parent) {
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
-  child.__super__ = parent;
-  child.prototype.__super__ = parent.prototype;
+  child.__super__ = parent.prototype;
   return child;
 }
 
@@ -96,7 +93,7 @@ UI::render = {
 to:
 
 UI.prototype.render = function() {
-  return this.__super__.render.call(this)
+  return UI.__super__.render.call(this)
 }
 
 compiles:
@@ -108,7 +105,7 @@ UI::render = {
 to:
 
 UI.prototype.render = function() {
-  return this.__super__.render.apply(this, arguments)
+  return UI.__super__.render.apply(this, arguments)
 }
 
 compiles:
@@ -144,7 +141,7 @@ class Z extends Y
 
 to:
 
-function Z(){ this.constructor.__super__.apply(this, arguments);}; __extends(Z, Y);
+function Z(){ Z.__super__.constructor.apply(this, arguments);}; __extends(Z, Y);
 
 function __extends(child, parent) {
   var __hasProp = Object.prototype.hasOwnProperty;
@@ -152,8 +149,7 @@ function __extends(child, parent) {
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
-  child.__super__ = parent;
-  child.prototype.__super__ = parent.prototype;
+  child.__super__ = parent.prototype;
   return child;
 }
 
