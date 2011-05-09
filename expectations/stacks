@@ -141,3 +141,27 @@ Unit.prototype.initialize = function() {
 }
 
 
+compiles:
+
+class B extends A {
+  x = 1 
+}
+
+
+to:
+
+function B()  {
+  var x; x = 1
+}; __extends(B, A);
+
+
+function __extends(child, parent) {
+  var __hasProp = Object.prototype.hasOwnProperty;
+  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+  function ctor() { this.constructor = child; }
+  ctor.prototype = parent.prototype;
+  child.prototype = new ctor;
+  child.__super__ = parent.prototype;
+  return child;
+}
+

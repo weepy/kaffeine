@@ -1,5 +1,4 @@
-#class implicit_functions prototype super implicit_return
-
+#class implicit_functions prototype super implicit_return 
 compiles:
 class UI {
   
@@ -176,5 +175,4 @@ function __extends(child, parent) {
   child.__super__ = parent.prototype;
   return child;
 }
-
 
