@@ -126,5 +126,18 @@ var x; x = function() {
    x = y(/"/g, '\\"');
    return '"'+argument+'"';
  };
- 
+
+
+
+compiles: 
+
+Unit::initialize = {
+  super o
+}
+to: 
+
+Unit.prototype.initialize = function() {
+  return Unit.__super__.initialize.call(this, o)
+}
+
 

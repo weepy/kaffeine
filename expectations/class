@@ -107,6 +107,30 @@ to:
 UI.prototype.render = function() {
   return UI.__super__.render.apply(this, arguments)
 }
+compiles:
+
+UI::render = {
+  super(o)
+}
+
+to:
+
+UI.prototype.render = function() {
+  return UI.__super__.render.call(this, o)
+}
+
+compiles:
+
+UI::render = {
+  super
+}
+
+to:
+
+UI.prototype.render = function() {
+  return UI.__super__.render.apply(this, arguments)
+}
+
 
 compiles:
 
