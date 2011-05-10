@@ -29,7 +29,8 @@ x = ->
 
 to:
 
-x = function() { 
+x = function() 
+{ 
   x 
 } 
 

@@ -1,5 +1,14 @@
 compiles:
-exports.testAddEdge = (is, done) {
+
+map -> { a * 11 }
+
+to:
+
+map(function() { return a * 11 })
+
+compiles:
+
+exports.testAddEdge = (is, done) -> {
   client.select 15
   client.FLUSHDB()
   
@@ -48,7 +57,7 @@ exports.testAddEdge = function(is, done) {
 
 
 compiles:
-{
+-> {
   for var i=0; i < n; i++
     fn.call @, i 
 }
@@ -60,7 +69,7 @@ function() {
 }
 
 compiles:
-x = {
+x = -> {
   x ||= y
 }
 
@@ -112,7 +121,7 @@ do {
 
 compiles:
 
-x = {
+x = -> {
    x = y(/\\/g, '\\\\');
    x = y(/"/g, '\\"');
    return '"'+argument+'"';
@@ -131,7 +140,7 @@ var x; x = function() {
 
 compiles: 
 
-Unit::initialize = {
+Unit::initialize = -> {
   super o
 }
 to: 

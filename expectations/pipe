@@ -1,4 +1,4 @@
-#hash pre_pipe implicit_functions pipe implicit_return
+#arrow hash pre_pipe pipe implicit_return
 compiles:
 klass.properties = klass.properties | clone | extend props
 
@@ -43,7 +43,7 @@ var __ = require('pipe_utils'); __.hide.call(this, __.run.call(this, x))
 compiles:
 a
 x |
-  detect {;}
+  detect -> {;}
 b  
 to:
 var __ = require('pipe_utils'); a
@@ -83,7 +83,7 @@ var __ = require('pipe_utils'); __.map.call(this, a, function() {
 })
 
 compiles:
-a | map {
+a | map -> {
   return arguments[0](x[3])
 }
 to:
