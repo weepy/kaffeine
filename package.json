@@ -1,6 +1,6 @@
 {
   "name": "kaffeine",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Enhanced Syntax for Javascript",
   "keywords": ["javascript", "language", "compiler", "coffeescript", "altjs"],
   "author": "weepy",
@@ -13,7 +13,7 @@
     "lib" : "./lib"
   },
   "dependencies": {
-    "pipe_utils": ">= 0.0.3"
+    "pipe_utils": ">= 0.0.4"
   },
   "repository": "http://github.com/weepy/kaffeine",
   "engines" : { "node": ">= 0.3.0" },
