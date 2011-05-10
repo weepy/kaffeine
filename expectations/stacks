@@ -1,5 +1,22 @@
 compiles:
 
+state is :active
+
+to:
+
+state === 'active'
+
+
+compiles:
+
+-> x is y
+
+to: 
+
+function() { return x === y }
+
+compiles:
+
 map -> { a * 11 }
 
 to:

@@ -1,0 +1,66 @@
+
+compiles:
+
+is_native = -> # is String or # is Boolean or # is Object or # is Number or # is Array
+is_container = -> # isnt null and (# is Object or # is Array)
+
+Base = (props = {}) -> {
+  for key, o in @@properties {
+    if !(key in props), continue
+    klass = o.klass
+    x = props[key]
+    if x != null {
+      if is_native klass,  x = new klass x
+
+      if is_container klass {
+        for k, o in x {
+          if !o.klass, continue
+          x[k] = Base.create o
+        }
+      }
+    }
+    @[key] = x
+  }
+  @klass = @@klass
+  @initialize()
+}
+
+klasses = {"Base": Base}
+
+Base::initialize = -> {;}
+Base.klass = "Base"
+Base.properties = { klass: { klass: String } }
+
+Base.extend = (name, props = {}) -> {
+  klass = { Base.apply @, arguments; }
+  klass | inherits @
+  klass.properties = klass.properties | clone | extend props
+  klass.klass = name
+  klasses[name] = klass
+  klass
+}
+
+Base.create = (json) -> new klasses[json.klass](json)
+
+Base::toJSON = -> {
+  json = {}
+  for key, o in @@properties {
+    if !(key in @), continue
+    x = is_native(o.klass) ? @[key] : @[key].toJSON()
+    if is_container o.klass {
+      for k, obj in x {
+        if !obj.klass, continue
+        x[k] = obj.toJSON()
+      }
+    }
+    json[key] = x
+  }
+  json
+}
+
+module.exports = Base
+
+
+to:
+
+xxxxxxx
