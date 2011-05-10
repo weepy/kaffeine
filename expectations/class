@@ -1,4 +1,18 @@
-#class implicit_functions prototype super implicit_return 
+#arrow class prototype super implicit_return 
+compiles:
+
+UI::render = -> {
+  super()
+}
+
+to:
+
+UI.prototype.render = function() {
+  return UI.__super__.render.call(this)
+}
+
+
+
 compiles:
 class UI {
   
@@ -85,19 +99,7 @@ function __extends(child, parent) {
 
 compiles:
 
-UI::render = {
-  super()
-}
-
-to:
-
-UI.prototype.render = function() {
-  return UI.__super__.render.call(this)
-}
-
-compiles:
-
-UI::render = {
+UI::render = -> {
   super
 }
 
@@ -108,7 +110,7 @@ UI.prototype.render = function() {
 }
 compiles:
 
-UI::render = {
+UI::render = -> {
   super(o)
 }
 
@@ -120,7 +122,7 @@ UI.prototype.render = function() {
 
 compiles:
 
-UI::render = {
+UI::render = -> {
   super
 }
 

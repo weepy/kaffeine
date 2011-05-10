@@ -1,0 +1,26 @@
+#englify
+compiles:
+
+x or y and z isnt not z
+
+to:
+
+x || y && z !== !z
+
+compiles:
+
+x is y isnt not z
+
+to:
+
+x === y !== !z
+
+compiles:
+
+x.is.eql 5
+
+to:
+
+x.is.eql 5
+
+

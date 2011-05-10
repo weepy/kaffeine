@@ -1,0 +1,36 @@
+#ruby_symbols
+
+compiles:
+
+:1235
+
+to:
+
+'1235'
+
+compiles:
+
+a(:x)
+
+to:
+
+a('x')
+
+compiles:
+
+{a: :123}
+
+to:
+
+{a: '123'}
+
+compiles:
+
+a ? 123 :123
+
+to:
+
+a ? 123 '123'
+
+
+

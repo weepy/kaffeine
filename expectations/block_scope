@@ -1,0 +1,33 @@
+#block_scope
+compiles:
+{leave: objects}
+{}
+{ }
+
+to:
+{leave: objects}
+{}
+{ }
+
+compiles:
+var x = { return a }
+
+to:
+var x = (function() { return a }).call(this)
+
+compiles:
+{
+  x: y
+}
+
+to:
+{
+  x: y
+}
+
+compiles:
+{;}
+
+to:
+(function() {;}).call(this)
+

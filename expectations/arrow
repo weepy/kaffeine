@@ -1,0 +1,71 @@
+#arrow
+
+compiles: 
+
+x = -> { x } 
+
+to:
+
+x = function() { x } 
+
+compiles: 
+
+x = -> { 
+  x 
+} 
+
+to:
+
+x = function() { 
+  x 
+} 
+
+compiles: 
+
+x = -> 
+{ 
+  x 
+} 
+
+to:
+
+x = function() { 
+  x 
+} 
+
+
+
+compiles: 
+
+(x) -> {}
+
+to:
+
+function(x) {}
+
+compiles:
+
+a((x,y) -> {})
+
+to:
+
+a(function(x,y) {})
+
+compiles:
+
+x = -> return x*x
+
+to:
+
+x = function() { return x*x }
+
+compiles: 
+
+x = => x
+
+to:
+
+x = __bind(function() { x }, this);
+
+function __bind(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
