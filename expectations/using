@@ -6,7 +6,7 @@ using * from X
 
 to:
 
-var _i = X; for(var _j in _i) eval('var ' + _j + ' = ' + _i[_j]);
+var _i = X; for(var _j in _i) eval('var ' + _j + ' = _i[\'' + _j + '\'];');
 
 compiles:
 
@@ -22,7 +22,7 @@ using * from require("mylib")
 
 to:
 
-var _i = require("mylib"); for(var _j in _i) eval('var ' + _j + ' = ' + _i[_j]);
+var _i = require("mylib"); for(var _j in _i) eval('var ' + _j + ' = _i[\'' + _j + '\'];');
 
 compiles: 
 
@@ -30,5 +30,5 @@ using * from require "mylib"
 
 to:
 
-var _i = require "mylib"; for(var _j in _i) eval('var ' + _j + ' = ' + _i[_j]);
+var _i = require "mylib"; for(var _j in _i) eval('var ' + _j + ' = _i[\'' + _j + '\'];');
 
