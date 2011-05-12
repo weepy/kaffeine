@@ -1,5 +1,42 @@
 #arrow
 
+
+compiles: 
+
+initialize = ->
+Base.klass = "Base"
+
+to:
+
+initialize = function(){}
+Base.klass = "Base"
+
+compiles:
+inactive = ->
+
+x
+
+
+to:
+
+inactive = function()
+{}
+x
+
+compiles:
+inactive = ->  
+
+x
+
+
+to:
+
+inactive = function()
+{}
+x
+
+
+
 compiles: 
 
 x = -> { x } 

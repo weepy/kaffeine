@@ -1,6 +1,6 @@
 {
   "name": "kaffeine",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Enhanced Syntax for Javascript",
   "keywords": ["javascript", "language", "compiler", "coffeescript", "altjs"],
   "author": "weepy",

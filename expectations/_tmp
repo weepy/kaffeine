@@ -1,7 +1,11 @@
 compiles:
-using * from require "../units/all"
+Unit::inactive = ->
+
+x
 
 
 to:
 
-xx
+Unit.prototype.inactive = function() {}
+
+x
