@@ -1,0 +1,34 @@
+#using
+
+compiles:
+
+using * from X
+
+to:
+
+var _i = X; for(var _j in _i) eval('var ' + _j + ' = ' + _i[_j]);
+
+compiles:
+
+using a, b from X
+
+to:
+
+var _i = X; var a = _i[a]; var b = _i[b];
+
+compiles: 
+
+using * from require("mylib")
+
+to:
+
+var _i = require("mylib"); for(var _j in _i) eval('var ' + _j + ' = ' + _i[_j]);
+
+compiles: 
+
+using * from require "mylib"
+
+to:
+
+var _i = require "mylib"; for(var _j in _i) eval('var ' + _j + ' = ' + _i[_j]);
+
