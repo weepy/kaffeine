@@ -1,11 +1,20 @@
 compiles:
-Unit::inactive = ->
 
-x
+-> x == y
 
+to:
+
+function() { return x === y }
+
+compiles:
+for file of x("fs").y "#{a}/#{x}" {
+  xxxxx
+}
 
 to:
 
 Unit.prototype.inactive = function() {}
 
 x
+
+  
