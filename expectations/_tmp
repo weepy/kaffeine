@@ -1,10 +1,3 @@
-compiles:
-
--> x == y
-
-to:
-
-function() { return x === y }
 
 compiles:
 for file of x("fs").y "#{a}/#{x}" {
@@ -18,3 +11,6 @@ Unit.prototype.inactive = function() {}
 x
 
   
+var _xpr, _a, file; for(_a = 0; _a < ((_xpr=x("fs").y)(("" + (a) + "/" + (x)))).length; _a++) { file = _xpr[_a];
+  xxxxx
+}
