@@ -1,16 +1,18 @@
-
 compiles:
-for file of x("fs").y "#{a}/#{x}" {
-  xxxxx
+Base = (json = {}) -> {
+  for key, o in @@properties
+    if key in json
+      @[key] = expand json[key]
+    else {
+      o.default && (@[key] = o.default)
+    }
+  
+  @klass = @@klass
+  @initialize()
+  if @id, Base.all[@id] = @
+  @
 }
 
 to:
 
-Unit.prototype.inactive = function() {}
-
-x
-
-  
-var _xpr, _a, file; for(_a = 0; _a < ((_xpr=x("fs").y)(("" + (a) + "/" + (x)))).length; _a++) { file = _xpr[_a];
-  xxxxx
-}
+xx

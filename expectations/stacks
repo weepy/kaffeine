@@ -1,4 +1,26 @@
 compiles:
+-> {
+  for var i=0; i < n; i++
+    fn.call @, i 
+}
+
+to:
+function() { 
+  var i; for(i=0; i < n; i++)
+    fn.call(this, i)
+}
+
+compiles:
+
+for y in x
+  if x, return
+
+to:
+
+for(y in x)
+  if(x) return
+
+compiles:
 
 state is :active
 
@@ -73,17 +95,7 @@ exports.testAddEdge = function(is, done) {
 
 
 
-compiles:
--> {
-  for var i=0; i < n; i++
-    fn.call @, i 
-}
 
-to:
-function() { 
-  var i; for(i=0; i < n; i++)
-    fn.call(this, i)
-}
 
 compiles:
 x = -> {

@@ -2,6 +2,16 @@
 
 compiles:
 
+using * from require "../units/all"
+using * from dawn
+
+to:
+
+var _i = require "../units/all"; for(var _j in _i) eval('var ' + _j + ' = _i[\'' + _j + '\'];');
+var _i = dawn; for(var _j in _i) eval('var ' + _j + ' = _i[\'' + _j + '\'];');
+
+compiles:
+
 using * from X
 
 to:

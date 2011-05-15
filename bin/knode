@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 require("kaffeine")
 var path = require("path")
-var file = process.ARGV[2]
+
+var x = process.ARGV.length - 1
+var file = process.ARGV[x]
 
 if(!file)  {
   console.log("missing source file?")

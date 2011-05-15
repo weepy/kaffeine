@@ -1,4 +1,22 @@
 #arrow hash pre_pipe pipe implicit_return
+
+compiles: 
+
+@poly | times | map -> @create_proto()
+
+to:
+
+var __ = require('pipe_utils'); __.map.call(this, __.times.call(this, @poly), function() { return @create_proto() })
+
+compiles: 
+
+(@[key] = o.default | clone)
+
+to:
+
+var __ = require('pipe_utils'); (@[key] = __.clone.call(this, o.default))
+
+      
 compiles:
 klass.properties = klass.properties | clone | extend props
 
@@ -48,7 +66,7 @@ b
 to:
 var __ = require('pipe_utils'); a
 __
-.detect.call(this, x, function() {return ;})
+.detect.call(this, x, function() {;})
 b
 
 compiles:
@@ -59,7 +77,7 @@ b
 to:
 var __ = require('pipe_utils'); a
 
-__.detect.call(this, x, function() {return ;})
+__.detect.call(this, x, function() {;})
 b
 
 

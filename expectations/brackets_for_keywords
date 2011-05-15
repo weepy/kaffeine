@@ -1,5 +1,14 @@
 #brackets_for_keywords
 
+compiles: 
+
+if key in json, @[key] = expand o
+
+to: 
+
+if(key in json) @[key] = expand o
+
+
 compiles:
 if true// hello
   ok(true)

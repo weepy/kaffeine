@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+var child = require('child_process').spawn("knode", process.ARGV.slice(2))
+
+child.stdout.pipe(process.stdout, { end: false })
+child.stderr.pipe(process.stderr, { end: false })
+child.stdin.pipe(process.stdin, { end: false })
+
