@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+var jade = require("jade")
+var fs = require("fs")
+// Render a file
+var render = function(file, output) {
+  var text = fs.readFileSync(file)
+  return jade.render(text, {
+    locals: {
+      partial: function(file) {
+        return render(file + ".jade")
+      }
+    }
+  })
+}
+
+fs.writeFileSync("./index.html", render("./index.jade"))

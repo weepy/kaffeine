@@ -1,0 +1,27 @@
+h2 Getting Started - The Basics
+
+p Kaffeine uses a progressive enhancement approach, which means you don't have to start using all the features at once. Start with the ones that make most sense to you, and then adopt the more powerful ones in your own time. Even if you wrote a 100% plain JavaScript program and ran it through the Kaffeine compiler, it would still work exactly the same.
+
+textarea
+  // Implicit variable declarions
+  zoo = {}
+  // Function arrow syntax and implicit formal parameter list
+  hello = -> { "Greetings!" }
+  // Hash shortcut for arguments
+  square = -> { # * # }
+
+  // Implicit brackets for function calls with arguments
+  open door
+
+  // Alternative method-calling mechanism (piping)
+  users | select { #.age > 18 }
+
+  // For loop extensions (of)
+  for user of users
+    send.welcome user
+
+  // Unwrapping async calls via the ! postfix
+  if Job.count! > 10 {
+    data = retrieve!
+    process data
+  }
