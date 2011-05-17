@@ -6,7 +6,7 @@ compiles:
 
 to:
 
-var __ = require('pipe_utils'); __.map.call(this, __.times.call(this, @poly), function() { return @create_proto() })
+_.map(_.times(@poly), function() { return @create_proto() })
 
 compiles: 
 
@@ -14,7 +14,7 @@ compiles:
 
 to:
 
-var __ = require('pipe_utils'); (@[key] = __.clone.call(this, o.default))
+(@[key] = _.clone(o.default))
 
       
 compiles:
@@ -22,13 +22,13 @@ klass.properties = klass.properties | clone | extend props
 
 
 to:
-var __ = require('pipe_utils'); klass.properties = __.extend.call(this, __.clone.call(this, klass.properties), props)
+klass.properties = _.extend(_.clone(klass.properties), props)
 
 compiles: 
 a | map x
 
 to:
-var __ = require('pipe_utils'); __.map.call(this, a, x)
+_.map(a, x)
 
 
 compiles:
@@ -37,8 +37,8 @@ x | each function() {
 }
 
 to:
-var __ = require('pipe_utils'); __.each.call(this, x, function() {
-  return __.map.call(this, a, x)
+_.each(x, function() {
+  return _.map(a, x)
 })
 
 
@@ -46,7 +46,7 @@ compiles:
 x | run | hide()
 
 to:
-var __ = require('pipe_utils'); __.hide.call(this, __.run.call(this, x))
+_.hide(_.run(x))
 
 compiles:
 
@@ -54,7 +54,7 @@ x | run() | hide()
 
 to:
 
-var __ = require('pipe_utils'); __.hide.call(this, __.run.call(this, x))
+_.hide(_.run(x))
 
 
 
@@ -64,9 +64,9 @@ x |
   detect -> {;}
 b  
 to:
-var __ = require('pipe_utils'); a
-__
-.detect.call(this, x, function() {;})
+a
+_
+.detect(x, function() {;})
 b
 
 compiles:
@@ -75,28 +75,28 @@ x
   | detect function() {;}
 b
 to:
-var __ = require('pipe_utils'); a
+a
 
-__.detect.call(this, x, function() {;})
+_.detect(x, function() {;})
 b
 
 
 compiles:
 var x = [2] | map square
 to:
-var __ = require('pipe_utils'); var x = __.map.call(this, [2], square)
+var x = _.map([2], square)
 
 compiles:
 var x = [1,2,3,4,5,6,7] | map square | detect more_than_10
 to:
-var __ = require('pipe_utils'); var x = __.detect.call(this, __.map.call(this, [1,2,3,4,5,6,7], square), more_than_10)
+var x = _.detect(_.map([1,2,3,4,5,6,7], square), more_than_10)
 
 compiles:
 a | map function() {
   return arguments[0](x[3])
 }
 to:
-var __ = require('pipe_utils'); __.map.call(this, a, function() {
+_.map(a, function() {
   return arguments[0](x[3])
 })
 
@@ -105,7 +105,7 @@ a | map -> {
   return arguments[0](x[3])
 }
 to:
-var __ = require('pipe_utils'); __.map.call(this, a, function() {
+_.map(a, function() {
   return arguments[0](x[3])
 })
 
@@ -116,8 +116,8 @@ x | run(a,b)
 x | reverse()
 
 to:
-var __ = require('pipe_utils'); __.run.call(this, x, a)
-__.run.call(this, x, a,b)
-__.reverse.call(this, x)
+_.run(x, a)
+_.run(x, a,b)
+_.reverse(x)
 
 

@@ -1,17 +1,4 @@
 #pre_pipe
-compiles:
-| = require("x")
-
-to:
-__ = require("x")
-
-compiles:
-
-|.x = y
-
-to:
-
-var __ = require('pipe_utils');  __.x = y
 
 compiles:
 
@@ -19,4 +6,4 @@ x | map y*y
 
 to:
 
-var __ = require('pipe_utils'); x | y*y
+x | y*y

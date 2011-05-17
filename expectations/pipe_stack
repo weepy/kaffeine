@@ -2,4 +2,4 @@ compiles:
 x | map -> { a * 11 } | detect -> { b*b > 30 }
 
 to:
-var __ = require('pipe_utils'); __.detect.call(this, __.map.call(this, x, function() { return a * 11 }), function() { return b*b > 30 })
+_.detect(_.map(x, function() { return a * 11 }), function() { return b*b > 30 })

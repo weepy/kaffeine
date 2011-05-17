@@ -12,9 +12,6 @@
   "directories" : {
     "lib" : "./lib"
   },
-  "dependencies": {
-    "pipe_utils": ">= 0.0.6"
-  },
   "repository": "http://github.com/weepy/kaffeine",
   "engines" : { "node": ">= 0.3.0" },
   "main": "./lib/index.js"
