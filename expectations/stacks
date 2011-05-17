@@ -17,7 +17,7 @@ for y in x
 
 to:
 
-for(y in x)
+var y; for(y in x)
   if(x) return
 
 compiles:

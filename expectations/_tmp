@@ -1,18 +1,22 @@
 compiles:
-Base = (json = {}) -> {
-  for key, o in @@properties
-    if key in json
-      @[key] = expand json[key]
-    else {
-      o.default && (@[key] = o.default)
-    }
-  
-  @klass = @@klass
-  @initialize()
-  if @id, Base.all[@id] = @
-  @
+function inherits(child, parent) {
+  var __hasProp = Object.prototype.hasOwnProperty;
+  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key] }
+  function ctor() { this.constructor = child }
+  ctor.prototype = parent.prototype
+  child.prototype = new ctor()
+  child.__super__ = parent.prototype
+  return child;
 }
 
 to:
 
-xx
+function inherits(child, parent) {
+  var __hasProp, key; __hasProp = Object.prototype.hasOwnProperty;
+  for (key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key] }
+  function ctor() { return this.constructor = child }
+  ctor.prototype = parent.prototype
+  child.prototype = new ctor()
+  child.__super__ = parent.prototype
+  return child;
+}

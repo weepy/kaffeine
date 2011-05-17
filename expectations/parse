@@ -3,6 +3,6 @@ for(i in X)
   x
 y
 to:
-for(i in X)
+var i; for(i in X)
   x
 y

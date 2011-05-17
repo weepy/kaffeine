@@ -1,6 +1,12 @@
 #implicit_vars
 
 compiles:
+for(k in I) run()
+
+to:
+var k; for(k in I) run()
+
+compiles:
 z = 0
 to:
 var z; z = 0
