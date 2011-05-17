@@ -785,7 +785,7 @@ require.register('kaffeine/plugins/class.js', function(module, exports, require)
 
 var Token = require("../token");
 
-var __extends = require("pipe_utils").inherits.toString().replace(/^function /, "function __extends")
+
 
 
 
@@ -854,24 +854,22 @@ module.exports = function(stream) {
   if(insert) {
     var g = stream.block
     if(!g.global) throw "WTF!"
-    g.matching.before(new Token.word(__extends))
+    g.matching.before(new Token.word(__extends.toString()))
   }
 
 
 }
 
 
-// function __extends(child, parent) {
-//   var __hasProp = Object.prototype.hasOwnProperty;
-//   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-//   function ctor() { this.constructor = child; }
-//   ctor.prototype = parent.prototype;
-//   child.prototype = new ctor;
-//   child.__super__ = parent.prototype;
-//   return child;
-// };
-
-
+function __extends(child, parent) {
+  var __hasProp = Object.prototype.hasOwnProperty;
+  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+  function ctor() { this.constructor = child; }
+  ctor.prototype = parent.prototype;
+  child.prototype = new ctor;
+  child.__super__ = parent.prototype;
+  return child;
+};
 
 
 // end module: kaffeine/plugins/class.js

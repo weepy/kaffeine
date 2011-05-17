@@ -1,3 +1,20 @@
+compiles: 
+
+Poly::find_for_key = (key) -> {  
+  @units | select -> #._poly.key is key
+         | sortBy -> -#._poly.time
+         | first
+}
+
+to: 
+
+ Poly.prototype.find_for_key = function(key) {
+  return _.first(_.sortBy(_.select(this.units, function() { return arguments[0]._poly.key === key }), function() { return -arguments[0]._poly.time }))
+  
+  
+}
+
+
 compiles:
 x | reverse
 
