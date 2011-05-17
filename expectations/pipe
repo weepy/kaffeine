@@ -32,7 +32,7 @@ _.map(a, x)
 
 
 compiles:
-x | each function() {
+x | each -> {
   a | map x
 }
 
@@ -92,7 +92,7 @@ to:
 var x = _.detect(_.map([1,2,3,4,5,6,7], square), more_than_10)
 
 compiles:
-a | map function() {
+a | map -> {
   return arguments[0](x[3])
 }
 to:

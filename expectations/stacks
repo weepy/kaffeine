@@ -132,7 +132,7 @@ function() {
 to:
 function() {
   var _this = this; User.find(this.id, function(_0) { if(_0) _this.error("already exists")
-  return done() })
+  done() })
 }
 
 compiles:
