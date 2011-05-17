@@ -131,41 +131,73 @@ function Kaffeine(options) {
 }
 
 Kaffeine.fn = Kaffeine.prototype;
-Kaffeine.VERSION = "0.0.4";
+Kaffeine.VERSION = "0.0.6";
 Kaffeine.plugins = {};
 
 //unless brackets_for_keywords reverse_blocks indented_blocks
 var jsp = require("./uglify/parse-js")
 var pro = require("./uglify/process")
 
-var defaultDirective = "multiline_strings string_interpolation hash at brackets_for_keywords operators prototype implicit_functions extend_for pre_pipe implicit_brackets implicit_return pipe bang default_args implicit_vars"
+var defaultDirective = "using multiline_strings string_interpolation arrow ruby_symbols englify hash at class brackets_for_keywords operators block_scope pre_pipe implicit_brackets extend_for prototype super implicit_return pipe bang default_args implicit_vars undouble_brackets"
+//class implicit_functions super prototype implicit_return
 
-Kaffeine.fn.compile = function(text, uglify_opts) {
+Kaffeine.fn.compile = function(text, uglify_opts, filename) {
+  this.filename = filename
+  
   if(!text.match(/\n$/)) text += "\n"; // trailing newline
   var directive = text.match(/^#\s*([^\n]*)\s*\n/) || [1,defaultDirective];
   var plugins = directive[1].replace(/\s+/g," ").replace(/ $/,"").split(" ");
   text = text.slice(directive[0].length);
+  // console.log(text)
   var ret =  this.runPlugins(text, plugins);
   
   if(uglify_opts) {
-    
-    var ast = jsp.parse(ret) // parse code and get the initial AST
-
-    if(uglify_opts == "uglify") {
-      ast = pro.ast_mangle(ast); // get a new AST with mangled names
-      ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
-      ret = pro.gen_code(ast) // compressed code here
+    try {
+      var ast = jsp.parse(ret) // parse code and get the initial AST
+  
+      if(uglify_opts == "uglify") {
+        ast = pro.ast_mangle(ast); // get a new AST with mangled names
+        ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
+        ret = pro.gen_code(ast) // compressed code here
+      }
+      else if (uglify_opts == "beautify") 
+        ret = pro.gen_code(ast, {beautify: true})
+      
+    } catch(err) {
+      console.log("error found in output javascript")
+      throw(err)
     }
-    else if (uglify_opts == "beautify") 
-      ret = pro.gen_code(ast, {beautify: true})
   }
   
   return ret
 };
 
+function setTokenPositions(stream) {
+  var line = -1 // because of the extra line we insert
+  var chr = 0
+  
+  stream.each(function(token) {
+    token.position = [line, chr]
+    var text = token.myText()
+    var new_lines = (text.match(/\n/g) || []).length
+    line += new_lines
+    if(new_lines == 0)
+      chr += text.length
+    else {
+      chr = text.split(/\n/g).pop().length
+    }
+  })
+}
+
 Kaffeine.fn.runPlugins = function(text, plugins, options) {
   text = "function(){ " + text + "\n}"; // wrap in closure so we have a global closure and also no problems with start and end of text
+  
+  var lines = text.split(/\n/g)
+  
   var stream = Token.ize(text);
+  
+  setTokenPositions(stream)
+  
   //stream = Token.postprocess(stream);
   
   this.currentStream = stream
@@ -176,6 +208,7 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
     }
   });
   stream.global.global = true;
+  
 
   options = options || {};
   
@@ -190,10 +223,31 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
       //stream.normalize() 
     } 
     catch(err) {
+      var token = Token.current_token
+      if(!token.position) {
+        token = token.findRev(function() { if(this.position)  return true })
+      }
+      var text = "Error at position: " + token.position + "in plugin: " + name
+      
+      if(this.filename) text += "\nof file: " + this.filename
+      text += "\n" + lines[token.position[0]]
+      text += "\n" + ((new Array(token.position[1])).join(" ") + "^")
+      text += "\n\n" + err.toString()
+
       err.plugin = name
-      throw(err)
+      throw(text)
     }
   }
+  
+  // declare variables ...
+  stream.each(function() {
+    if(this.vars) {
+      vars = this.declareVariables()
+      this.nextNW().before(new Token.word(vars))
+      //text.push(vars)
+    }
+  })
+  
   return stream.head().collectText().replace(/^function\(\)\{/,"").replace(/\n\}$/,"");
 };
 
@@ -215,7 +269,7 @@ if(require.extensions) {
   require.extensions['.k'] = function(module, filename) {
     var fs = require('fs'),
         input = fs.readFileSync(filename, 'utf8'),
-        content = (new Kaffeine()).compile(input)
+        content = (new Kaffeine()).compile(input, undefined, filename)
     module.filename = filename + " (compiled)"
     module._compile(content, module.filename)
   }
@@ -224,7 +278,91 @@ if(require.extensions) {
 
 module.exports = Kaffeine;
 
+
 // end module: kaffeine/index.js
+});
+;
+
+require.register('kaffeine/plugins/arrow.js', function(module, exports, require) {
+// start module: kaffeine/plugins/arrow.js
+
+var Token = require("../token");
+
+module.exports = function(stream) {
+  var insert_bind
+  stream.each(function(token) {
+    Token.current_token = token
+    var fat
+    if(token.text == "=>") {
+      insert_bind = fat = true
+      token.text = "->"
+    }
+
+    if(token.text != "->") return
+
+    var args
+    if(token.prev.rbracket) {
+      var from = token.prev.matching
+//    if(from.prev.word) from = from.prev
+      args = from.remove(token.prev).collectText()
+        
+    }
+        
+    var x = token.myText().replace(/->/, "function" + (args || "()") )
+    
+    if(args) x = x.replace(/ *function/, "function")
+    this.prev.after(x)
+
+  
+    var next = this.nextNW()
+    var block = next
+    
+    if(!next.curly) {
+      
+      var pair = Token.bracket.pair("{}")
+      
+      if(this.myRightEatenText().match(/\n/)) {
+        var brack = this.prev.lbracket ? this.prev : this.prev.prev
+        brack.after(pair.L).after(pair.R)
+      } else {
+        next.before(pair.L)
+        var newline = next.find(function(token) { 
+          if(token.newline) return true
+        })
+        newline.before(pair.R).before(" ")
+        pair.L.after(" ")
+      }
+      
+      pair.L.updateBlock()
+      block = pair.L
+    }
+    token.remove()
+    
+    block.updateBlock()
+    block._was_arrow = true
+    
+    if(fat) {
+      var pair = Token.bracket.pair("()")
+      block.blockTypeNode.before(pair.L)
+      block.matching.after(pair.R) //.after(";")
+      pair.L.before("__bind")
+      pair.R.before(", this")
+    }
+    
+    return block
+  })
+
+  if(insert_bind) {
+    var g = stream.block
+    g.matching.before(__bind.toString())
+  }
+}
+
+
+function __bind(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+
+// end module: kaffeine/plugins/arrow.js
 });
 ;
 
@@ -236,6 +374,8 @@ var Token = require("../token");
 module.exports = function(stream) {
 
   stream.each(function() {
+    Token.current_token = this
+    
     if(this.unknown && this.text == "@") {
       var word = "this"
 
@@ -269,6 +409,8 @@ var Token = require("../token");
 module.exports = function(stream) {
 
   stream.each(function(token) {
+    Token.current_token = this
+    
     if(!token.bang) return    
     
     var lbracket = token.next;
@@ -338,11 +480,18 @@ module.exports = function(stream) {
         else brackets--
       }
       if(this.__break) return true
+
       if(this.next.text == "---") {
         var text = this.next.myText();
         this.next.replaceWith(text.replace("---", "   "))
         this.next.__break = true
       }
+      
+      // if(this.text == "---") {
+      //   var text = this.myText();
+      //   this.replaceWith(text.replace("---", "   "))
+      //   return true
+      // }
     })
     
     var after    
@@ -500,6 +649,37 @@ module.exports = function(stream) {
 });
 ;
 
+require.register('kaffeine/plugins/block_scope.js', function(module, exports, require) {
+// start module: kaffeine/plugins/block_scope.js
+
+var Token = require("../token");
+
+module.exports = function(stream) {
+  stream.each(function(token) {
+    Token.current_token = this
+    
+    if(token.blockType != "object") return
+    if(token.next == token.matching) return // empty object    
+    if(token.nextNW().next.text == ":") return // must be an object
+          
+    var pair =  Token.bracket.pair("()")
+
+    token.before(pair.L)
+    token.before("function() ")
+
+    token.matching.after(".call(this)")
+    token.matching.after(pair.R)
+
+    token.block_scope = token.implicit_function = true
+    token.updateBlock()
+  })
+}
+
+
+// end module: kaffeine/plugins/block_scope.js
+});
+;
+
 require.register('kaffeine/plugins/brackets_for_keywords.js', function(module, exports, require) {
 // start module: kaffeine/plugins/brackets_for_keywords.js
 
@@ -508,8 +688,11 @@ var Token = require("../token");
 module.exports = function(stream) {
   var ks = ["if", "for", "while", "catch"]  
 
-  stream.each(function() {
+  stream.tail().prev.each(function() {
+    Token.current_token = this
+    
     if(ks.indexOf(this.text) < 0 ) return
+    
     
     var n = this.nextNW()
     if(n.lbracket && n.round) return
@@ -577,13 +760,121 @@ module.exports = function(stream) {
       curly.updateBlock()
     //if(end.operator) end.replaceWith(new Token.whitespace(" "))
     
-    this.addImpliedBraces()
+    if(!is_while_after_do(this))
+      this.addImpliedBraces()
+  }, "prev")
+  
+
+}
+
+function is_while_after_do(x) {
+  if(x.text != "while") return false
+
+  var prev = x.prevNW()
+  return prev.curly && prev.rbracket && prev.matching.prevNW().text == "do"
+}
+
+
+
+// end module: kaffeine/plugins/brackets_for_keywords.js
+});
+;
+
+require.register('kaffeine/plugins/class.js', function(module, exports, require) {
+// start module: kaffeine/plugins/class.js
+
+var Token = require("../token");
+
+var __extends = require("pipe_utils").inherits.toString().replace(/^function /, "function __extends")
+
+
+
+module.exports = function(stream) {
+  var insert = false
+
+//    console.log(stream.collectText())
+
+  stream.each(function() {
+    Token.current_token = this
+    
+    if(this.text != "class") return 
+    
+    this.text = "function"
+     
+    var x = this.next.next
+
+    if(x.curly) {
+      throw "anonymous class"// anonymous class
+    }
+
+    var insert_extends = false
+    var class_name = x.text
+
+   
+    if(!x.next.lbracket || !x.next.round) x.after("()")
+
+    var next = x.next.matching.nextNW()
+
+
+    // console.log(next.text, next.next.next.text)
+    var super_class_name = null
+
+    if(next.text == "extends") {
+      insert = insert_extends = true
+
+      var super_class = next.next.next
+      super_class_name = super_class.text
+      //console.log("super_class.text", super_class.text)
+
+      var after = super_class.nextNW()
+      next.remove(super_class)
+      next = after
+    }
+    
+    if(next.curly && next.lbracket) {
+      curly = next
+    }
+    else {
+      x.next.matching.after("{;}")
+      curly = x.next.matching.next
+      curly.inserted_body = true
+    }
+
+    if(!curly.matching.next.semi) curly.matching.after(";")
+    if(insert_extends)
+      curly.matching.next.after(" __extends(" + class_name + ", "+ super_class.text + ");")
+
+    curly.updateBlock()
+    curly.class_name = class_name;
+    if(super_class_name) curly.super_class = super_class_name 
+
+
   })
+
+  if(insert) {
+    var g = stream.block
+    if(!g.global) throw "WTF!"
+    g.matching.before(new Token.word(__extends))
+  }
+
 
 }
 
 
-// end module: kaffeine/plugins/brackets_for_keywords.js
+// function __extends(child, parent) {
+//   var __hasProp = Object.prototype.hasOwnProperty;
+//   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+//   function ctor() { this.constructor = child; }
+//   ctor.prototype = parent.prototype;
+//   child.prototype = new ctor;
+//   child.__super__ = parent.prototype;
+//   return child;
+// };
+
+
+
+
+// end module: kaffeine/plugins/class.js
 });
 ;
 
@@ -595,6 +886,8 @@ var Token = require("../token");
 module.exports = function(stream) {
 
   stream.each(function() {
+    Token.current_token = this
+    
     if(this.text != "function") return 
     var block = this.block
     var bracket = this.block.prevNW().matching
@@ -629,6 +922,41 @@ module.exports = function(stream) {
 });
 ;
 
+require.register('kaffeine/plugins/englify.js', function(module, exports, require) {
+// start module: kaffeine/plugins/englify.js
+
+var Token = require("../token")
+
+module.exports = function(stream) {
+  var mapping = { "is": "===", "isnt": "!==", "or": "||", "and": "&&", "not": "!" }, op, token
+
+  stream.each(function() {
+    Token.current_token = this
+    
+    var op = mapping[this.text]
+    
+    if(!op) return
+    if(this.prev && this.prev.operator && this.text != "not") return
+    if(this.next && this.next.operator && this.next.text != "!") return
+
+    var token = this.replaceWith(op)
+    if(token.text == "!" && token.next.whitespace)
+      token.next.remove()
+    
+    token.eat(function() { return this.whitespace })
+    token.eat(function() { return this.whitespace })
+      
+    return token // skip to this token in the stream
+  })
+
+
+}
+
+
+// end module: kaffeine/plugins/englify.js
+});
+;
+
 require.register('kaffeine/plugins/extend_for.js', function(module, exports, require) {
 // start module: kaffeine/plugins/extend_for.js
 
@@ -636,6 +964,8 @@ var Token = require("../token");
 module.exports = function(stream) {
   
   stream.each(function() {
+    Token.current_token = this
+    
     if(this.keyword && this.text == "for") { 
       var text = "",
           bracket = this.next,
@@ -750,7 +1080,20 @@ var Token = require("../token");
 module.exports = function(stream) {
 
   stream.each(function() {
-    if(this.unknown && this.text == "#") {
+    Token.current_token = this
+    
+    if(this.text == "#") {
+
+      if(this.prev.word && !this.myText().match(/^ /)) return // no whitepsace next to a word
+      
+      
+      if(this.next.word) {
+        if(this.myText().match(/ $/) || !this.next.text.match(/^[0-9]+$/)) {
+          return
+        }
+//        console.log("X", this.next.text)
+//        if() return // no whitepsace next to a word
+      }
       var word = "arguments"
       
       if(!this.next.word)
@@ -778,10 +1121,14 @@ var Token = require("../token");
 
 module.exports = function(stream) {
   var nobrackets_keywords = {"for":1, "if":1, "while": 1, "new":1,"return":1,"var":1,"throw":1, "in":1,"of":1, "typeof":1, "instanceof":1, "else": 1, "try":1, "catch": 1, "class": 1}
-  
+    
   stream.tail().each(function() {
+    Token.current_token = this
+    
+
     var ws = this.next
     if(!ws || !ws.space || !ws.next) return
+    if(this.text == "") return
     if(this.word && ((nobrackets_keywords[this.text] && this.prev.text != ".") || this.block)) return
     if(nobrackets_keywords[ws.next.text]) return
     if(this.matching) {
@@ -789,10 +1136,12 @@ module.exports = function(stream) {
       if(["for", "if", "while", "else", "catch"].indexOf(prev.text) >= 0)
         return
     } 
+    
     var nn = ws.next
     var match = (this.word || this.rbracket) && (nn.word || nn.lbracket || nn.string) && (nn.blockType != "function")  
     
     if(!match) return
+    
     
     var end = nn.expressionEnd(function() {
 	    if(this.text == "," && this.next.next.text == ":") return true
@@ -801,42 +1150,15 @@ module.exports = function(stream) {
     if(end == null) return
     
     var pair = Token.bracket.pair("()")
+
     ws.replaceWith(pair.L)
     if(end.whitespace) end = end.prev
     end.after(pair.R)
   }, "prev")
+
 }
 
 // end module: kaffeine/plugins/implicit_brackets.js
-});
-;
-
-require.register('kaffeine/plugins/implicit_functions.js', function(module, exports, require) {
-// start module: kaffeine/plugins/implicit_functions.js
-
-var Token = require("../token");
-
-module.exports = function(stream) {
-  stream.each(function(token) {
-    
-    if(token.blockType != "object") return
-    if(token.next == token.matching) return // empty object    
-    if(token.nextNW().next.text == ":") return // must be an object
-    
-    var text = "function"
-    var prev = token.prevNW()
-    
-    if(prev.text == ")")
-      prev.matching.before("function")
-    else
-      token.before("function() ")
-    
-    token.updateBlock()
-  })
-}
-
-
-// end module: kaffeine/plugins/implicit_functions.js
 });
 ;
 
@@ -846,7 +1168,10 @@ require.register('kaffeine/plugins/implicit_return.js', function(module, exports
 var Token = require("../token");
 module.exports = function(stream) {
   stream.each(function() {
-    if(!this.blockType || this.blockType != "function") return
+    Token.current_token = this
+
+    
+    if(!this.blockType || this.blockType != "function" || this.class_name || !this._was_arrow) return
     
     if(this.global) return
 
@@ -876,7 +1201,8 @@ module.exports = function(stream) {
         else return false          
       }
       else if(tok.prev.whitespace) {
-        if(tok.prev.prev.text == "new") return tok.prev.prev
+        var t = tok.prev.prev.text 
+        if(t == "new" || t == "typeof" || t=="var") return tok.prev.prev
         else return true
       }
       else if(tok.prev.semi  || tok.prev.lbracket) 
@@ -901,6 +1227,7 @@ module.exports = function(stream) {
   })
 }
 
+
 // end module: kaffeine/plugins/implicit_return.js
 });
 ;
@@ -911,9 +1238,12 @@ require.register('kaffeine/plugins/implicit_vars.js', function(module, exports, 
 var Token = require("../token");
 module.exports = function(stream) {
   var stack = [], variable, current, closure
+ 
   
   // remove vars
   stream.each(function(token) {  
+    Token.current_token = this
+    
     var ret = token.prev
     if(token.text != "var") return
     if(token.next.space)
@@ -921,9 +1251,16 @@ module.exports = function(stream) {
     token.remove()
     return ret
   })
-  
-  stream.each(function(token) {    
-    if(!token.assign) return 
+
+  stream.each(function(token) {  
+    Token.current_token = this
+
+    if(token.assign) {}
+    else if (token.prev && token.prev.prev && token.prev.prev.text == "for") {
+      token = token.next
+    }
+    else return 
+    
     variable = token.prev.text
     
     if(!/^[A-Za-z0-9$_]*$/.test(variable)) return
@@ -932,9 +1269,9 @@ module.exports = function(stream) {
     current = closure = this.findClosure()
     var found = false
     
+
     while(current) {
-      
-      if(current.vars[variable] || current.args[variable]) {
+      if(current.vars[variable] || (current.args && current.args[variable])) {
         found = true
         break
       }
@@ -960,7 +1297,10 @@ require.register('kaffeine/plugins/multiline_strings.js', function(module, expor
 var Token = require("../token");
 module.exports = function(stream) {
   var reg = /\n/
+
   stream.each(function() {
+    Token.current_token = this
+    
     if(!this.string || !reg.test(this.text)) return
     
     this.text = this.text.replace(/(\\)?\n/g, function(str, escape) {
@@ -979,6 +1319,8 @@ require.register('kaffeine/plugins/operators.js', function(module, exports, requ
 var Token = require("../token");
 module.exports = function(stream) {
   stream.each(function(token) {
+    Token.current_token = this
+    
     if(!token.operator) return
     
     if(token.text == "||=")
@@ -1003,38 +1345,62 @@ module.exports = function(stream) {
   })
   
   // extend
-  var inserted = false
+  var inserted_merge = false
   stream.each(function(token) {
-    if(token.text != "<-") return 
+    Token.current_token = this
+    
+    if(token.text != "<-" ) return 
     var arrow = this
     var L = this.expressionStart()
     var lhs = L.remove(arrow.prev).collectText()
 
-    var R = arrow.next.expressionEnd(function() {
-    })
+    var R = arrow.next.expressionEnd(function() {})
 
     var rhs = arrow.next.remove(R).collectText()
     var ret = arrow.prev
-    arrow.replaceWith("__extend(" + lhs + ", " + rhs + ")")
-    //token.global.vars['__extend'] = __extend.toString()
-    
-    if(!inserted) {
+
+    // if(token.text == "=>") {
+    //   arrow.replaceWith("__merge(" + lhs + ", " + rhs + ")")
+      
+    //   if(inserted_merge) {
+    //     var g = stream.block
+    //     if(!g.global) throw "WTF!"
+    //     g.matching.before(new Token.word(__merge))
+    //     inserted_merge = true
+    //   }
+
+    // }
+    // else {
+    xxx = arrow.prev
+    arrow.replaceWith("__merge(" + lhs + ", " + rhs + ")")
+
+    if(!inserted_merge) {
       var g = stream.block
       if(!g.global) throw "WTF!"
-      g.matching.before(new Token.word(__extend))
-      inserted = true
+      g.matching.before(new Token.word(__merge))
+      inserted_merge = true
     }
+
+    //token.global.vars['__extend'] = __extend.toString()
     return ret
   })
 }
 
-var __extend = "\nfunction __extend(a,b) {\n\
-  var c = {}, i;\n\
-  a = a || {};\n\
-  for(i in a) c[i] = a[i];\n\
-  for(i in b) c[i] = b[i];\n\
-  return c;\n\
+// var __extend = "\nfunction __extend(a,b) {\n\
+//   var c = {}, i;\n\
+//   a = a || {};\n\
+//   for(i in a) c[i] = a[i];\n\
+//   for(i in b) c[i] = b[i];\n\
+//   return c;\n\
+// }"
+
+var __merge = "\nfunction __merge(a,b) {\n\
+  b = b || {};\n\
+  for(var k in b) a[k] = b[k];\n\
+  return a;\n\
 }"
+
+
 
 // end module: kaffeine/plugins/operators.js
 });
@@ -1047,29 +1413,45 @@ var Token = require("../token");
 module.exports = function(stream) {
 
   stream.each(function() {
+    Token.current_token = this
+    
     if(this.text != "|") return
     var pipe = this
 	  var L = this.expressionStart()
-    var lhs = L.remove(pipe.prev) //.collectText()
-
+    var lhs = L.remove(pipe.prev) 
+    
     var R = pipe.next.expressionEnd(function() {
      return this.text == "|"
     })
 
+    
     var rhs = pipe.next.remove(R) //.collectText()
     var ret = pipe.prev
-    
     pair = Token.bracket.pair("()")
     
-    tokens = Token.ize("__." + pipe.pipe_function + ".call")
+    var t = pipe.myText().replace("|", "_").replace(/ /g, "")
+
+    tokens = Token.ize(t + "." + pipe.pipe_function)
     tokens.append(pair.L)
-    tokens.append("this, ")
+
     tokens.append(lhs)
-    tokens.append(", ")
-    tokens.append(rhs)
+
+    if(rhs.text == "(") {
+      var t = rhs.collectText()
+      t = t.slice(1, t.length-1)
+      rhs = Token.ize(t || " ")
+    }
+
+    if(rhs.collectText().match(/^[ \n]*$/) ) {
+      // empty or empty brackets!
+    } else {
+      tokens.append(", ")
+      tokens.append(rhs)
+    }
     tokens.append(pair.R)
     
     pipe.replaceWith(tokens) //"__." + pipe.pipe_function + ".call(this, " + lhs + ", " + rhs + ")")
+    
     return ret
   })
 
@@ -1086,29 +1468,42 @@ require.register('kaffeine/plugins/pre_pipe.js', function(module, exports, requi
 
 var Token = require("../token");
 module.exports = function(stream) {
+  var assigned = false
+  var referenced = false
 
   stream.each(function() {
-    if(this.text == "|" || this.text == "|.") {
+    Token.current_token = this
+    
+    if(this.text == "|") {
+      referenced = true
+
       var L = this.expressionStart()
       
-      if(this.text=="|." || this.next.assign) {
-        this.text = "__" + this.text.slice(1)
-        delete this.operator 
-        this.word = true
-        return 
-      }
+      // if(this.text=="|." || this.next.assign) {
+      //   this.text = "_" + this.text.slice(1)
+      //   delete this.operator 
+      //   this.word = true
+      // 
+      //   if(!assigned && this.next.assign) assigned = true 
+      //   return 
+      // }
       
       if(this.text != "|")
         throw("unknown pipe operation")
       
-      var fn = this.next
+      //var fn = this.next
       this.pipe_function = this.next.text
-	  this.next.remove()
-	  if(this.next.whitespace) this.next.remove()
-	  return this.next
+
+	    this.next.remove()
+	    if(this.next.whitespace) this.next.remove()
+      if(this.next.text == "|" || this.next.rbracket) this.after("()")
+	    return this.next
     }
-  }) 
+  })
+  // if(assigned && referenced) stream.global.vars["_"] = true 
+
 }
+
 
 // end module: kaffeine/plugins/pre_pipe.js
 });
@@ -1122,27 +1517,41 @@ module.exports = function(stream) {
 
   var klass = ""
   stream.each(function() {
+    Token.current_token = this
     
-    if(this.namedFunction) {
-      klass = this.namedFunction.text
-      return
+    
+    // if(this.namedFunction) {
+    //   klass = this.namedFunction.text
+    //   return
+    // }
+
+    if(this.class_name) {
+      klass = this.class_name
     }
 
-    if(this.word && this.text == "prototype") {
-      if(this.prev.text == ".")
-        klass = this.prev.prev.text
-      return
-    }
+    // if(this.word && this.text == "prototype") {
+    //   if(this.prev.text == ".")
+    //     klass = this.prev.prev.text
+    //   return
+    // }
     
     var ret = this.next
     
-    if(this.text == "::") {
+    if(    this.text == "::" ) {
+
       this.spit(function() { return this.whitespace})
-      var text = ".prototype."
-      if(this.prev.word)
+      
+      var text = (this.next.word && !this.myRightEatenText().match(/\n/)) ? ".prototype." : ".prototype"
+      
+      if(this.prev.word) {
         klass = this.prev.text
+        this.prev.prototype_klass_name = klass
+      }
       else
         text = klass + text
+
+      this.spitLeft()
+      this.spitRight()
       this.replaceWith(text)
     }
     return ret
@@ -1151,7 +1560,40 @@ module.exports = function(stream) {
 
 
 
+
 // end module: kaffeine/plugins/prototype.js
+});
+;
+
+require.register('kaffeine/plugins/ruby_symbols.js', function(module, exports, require) {
+// start module: kaffeine/plugins/ruby_symbols.js
+
+var Token = require("../token")
+
+module.exports = function(stream) {
+
+  stream.each(function(token) {
+    Token.current_token = this
+       
+    if(this.text != ":" || !this.next.word) return
+    var text = this.myText()
+    
+    if(!text.match(/^[ \n]:$/) && this.prev && !this.prev.lbracket && !this.prev.operator) return
+    //   {
+    //   // var text = this.prev.text
+    //   // if(text != ":" && text != "," && this.prev ) return
+    // }
+    var text = this.myText().replace(/:$/,"") + "'" + this.next.text + "'"
+    this.next.remove()
+    var token = this.replaceWith(text)
+    return token
+  })
+}
+
+
+
+
+// end module: kaffeine/plugins/ruby_symbols.js
 });
 ;
 
@@ -1161,6 +1603,8 @@ require.register('kaffeine/plugins/string_interpolation.js', function(module, ex
 var Token = require("../token");
 module.exports = function(stream) {
   stream.each(function() {
+    Token.current_token = this
+    
     if(!this.string) return
     
     // combine nested
@@ -1220,6 +1664,80 @@ function expandOnce(text) {
 });
 ;
 
+require.register('kaffeine/plugins/super.js', function(module, exports, require) {
+// start module: kaffeine/plugins/super.js
+
+var Token = require("../token");
+
+module.exports = function(stream) {
+  stream.each(function() {
+    Token.current_token = this
+    
+    if(this.blockType != "function") return 
+
+    var class_name = this.class_name
+    var super_class = this.super_class
+
+
+    var curly = this
+
+    var super = curly.next.find(function() {
+      if(this.text == "super") return true
+      if(this.matching == curly) return false
+      if(this.blockType == "function") return this.matching.next
+    })
+
+    if(super) {
+      var brack = super.nextNW()
+
+      if(brack.lbracket) {
+
+        brack.nextNW() != brack.matching
+          ? brack.after("this, ")
+          : brack.after("this")
+        brack.before(".call")
+      }
+      else {
+        super.after("(this, arguments)")
+        brack = super.nextNW()
+        brack.before(".apply")
+      }
+      
+      if(this.class_name) {
+        super.replaceWith(this.class_name + ".__super__.constructor")
+      } else {
+
+        var eq = curly.blockTypeNode.prevNW()
+        if(!eq.assign) throw "don't know which method to call for super"
+        var method = eq.prevNW()
+        
+        var start = method.expressionStart()
+        var text = start.collectText(method)
+        var caller
+        if(text.match(".prototype.")) {
+          caller = text.split(".prototype.")[0]
+        } else {
+          caller = text + ".constructor" //replace(/\.$/,"")
+        }
+        super.replaceWith(caller + ".__super__." + method.text )
+      }
+    }
+    else {
+      if(this.class_name && this.super_class && this.inserted_body) {
+        curly.nextNW().before(" " + this.class_name + ".__super__.constructor.apply(this, arguments)")
+      }
+    }
+  })
+}
+
+
+
+
+
+// end module: kaffeine/plugins/super.js
+});
+;
+
 require.register('kaffeine/plugins/undouble_brackets.js', function(module, exports, require) {
 // start module: kaffeine/plugins/undouble_brackets.js
 
@@ -1227,6 +1745,8 @@ var Token = require("../token");
 
 module.exports = function(stream) {
   stream.each(function() {
+    Token.current_token = this
+    
     if(this.lbracket && this.round && this.next.lbracket && this.next.round) {
       var n = this.matching.prev
       if(n.rbracket && n.round) {
@@ -1242,8 +1762,62 @@ module.exports = function(stream) {
 });
 ;
 
+require.register('kaffeine/plugins/using.js', function(module, exports, require) {
+// start module: kaffeine/plugins/using.js
+
+var Token = require("../token");
+
+var trim = function(s) { return s.replace(/^ */g,"").replace(/ *$/g,"")}
+module.exports = function(stream) {
+
+  stream.each(function(token) {
+    Token.current_token = this
+    var ret = this.prev
+    if(token.text != "using") return
+    
+//    if(!token.prev.newline) return // && (token.prev.whitespace && !token.prev.prev.newline)) return
+    
+    var methods = ""
+    var from = this.next.find(function() {
+      if(this.text == "from") return true
+      methods += this.myText()
+    })
+    
+    methods = trim(methods)
+    var end = from.find(function() { 
+      if(this.newline) return true
+    })
+    var expr = from.next.collectText(end)
+    expr = expr.trim()
+    // console.log("Expr" + expr)
+    if(methods == "*") {
+
+      var text = "var _i = " + expr + "; for(var _j in _i) eval('var ' + _j + ' = _i[\\'' + _j + '\\'];');"
+    } else {
+      methods = methods.split(",")
+      var text = "var _i = " + expr + ";" 
+      for(var i=0;i<methods.length; i++) {
+        var m = trim(methods[i])
+        text += " var " + m + " = _i[" + m+ "];"
+      }
+    }
+    
+    this.before(text + "\n")
+    this.remove(end)
+    return ret
+  })
+  
+}
+
+
+// end module: kaffeine/plugins/using.js
+});
+;
+
 require.register('kaffeine/token.js', function(module, exports, require) {
 // start module: kaffeine/token.js
+
+var log = console.log
 
 var inherits = function(child, parent) {
   var ctor = function(){ };
@@ -1262,7 +1836,7 @@ function base(text) {
 
 base.id = 0
 base.fn = base.prototype
-base.klasses = [whitespace, word, string, comment, regex, operator, bracket, semi]
+base.klasses = [whitespace, comment, regex, operator, word, string, bracket, semi]
 
 function preprocess(text) {
   text = text.replace(/\t/g, "  ").replace(/ *\n/g, "\n").replace(/\r\n|\r/g,"") 
@@ -1270,6 +1844,7 @@ function preprocess(text) {
 }
 
 function /*Token*/ize(input) {
+  // /sconsole.log(input)
   input = preprocess(input)
   var klass, match, i, index = 0, head, tail
   for(i=0; i< base.klasses.length; i++)
@@ -1291,6 +1866,9 @@ function /*Token*/ize(input) {
   }
   
   function emit(token) {
+    
+    //log(token.klass, ": ", token.text)    
+    
     if(tail) {
       tail.next = token
       token.prev = tail
@@ -1315,8 +1893,10 @@ function postprocess(stream) {
        this.matchWith(stack.pop())
   })
   
-  if(stack.length)
-    throw "unmatching number of brackets" 
+  if(stack.length) {
+    throw "missing bracket"
+  }
+
   // sort out block types
   stream.each(function() {   
     if(this.curly && this.lbracket) this.updateBlock()
@@ -1370,7 +1950,7 @@ base.fn.normalize = function() {
 
 base.fn.addImpliedBraces = function() {
  
-  if(this.block || ["if", "for", "while", "try", "else", "catch"].indexOf(this.text) < 0) return
+  if(this.block || ["do", "if", "for", "while", "try", "else", "catch"].indexOf(this.text) < 0) return
   
   var closingBracket = this.next.matching
   // require's brackets
@@ -1572,7 +2152,7 @@ base.getMatch = function(klass, index, input) {
     if(!klass.match) klass.match = false 
   }
 
-  if(klass.match && klass.match.index == index)
+  if(klass.match && klass.match.index == index) 
     return klass.extract ? klass.extract(index, input) : klass.match[0]
 }
 
@@ -1639,22 +2219,32 @@ base.fn.myTextNoComments = function() {
   return this.comment ? "" : this.myText()
 }
 
+base.fn.myLeftEatenText = function() {
+  var text = ""
+  for(var i=0; i<this.eaten.left.length; i++)
+    text += this.eaten.left[i].myText()
+    
+  return text
+}
+
+base.fn.myRightEatenText = function() {
+  var text = ""
+  for(var i=0; i<this.eaten.right.length; i++)
+    text += this.eaten.right[i].myText()
+  return text
+}
+
 base.fn.myText = function() {
   var text = [], vars
   if(this.implied) return ""
   
-  for(var i=0; i<this.eaten.left.length; i++)
-    text.push(this.eaten.left[i].myText())
-      
+
+  text.push(this.myLeftEatenText())
   text.push(this.text)
   
-  if(this.vars) {
-    vars = this.declareVariables()
-    this.nextNW().before(new word(vars))
-    //text.push(vars)
-  }
-  for(var i=0; i<this.eaten.right.length; i++)
-    text.push(this.eaten.right[i].myText())
+
+  text.push(this.myRightEatenText())
+
   return text.join("")
 }
 
@@ -1760,6 +2350,7 @@ function unknown(text) {
 }
 inherits(unknown, base)
 unknown.fn.unknown = true
+unknown.fn.klass = "unknown"
 
 function whitespace(text) { 
   base.call(this, text)
@@ -1768,11 +2359,12 @@ function whitespace(text) {
 }
 inherits(whitespace, base)
 whitespace.fn.whitespace = true
+whitespace.fn.klass = "whitespace"
 whitespace.regex = / +|\n/g
 
 
 
-var keywords = "if for while else try catch function return var".split(" ")
+var keywords = "if do for while else try catch function return var".split(" ")
 
 function word(text) { 
   base.call(this, text)
@@ -1786,6 +2378,7 @@ function word(text) {
 inherits(word, base)
 word.fn.word = true
 word.regex = /[A-Za-z0-9_$]+!?/g
+word.fn.klass = "word"
 
 function string(text) { 
   base.call(this, text)
@@ -1793,6 +2386,7 @@ function string(text) {
 inherits(string, base)
 string.fn.string = true
 string.regex = /['"]/g
+string.fn.klass = "string"
 
 function regex(text) { 
   base.call(this, text)
@@ -1800,7 +2394,8 @@ function regex(text) {
 inherits(regex, base)
 regex.fn.regex = true
 regex.fn.string = true
-regex.regex = /\/[^*\/ ][^\n]*\//g
+regex.regex = /\/[^*/ ][^/\n]*\//g ///\/[^/ ][^\n]*\//g
+regex.fn.klass = "regex"
 
 function comment(text) { 
   base.call(this, text)
@@ -1809,6 +2404,7 @@ function comment(text) {
 inherits(comment, base)
 comment.fn.comment = true
 comment.regex = /\/\*|\/\//g
+comment.fn.klass = "comment"
 
 var comparisonOperators = ["<=","<",">=", ">", "==", "!=", "===", "!==", "||", "&&"]
 var unaryOperators = ["++", "--", "!", "~", "&", "|"]
@@ -1822,7 +2418,8 @@ function operator(text) {
 }
 inherits(operator, base)
 operator.fn.operator = true
-operator.regex = /[!%^&*\-=+:,.|\\~<>\?]+|\/|\/=/g 
+operator.regex = /instanceof|[!%^&*\-=+:,.|\\~<>\?]+|\/|\/=/g 
+operator.fn.klass = "operator"
 // we dont support operators containing forward slash other than '/' and '/='  (too difficult to compare with // and /*)
 
 function semi(text) { 
@@ -1831,6 +2428,7 @@ function semi(text) {
 inherits(semi, base)
 semi.fn.semi = true
 semi.regex = /;/g
+semi.fn.klass ="semi"
 
 function bracket(text) { 
   base.call(this, text)
@@ -1848,6 +2446,7 @@ function bracket(text) {
 inherits(bracket, base)
 bracket.fn.bracket = true
 bracket.regex = /[\(\)\[\]\{\}]/g
+bracket.fn.klass = "bracket"
 
 bracket.fn.matchWith = function(other) {
   other.matching = this
@@ -1861,7 +2460,7 @@ bracket.pair = function(s) {
   return {L:L, R:R}
 }
 
-var blockKeywords = "if for while else try catch function".split(" ")
+var blockKeywords = "do if for while else try catch function".split(" ")
 
 
 
@@ -1896,6 +2495,7 @@ bracket.fn.updateBlock = function() {
   
   if(type) {
     this.blockType = type.text
+    this.blockTypeNode = type
     type.block = this
     type.namedFunction = state.name
     type.bracketExpression = state.bracket
@@ -1948,10 +2548,16 @@ bracket.fn.declareVariables = function() {
 string.extract = function(index, input) {
   var mode = input.charAt(index), i = index + 1, last
   var word = mode
+  var backslash_in_a_row = 0
   while(i < input.length) {
+     if(last == "\\")
+        backslash_in_a_row++
+      else
+        backslash_in_a_row = 0
+    var esc = backslash_in_a_row % 2
     var ch = input.charAt(i)
     word += ch
-    if(ch == mode && last != "\\") return word
+    if(ch == mode && !esc) return word
     last = ch
     i += 1
   }
@@ -1972,11 +2578,19 @@ comment.extract = function(index, input) {
 }
 
 regex.extract = function(index, input) {
-  var regex = "/", prev = "", esc, inSQ
+  
+  var regex = "/", prev = "", esc, inSQ, start = index
+  var backslash_in_a_row = 0
   while(index < input.length) {
     var ch = input.charAt(index+1)
     regex += ch
-    esc = prev == "\\"
+    if(prev == "\\")
+      backslash_in_a_row++
+    else
+      backslash_in_a_row = 0
+    esc = backslash_in_a_row % 2 
+    
+    //console.log(ch, esc, backslash_in_a_row)
     if(ch == "/" && !esc && !inSQ) {
       var next = input.charAt(index+2)
       if(next == "m" || next == "g" || next == "i") regex += next
@@ -1994,6 +2608,7 @@ module.exports = {
   operator: operator, 
   string: string, 
   word: word, 
+  regex: regex,
   comment: comment, 
   bracket: bracket, 
   unknown: unknown, 
