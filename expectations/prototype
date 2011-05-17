@@ -1,6 +1,16 @@
 #hash prototype
 compiles:
 
+A:: = B::
+
+to:
+
+A.prototype = B.prototype
+
+compiles:
+
+
+
 function Animal() {}
 Animal::fast = function() { return this.speed > 100 }
 Animal::alive = true

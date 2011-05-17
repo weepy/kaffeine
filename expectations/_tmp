@@ -1,22 +1,21 @@
 compiles:
-function inherits(child, parent) {
-  var __hasProp = Object.prototype.hasOwnProperty;
-  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key] }
-  function ctor() { this.constructor = child }
-  ctor.prototype = parent.prototype
-  child.prototype = new ctor()
-  child.__super__ = parent.prototype
-  return child;
+inherits = (child, parent) -> {
+  __hasProp = Object::hasOwnProperty;
+  for key in parent, __hasProp.call(parent, key) && (child[key] = parent[key])
+  ctor = -> @@ = child
+  ctor:: = parent::
+  child:: = new ctor()
+  child.__super__ = parent::
+  child
 }
 
 to:
-
-function inherits(child, parent) {
-  var __hasProp, key; __hasProp = Object.prototype.hasOwnProperty;
-  for (key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key] }
-  function ctor() { return this.constructor = child }
+var inherits; inherits = function(child, parent) {
+  var __hasProp, key, ctor; __hasProp = Object.prototype.hasOwnProperty;
+  for(key in parent) __hasProp.call(parent, key) && (child[key] = parent[key])
+  ctor = function() { return this.constructor = child }
   ctor.prototype = parent.prototype
   child.prototype = new ctor()
   child.__super__ = parent.prototype
-  return child;
+  return child
 }
