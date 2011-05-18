@@ -26,20 +26,49 @@ $(function(){
   
 })
 
+// 
+// $(function() {
+//   Kaffeine = require("kaffeine")
+//   
+//   $(".code")
+//     .each(function() {
+//       var kaf = $(this).find("pre").text()
+//       console.log(kaf)
+//       var K = new Kaffeine()
+//       var text = K.compile(kaf)
+//       text = text.replace(/^\s+/,"")
+//       $(this).append("<pre class='javascript rhs'>" + text + "</pre>")
+//     })
+//     
+//      CodeHighlighter.init()
+//      
+// })
+
 
 $(function() {
   Kaffeine = require("kaffeine")
+
+
+  function compile() {
+    $(".rhs").remove()
+    
+    $(".code")
+      .each(function() {
+        var K = new Kaffeine()
+        var text = K.compile($(this).find("pre").text(), $(":radio:checked").val() )
+        text = text.replace(/^\s+/,"")
+        $(this).append("<pre class='javascript rhs'>" + text + "</pre>")
+      })
+    
+    CodeHighlighter.init()
+  }
   
-  $(".code")
-    .each(function() {
-      var kaf = $(this).find("pre").text()
-      console.log(kaf)
-      var K = new Kaffeine()
-      var text = K.compile(kaf)
-      text = text.replace(/^\s+/,"")
-      $(this).append("<pre class='javascript rhs'>" + text + "</pre>")
-    })
+  $(":radio").click(compile)
+  compile()
+
 })
+
+
 
 
 

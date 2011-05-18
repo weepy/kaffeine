@@ -5,6 +5,7 @@ body {
 	color: #f4f1de;
 	font-size: 100%;
 	font-family: "proxima-nova-1", "proxima-nova-2", sans-serif;
+	line-height: 1.4em;
 }
 
 @font-face {
@@ -183,13 +184,13 @@ h1 {
 
 /*******/
 pre {
-  border-left: 5px solid #fff;
+ border-left: 5px solid #863027;
  font: 12px/1.4 monaco,"helvetica neue",helvetica;
  padding: 3px 0 3px 12px;
  white-space: pre-wrap;
  word-wrap: break-word;
  float: left;
-
+ background: #F4F1DE;
 }
 
 .code {
@@ -200,9 +201,36 @@ pre, textarea {
 /*  background: none repeat scroll 0 0 #FFFFFF;*/
   float: left;
 /*  color: black;*/
-color: white;
+color: black;
   margin: 10px 10px 15px 0;
   width: 448px;
   overflow: hidden;
+}
+
+/*********/
+
+.javascript .x {
+  color: #00f;
+}
+
+
+.javascript .symbol {
+  color: #f00;
+}
+
+.javascript .comment {
+  color: #808080;
+}
+.javascript .string {
+  color: #008000;
+}
+.javascript .keywords {
+  color: #00f;
+}
+.javascript .global {
+  color: #00f;
+}
+.javascript .brackets {
+  color: #a00;
 }
 
