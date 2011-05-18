@@ -1,0 +1,16 @@
+h3 Using keyword
+
+p The using keyword imports functions from an object into the current scope. For example if we have a library called "ninja" which exposes two methods jump and kick.
+
+textarea
+  using * from require "ninja"
+  jump "high"
+  kick()
+
+p If we only wanted to import jump, we could write: 
+
+textarea 
+  using jump from require "ninja"
+  jump "high"
+
+p Note: that the * form uses eval, so it won’t work with ES5 strict, and also be careful putting it in sections of code that are often called.

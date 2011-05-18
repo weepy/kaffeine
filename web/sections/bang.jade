@@ -1,0 +1,66 @@
+
+h3 Unwrapping async calls with ! (bang)
+
+p A ! postfix to a function call signals to Kaffeine that this is an unwrapped async call masquerading as a normal function call. Kaffeine will recompile it into a normal function call with the follow code wrapping into an async callback.
+
+h4 Example
+
+textarea
+  // simple call
+  fish = $.get! '/fish'     
+  $("stomach").append fish
+
+  // another simple call with implied ()
+  ok = stomach.save!        
+  meal.complete = ok
+
+This is super useful for simplifying nested asynchronous calls (esp with nodejs) and works nicely in a number of scenarios:
+
+
+textarea
+  // create convenient sleep function
+  sleep = -> { setTimeout #1, #0 }
+
+  // use it
+  test_check = -> {
+    if !@chess.isCheck() {
+      sleep! 400
+      alert "STALEMATE"
+    }
+  }
+
+p When does the function unwrapping ‘stop’?
+
+ul
+  li At an unmatched right bracket (e.g. the end of a function or arg list)
+  li The end of the file
+  li Or the —– operator – added for completeness, but I have never actually needed it
+
+
+textarea
+  x = -> {
+    result = shoot! user1
+    if result, user1.die!
+    ---
+    result = shoot! user2
+    if result, user.die!
+    ---
+    result = shoot! user3
+    if result, user.die!
+    ---
+  }
+
+h4 @ in bang function calls
+
+p In the case of unwrapped async calls via the bang postfix, @ will actually refer to the outer this.
+p Since we can refer to both via this method, binding becomes unnecessary.
+
+h4 Example
+
+textarea
+  Class.cacheData = -> {
+    d = $.get! "/" 
+    @data = d      // outer this
+    this.data = d  // inner this
+    return @
+  }

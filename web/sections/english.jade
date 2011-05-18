@@ -1,0 +1,9 @@
+h3 English comparison operators
+
+p The english words is, or, not, and, isnt are converted to the keywords ===, ||, !, && !== respecively.
+
+p Note that the conversion will not occur if they occur next to an operator, meaning that these keywords can still be used as variable identifiers, although it's not recommended. For examples, you can still write:
+
+textarea
+  if x is 100 or y isnt run(), return
+  is = require "assert"

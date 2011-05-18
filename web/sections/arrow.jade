@@ -1,0 +1,27 @@
+
+
+h3 arrow function alias
+
+p Kaffeine supports a simple arrow as an alias to a function call. 
+textarea 
+  ok = (timeout) -> {
+    sendNote()  
+  }
+
+p Braces are optional for one liners and also an empty argument list can be omitted
+
+textarea
+  run = -> ok(0)
+
+
+h4 Binding arrow =>
+
+
+p In complex scripts, managing the value of this can become an issue. Kaffeine includes a convenience utility for binding an arrow function to the scope it is created in. 
+
+p A common pattern in JavaScript is running a function in the current scope of this. Kaffeine has support for this through the fat arrow => 
+
+textarea
+  $(".heading").click => @remove()
+
+p The underlying binding operation is performed by a helper function called __bind which is appended to the end of the program (won't interfere with line numbering).

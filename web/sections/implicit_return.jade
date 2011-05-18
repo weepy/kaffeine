@@ -1,0 +1,25 @@
+h3 Implicit return
+
+p Usually, the completion value of a function is undefined, unless you explicitly return something different. Kaffeine's arrow function syntax juices up the function-calling process by determining a completion value based on the last statement in the block, and returning that automatically.
+
+h4  What's the advantage?
+p Completion value return helps promote the writing of functions that operate on and return data, rather than simply being there to produce side-effects. This is a core aspect of the functional programming style, but it also has benefits for object-oriented designs as well.
+
+p The last statement of a function will be automagically returned (Ruby style). For example
+
+textarea
+  getName = -> @name
+
+p This will only work for returnable statements, i.e. variables, objects and functions. So an final if statement will result no return value
+
+textarea
+  getName = -> { 
+    if truthy 
+      @name 
+  }
+
+p Note: this will be added in a future version. See Roadmap
+
+h4 Gotcha: don't use function arrow syntax for constructors
+
+p A constructor function won't work properly if it returns an array or an object. To avoid mistakenly creating a dud constructor, you can either fall back to using the function keyword, or opt-in to Kaffeine's class keyword, which offers enhanced inheritance support.

@@ -1,0 +1,13 @@
+h3 Classes 
+
+p Kaffeine provides support for simple class inheritence, super and friends
+
+h4 :: Operator
+
+p :: provides a shortcut to the prototype. For brevity, the :: operator on its own will reference the most recently assigned function:
+
+textarea 
+  Animal = -> {}
+  ::fast = -> { return this.speed > 100 }
+  ::alive = true
+

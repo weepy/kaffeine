@@ -1,5 +1,17 @@
 #implicit_vars
 
+compiles: 
+x = 100
+function() {
+  var x = 200
+}
+
+to:
+var x; x = 100
+function() {
+  var x; x = 200
+}
+
 compiles:
 for(k in I) run()
 

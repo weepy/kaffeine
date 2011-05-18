@@ -1,0 +1,34 @@
+h3 Interpolated strings and multiline
+
+p Kaffeine supports interpolation in the strings via the \#{} operator
+
+textarea
+  "my name is \\#{Rohan}"
+
+p Interpolation can be sutextareassed by a backslace, e.g. <code>"\#{xx}"</code>
+
+p ... also supports multiline text
+
+textarea
+  a = "English breakfast:
+  * eggs
+  * bacon
+  * sausages"
+
+p Kaffeine inserts newlines here to make the text output as it looks, but to prohibit the extra newlines - use the normal JavaScript backslash: 
+
+textarea
+  a = "English breakfast:\
+  * eggs\
+  * bacon\
+  * sausages"
+  
+h3 Ruby-style symbols
+
+p Ruby style symbols get converted to strings. Symbols are useful for easily observing which values are _state_ and which are output such as HTML or logging. They don’t share Ruby’s immutabilty (i.e. you can still perform string operations on them).
+
+textarea
+  if state is :end {
+    state = :start
+    run()
+  }

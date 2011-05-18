@@ -1,0 +1,20 @@
+h3 Block scope
+
+p Kaffeine provides support for block scope (Harmony-style) via closures
+
+textarea
+  x = 100
+  pairs = {
+    var x = "a:b"
+    x.split ":"
+  }
+
+h4 caveat
+p Since this feature uses a closure, you cannot return from the outer scope from within the block. I.e
+
+textarea
+  test = -> {
+    { return 100 }
+    200
+  }
+  // test() will return 200

@@ -1,0 +1,9 @@
+h3 Default arguments
+
+p This feaure allows support for ruby-syle defaults for null or undefined arguments. Note, this uses non strict comparison with null, meaning falsy values such as 0 or "" can be used as defaults.
+
+textarea
+  fn = (x=1, a=0) -> {
+    log x, a
+  }
+  fn 5  // => 5, 0

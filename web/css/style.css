@@ -188,6 +188,13 @@ pre {
  padding: 3px 0 3px 12px;
  white-space: pre-wrap;
  word-wrap: break-word;
+ float: left;
+
+}
+
+.code {
+  overflow:hidden;
+   width: 100%;
 }
 pre, textarea {
 /*  background: none repeat scroll 0 0 #FFFFFF;*/

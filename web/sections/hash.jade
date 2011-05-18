@@ -1,0 +1,18 @@
+h3 Hash Alias
+p Kaffeine provides # shortcut for referring to the first argument in a function. Useful for terse function definitions:
+
+textarea 
+  square = -> #*# 
+
+p Additionally, #n refers to the nth argument (n >= 0).
+textarea
+  times = -> #*#1 
+
+h3 .= (dot equals) and ||= (OR equals)
+
+p 2 extra assignment operators, ||= and .=. They work in a similar method as += etc.
+
+textarea
+  location.href .= replace "?old", "?new"
+  name .= toUpperCase()
+  opts ||= {}

@@ -14,7 +14,7 @@ textarea
   open door
 
   // Alternative method-calling mechanism (piping)
-  users | select { #.age > 18 }
+  users | select -> #.age > 18
 
   // For loop extensions (of)
   for user of users
