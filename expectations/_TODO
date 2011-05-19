@@ -1,5 +1,17 @@
 compiles: 
 
+-> {
+  fn = arguments | last
+  if typeof fn is "function" {
+  }
+}
+
+to:
+
+x
+
+compiles: 
+
 Poly::find_for_key = (key) -> {  
   @units | select -> #._poly.key is key
          | sortBy -> -#._poly.time

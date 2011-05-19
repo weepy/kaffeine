@@ -1815,7 +1815,7 @@ module.exports = function(stream) {
 require.register('kaffeine/token.js', function(module, exports, require) {
 // start module: kaffeine/token.js
 
-var log = console.log
+// var log = console.log
 
 var inherits = function(child, parent) {
   var ctor = function(){ };
@@ -2588,7 +2588,6 @@ regex.extract = function(index, input) {
       backslash_in_a_row = 0
     esc = backslash_in_a_row % 2 
     
-    //console.log(ch, esc, backslash_in_a_row)
     if(ch == "/" && !esc && !inSQ) {
       var next = input.charAt(index+2)
       if(next == "m" || next == "g" || next == "i") regex += next

@@ -195,7 +195,7 @@ CodeHighlighter.addStyle("javascript",{
     exp: /([-=]&gt;)|#|@/
   },
   symbol: {
-    exp: /:\$?[a-zA-Z0-9_$]*/
+    exp: /\b(:\$?[a-zA-Z0-9_$]*)/
   },
 	comment : {
 		exp  : /(\/\/[^\n]*(\n|$))|(\/\*[^*]*\*+([^\/][^*]*\*+)*\/)/
