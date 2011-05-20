@@ -1,3 +1,22 @@
+compiles:
+
+for i of 10|range
+  100
+  
+to:
+
+compiles: 
+
+a = 1
+for i of z * z() 
+{
+  xx
+}
+
+to: 
+
+x
+
 compiles: 
 
 -> {

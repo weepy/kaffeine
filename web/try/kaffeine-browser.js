@@ -138,7 +138,7 @@ Kaffeine.plugins = {};
 var jsp = require("./uglify/parse-js")
 var pro = require("./uglify/process")
 
-var defaultDirective = "using multiline_strings string_interpolation arrow ruby_symbols englify hash at class brackets_for_keywords operators block_scope pre_pipe implicit_brackets extend_for prototype super implicit_return pipe bang default_args implicit_vars undouble_brackets"
+var defaultDirective = "using multiline_strings string_interpolation arrow ruby_symbols englify hash at class brackets_for_keywords operators pre_pipe implicit_brackets extend_for block_scope prototype super implicit_return pipe bang default_args implicit_vars undouble_brackets"
 //class implicit_functions super prototype implicit_return
 
 Kaffeine.fn.compile = function(text, uglify_opts, filename) {
