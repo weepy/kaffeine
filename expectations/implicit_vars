@@ -1,5 +1,19 @@
 #implicit_vars
 
+compiles:
+
+x = 1
+function() {
+  var x = 2
+}
+
+to:
+
+var x; x = 1
+function() {
+  var x; x = 2
+}
+
 compiles: 
 x = 100
 function() {
