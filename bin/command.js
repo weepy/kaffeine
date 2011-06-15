@@ -9,7 +9,9 @@ var Kaffeine = require("./kaffeine"),
 
 
 function loadPlugins(source) {
+  console.log(source)
   fs.readdir(source, function(err, files) {
+    console.log(err)
     for(var i =0; i< files.length;i++) {
       var file = files[i]
       if(!file.match(/\.js$/)) continue

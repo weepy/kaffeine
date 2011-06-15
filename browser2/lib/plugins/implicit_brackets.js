@@ -4,7 +4,7 @@ require.module('./plugins/implicit_brackets', function(module, exports, require)
 var Token = require("../token");
 
 module.exports = function(stream) {
-  var nobrackets_keywords = {"for":1, "if":1, "while": 1, "new":1,"return":1,"var":1,"throw":1, "in":1,"of":1, "typeof":1, "instanceof":1, "else": 1, "try":1, "catch": 1, "class": 1}
+  var nobrackets_keywords = {"for":1, "if":1, "while": 1, "new":1,"return":1,"var":1,"throw":1, "in":1,"of":1,"from":1, "typeof":1, "instanceof":1, "else": 1, "try":1, "catch": 1, "class": 1}
   
   stream.tail().each(function() {
     var ws = this.next

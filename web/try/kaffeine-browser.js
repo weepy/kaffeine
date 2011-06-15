@@ -976,7 +976,7 @@ module.exports = function(stream) {
       bracket.next.find(function() {      
         if(this.next == closingBracket) return true
         if(this.semi) { skip = true; return true }
-        if(this.word && (this.text == "in" || this.text == "of") ) loopWord = this
+        if(this.word && (this.text == "in" || this.text == "of" || this.text == "from") ) loopWord = this
         if(this.round) complex = true
         toks.push(this)
       })
@@ -1041,7 +1041,7 @@ module.exports = function(stream) {
         closure.vars[iter] = true
         closure.vars[val] = true
         
-      } else {
+      } else if (loopWord.text == "of") {
         brace.implied = false
         brace.matching.implied = false
 
@@ -1052,12 +1052,32 @@ module.exports = function(stream) {
         closure.vars[iter] = true
         closure.vars[val] = true
         
-        var string = iter + " = 0; " + iter + " < " + expressionText + ".length; " + iter + "++"
-        bracket.after(string)          
+        var length;
+        closure.vars[length = closure.getUnusedVar()] = true
         
+        var string = iter + " = 0, " + length + " = " + expressionText + ".length; " + iter + " < " + length + "; " + iter + "++"
+        bracket.after(string)
+        
+      } else {
+        brace.implied = false
+        brace.matching.implied = false
+        
+        bracket.next.remove(closingBracket.prev)
+        
+        if (var2)
+          var2.prev.remove(var2)
+        iter = var1.text
+        val = var2 ? var2.text : closure.getUnusedVar()
+        closure.vars[iter] = true
+        closure.vars[val] = true
+        
+        var string = iter + " in " + expressionText
+        bracket.after(string)
       }
       
-      var text = " "/* + this.indent()*/ + val + " = " + (complex ? "_xpr" : expressionText) + "[" + iter + "];"
+      var text = ''
+      text += loopWord.text == "from" ? "if (!" + expressionText + ".hasOwnProperty(" + iter + ")) continue;" : ''
+      text += " "/* + this.indent()*/ + val + " = " + (complex ? "_xpr" : expressionText) + "[" + iter + "];"
             
       this.block.after(text)
      
@@ -1118,7 +1138,7 @@ require.register('kaffeine/plugins/implicit_brackets.js', function(module, expor
 var Token = require("../token");
 
 module.exports = function(stream) {
-  var nobrackets_keywords = {"for":1, "if":1, "while": 1, "new":1,"return":1,"var":1,"throw":1, "in":1,"of":1, "typeof":1, "instanceof":1, "else": 1, "try":1, "catch": 1, "class": 1}
+  var nobrackets_keywords = {"for":1, "if":1, "while": 1, "new":1,"return":1,"var":1,"throw":1, "in":1,"of":1,"from":1, "typeof":1, "instanceof":1, "else": 1, "try":1, "catch": 1, "class": 1}
     
   stream.tail().each(function() {
     Token.current_token = this
@@ -1681,14 +1701,14 @@ module.exports = function(stream) {
 
     var curly = this
 
-    var super = curly.next.find(function() {
+    var _super = curly.next.find(function() {
       if(this.text == "super") return true
       if(this.matching == curly) return false
       if(this.blockType == "function") return this.matching.next
     })
 
-    if(super) {
-      var brack = super.nextNW()
+    if(_super) {
+      var brack = _super.nextNW()
 
       if(brack.lbracket) {
 
@@ -1698,13 +1718,13 @@ module.exports = function(stream) {
         brack.before(".call")
       }
       else {
-        super.after("(this, arguments)")
-        brack = super.nextNW()
+        _super.after("(this, arguments)")
+        brack = _super.nextNW()
         brack.before(".apply")
       }
       
       if(this.class_name) {
-        super.replaceWith(this.class_name + ".__super__.constructor")
+        _super.replaceWith(this.class_name + ".__super__.constructor")
       } else {
 
         var eq = curly.blockTypeNode.prevNW()
@@ -1719,7 +1739,7 @@ module.exports = function(stream) {
         } else {
           caller = text + ".constructor" //replace(/\.$/,"")
         }
-        super.replaceWith(caller + ".__super__." + method.text )
+        _super.replaceWith(caller + ".__super__." + method.text )
       }
     }
     else {
