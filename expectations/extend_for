@@ -20,7 +20,7 @@ for(x of [1,2,3,4]) {
 }
 
 to:
-var _a, x; for(_a = 0; _a < [1,2,3,4].length; _a++) { x = [1,2,3,4][_a];
+var _a, x, _b; for(_a = 0, _b = [1,2,3,4].length; _a < _b; _a++) { x = [1,2,3,4][_a];
   ok()
 }
 
@@ -29,7 +29,7 @@ for(x of [1,2,3,4])
   ok()
 
 to:
-var _a, x; for(_a = 0; _a < [1,2,3,4].length; _a++) { x = [1,2,3,4][_a];
+var _a, x, _b; for(_a = 0, _b = [1,2,3,4].length; _a < _b; _a++) { x = [1,2,3,4][_a];
   ok() }
 
 compiles: 
@@ -82,3 +82,38 @@ var i, x, j, y; for(i in a) { x = a[i];
   for(j in a) { y = a[j];
     x } }
 
+compiles:
+for (a from n)
+  fn()
+	
+to:
+var a; for (a in n) {if (!n.hasOwnProperty(a)) continue;
+  fn() }
+
+compiles:
+for (a from n) {
+  fn()
+}
+
+to:
+var a; for (a in n) {if (!n.hasOwnProperty(a)) continue;
+  fn()
+}
+
+compiles:
+for (i, x from a)
+  fn()
+
+to:
+var i, x; for (i in a) {if (!a.hasOwnProperty(i)) continue; x = a[i];
+  fn() }
+
+compiles:
+for (i, x from a) {
+  fn()
+}
+
+to:
+var i, x; for (i in a) {if (!a.hasOwnProperty(i)) continue; x = a[i];
+  fn()
+}
