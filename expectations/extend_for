@@ -117,3 +117,13 @@ to:
 var i, x; for (i in a) {if (!a.hasOwnProperty(i)) continue; x = a[i];
   fn()
 }
+
+compiles:
+for (i, x from a()) {
+  fn()
+}
+
+to:
+var _xpr, i, x; for (i in (_xpr=a())) {if (!_xpr.hasOwnProperty(i)) continue; x = _xpr[i];
+  fn()
+}
