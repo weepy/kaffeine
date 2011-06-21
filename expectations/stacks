@@ -112,7 +112,7 @@ compiles:
 for x of row.split "" 
   log letter
 to:
-var _xpr, _a, x; for(_a = 0; _a < (_xpr=row.split("")).length; _a++) { x = _xpr[_a];
+var _xpr, _a, x, _b; for(_a = 0, _b = (_xpr=row.split("")).length; _a < _b; _a++) { x = _xpr[_a];
   log(letter) }
 
 
