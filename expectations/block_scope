@@ -1,4 +1,15 @@
 #block_scope
+
+compiles:
+x = {
+  // comment 
+}
+
+to:
+x = {
+  // comment
+}
+
 compiles:
 {leave: objects}
 {}
@@ -30,4 +41,8 @@ compiles:
 
 to:
 (function() {;}).call(this)
+
+
+
+
 
