@@ -1,4 +1,4 @@
-var Kaffeine = require("./kaffeine"),
+var Kaffeine = require("./../lib/index"),
     fs =             require('fs'),
     path =           require('path'),
     optparse =       require('optparse'),
@@ -9,15 +9,13 @@ var Kaffeine = require("./kaffeine"),
 
 
 function loadPlugins(source) {
-  console.log(source)
   fs.readdir(source, function(err, files) {
-    console.log(err)
     for(var i =0; i< files.length;i++) {
       var file = files[i]
       if(!file.match(/\.js$/)) continue
       file = file.replace(/\.js$/, "")
 
-      var path = "./plugins/" + file
+      var path = "./../lib/plugins/" + file
       Kaffeine.plugins[file] = require(path)
     }
   })
@@ -64,7 +62,7 @@ function parseOptions() {
 
 exports.run = function() {
   parseOptions()
-  loadPlugins(__dirname + "/plugins")
+  loadPlugins(require("path").join(__dirname, "../lib/plugins"))
   
   if(options.help) return usage()                              
   if(options.version) return version()                            
