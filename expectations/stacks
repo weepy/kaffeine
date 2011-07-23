@@ -203,3 +203,12 @@ function __extends(child, parent) {
   return child;
 }
 
+compiles:
+{
+ xx
+}
+
+to:
+{
+ xx
+}

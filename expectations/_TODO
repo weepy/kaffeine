@@ -145,4 +145,35 @@ to:
   return callback(_this._puzzle) })
 }
 
+compiles: 
 
+ok !failed
+
+to: 
+
+x
+
+compiles:
+
+game.add new Player()
+
+to: 
+
+x
+
+compiles:
+
+throws = (fn) -> {
+  failed = false
+  try {
+    fn()
+    failed = true
+  } catch(e) {
+
+  }
+  return !failed
+}
+
+to:
+
+x
