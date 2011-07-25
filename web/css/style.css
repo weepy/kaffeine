@@ -2,9 +2,9 @@
 
 body {
 	background: #fff;
-	color: #04010e;
+	color: #332954;
 	font-size: 100%;
-	font-family: arial, "proxima-nova-1", "proxima-nova-2", sans-serif;
+	font-family: arial;
 	line-height: 1.4em;
 }
 
@@ -20,6 +20,10 @@ body {
 
 }
 
+.section {
+  border-top: 1px dotted #aaa;
+  margin-bottom: 10px;
+}
 
 
 .download{
@@ -28,14 +32,14 @@ body {
  	margin-bottom: 0px;}
 
 a{
-	color: #863087;
+	color: #007;
  	text-decoration: underline;
  	-webkit-transition: color 0.15s ease-out;
 	-moz-transition: color 0.15s ease-out;
  	}
  	
 a:hover{
- 	color: #863027;}
+ 	color: #707;}
 
  	
 .download a{
@@ -58,11 +62,10 @@ p{
 	margin: 0 0 1.5em 0;}
 
 h3 {
-  padding-top: 1em;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 .container {
-	width: 600px;
+	width: 700px;
 	max-width: 1500px;
 	margin: 0 auto;
 /*  background-colord: #da4838;*/
@@ -131,8 +134,8 @@ h1 span.char4 {
 	margin-right: .035em;
 }
 
-::-moz-selection{ background: rgba(255,255,255, .3); color:#fff;  }
-::selection { background: rgba(255,255,255, .3); color: #fefcf2;  } 
+::-moz-selection{ background: rgba(0,255,255, .3); color:#744;  }
+::selection { background: rgba(0,255,255, .3); color: #744;  } 
 
 
 /*@media screen and (min-width: 700px) and (max-width:1500px) {*/
@@ -204,7 +207,7 @@ pre, textarea {
 /*  color: black;*/
 color: black;
   margin: 10px 10px 15px 0;
-  width: 600px;
+  width: 700px;
   overflow: hidden;
 }
 
