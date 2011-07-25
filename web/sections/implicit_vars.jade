@@ -18,13 +18,13 @@ textarea
     var x
   }
 
-h4 Explicit assigment
+h4 Explicit assigment with var
 
 p It’s possible to explicity declare a variable to a function scope if you don’t want to trample over a variable in outer scope:
 
 textarea
   state = "running"
-  run = ->
+  run = -> {
     var state = {}
+  }
   run()
-

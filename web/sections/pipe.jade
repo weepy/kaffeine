@@ -1,24 +1,17 @@
 h3 Unix-style function calling via | (pipe)
 
-p This is probably one of the most unusual features of Kaffeine. It provides an alternative calling method than can be used for chaining (UNIX style passing).
-p It also automatically loads a stdlib utility pipe_utils by default.
+p This is probably one of the most unusual features of Kaffeine. It provides an alternative calling method than can be used for chaining (UNIX style passing). The _ variable must be set to a object of functions, which is used as a lookup.
 
-h4 Examples
 textarea 
   result = input | fn args
-
-p Chaining Input To Output
-
-textarea
+  //chaining Input To Output
   result = input | fn a, b | fn2 c | fn3 d
 
-p For example, it is very useful for ruby style enumeration chaining without using prototypes, and other utilities
+p It is very useful for ruby style enumeration chaining without using prototypes, and other utilities, particuliarily 
+ the <a href=http://documentcloud.github.com/underscore/ target=_new>underscore</a> library: 
 
 textarea
+  _ = require "underscore"
   People | map -> { #.name } | detect -> #.length > 3
-  opts = opts | extend defaults
-  5 | times -> { if(!send()) return false }
-  names | asyncMap (name, fn) -> {
-    user = User.find! {name: name}
-    fn(user)
-  }, complete
+  opts = opts | defaults { x: 1}
+  5 | times -> send()

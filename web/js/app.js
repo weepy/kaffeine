@@ -4,7 +4,7 @@ $().ready(function() {
     $(this).replaceWith($("<pre>" + x + "</pre>"))
   })
   
-  $(window).sausage({page: ".section"});
+  // $(window).sausage({page: ".section"});
   
 })
 
@@ -57,7 +57,12 @@ $(function() {
         var K = new Kaffeine()
         var text = K.compile($(this).find("pre").text(), $(":radio:checked").val() )
         text = text.replace(/^\s+/,"")
-        $(this).append("<pre class='javascript rhs'>" + text + "</pre>")
+        $(this).find("pre").addClass("lhs")
+        
+        var rhs = $("<pre class='javascript rhs'>" + text + "</pre>")
+        rhs.hide()
+        $(this).append(rhs)
+        
       })
     
     CodeHighlighter.init()
@@ -66,6 +71,16 @@ $(function() {
   $(":radio").click(compile)
   compile()
 
+  $(".lhs").bind("mouseover", function() {
+    $(this).next().show()
+    $(this).hide()
+  })
+  
+  $(".rhs").bind("mouseout", function() {
+    $(this).prev().show()
+    $(this).hide()
+  })
+  
 })
 
 

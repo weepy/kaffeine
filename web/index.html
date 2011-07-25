@@ -2,7 +2,7 @@
   $("h1").lettering();
 });
 </script><body><div class="container"><header><h1>Kaffeine</h1><p class="download">Extending JavaScript for fun and profit
-<a href="https://github.com/davatron5000/FitText.js">Download on Github</a></p></header><h2>OVERVIEW</h2><p>Kaffeine is a set of extensions to the JavaScript syntax that attempt to make it nicer to use. It compiles directly into JavaScript that is very similar, readable and line for line equivalent to the input (so it debugs just as easily*).</p><p>Kaffeine can be compiled to JavaScript offline, or as needed in a browser. Offline compiler support is provided via Node, and you can also use Kaffeine to power Node server apps.</p><h3>How does it compare with CoffeeScript?</h3><p>Kaffeine and CoffeeScript are similar in that they both compile to plain JavaScript code that runs in a browser or JS server environment. However, the design decisions underpinning Kaffeine are different to CoffeeScript and therefore Kaffeine may be usable in situations where CoffeeScript is not.</p><h4>Kaffeine’s major differences</h4><ul><li>compiles line-for-line</li><li>accepts standard JavaScript (easier learning curve)</li><li>comments are preserved</li><li>can simplify asynchronous programming</li><li>outputs JavaScript that is very similar to input</li><li>whitespace rules are the same as javascript (meaning you can structure your program as you wish)</li></ul><h3>Why is line-for-line important?</h3><p>Not all JavaScript compilers respect the line numbering of your original source code. When the result runs perfectly, no problem, but this change in vertical layout has a dire effect on debugging. For instance, if something goes wrong on Line 475 of a randomly compiled program, how would anyone know where the problem was? Kaffeine addresses this by maintaining a strict 1:1 line ratio.</p><p>Saves time. Helps you stay immersed.</p><p>The overall benefit of a true 1:1 conversion is that you can concentrate on coding in one language, and not have to worry about a) the conversion patterns used by the compiler, or b) figuring what the same thing might look like in "plain" JS. Fewer context switches and longer flow states mean better productivity.</p><p>Oh, and don't you dare let us catch you using FitText on paragraph text. This is for gigantic display text only!</p><div class="section"><h2>Getting Started - The Basics</h2><p>Kaffeine uses a progressive enhancement approach, which means you don't have to start using all the features at once. Start with the ones that make most sense to you, and then adopt the more powerful ones in your own time. Even if you wrote a 100% plain JavaScript program and ran it through the Kaffeine compiler, it would still work exactly the same.</p><textarea>// Implicit variable declarions
+<a href="https://github.com/davatron5000/FitText.js">Download on Github</a></p></header><h2>OVERVIEW</h2><p>Kaffeine is a set of extensions to the JavaScript syntax that attempt to make it nicer to use. It compiles directly into JavaScript that is very similar, readable and line for line equivalent to the input (for easy debugging).</p><p>Kaffeine can be compiled to JavaScript offline, or as needed in a browser. Offline compiler support is provided via Node, and you can also use Kaffeine to power Node server apps.</p><h3>How does it compare with CoffeeScript?</h3><p>Kaffeine and CoffeeScript are similar in that they both compile to plain JavaScript code that runs in a browser or JS server environment. However, the design decisions underpinning Kaffeine are different to CoffeeScript: </p><ul><li>compiles line-for-line</li><li>accepts standard JavaScript</li><li>comments are preserved</li><li>can simplify asynchronous programming</li><li>outputs JavaScript that is very similar to input</li><li>whitespace rules are the same as javascript (meaning you can structure your program as you wish)</li></ul><h3>Why is line-for-line important?</h3><p>Not all JavaScript compilers respect the line numbering of your original source code. When the result runs perfectly, no problem, but this change in vertical layout has a dire effect on debugging. For instance, if something goes wrong on Line 475 of a randomly compiled program, how would anyone know where the problem was? Kaffeine addresses this by maintaining a strict 1:1 line ratio.</p><div class="section"><h2>Overview</h2><textarea>// Implicit variable declarions
 zoo = {}
 // Function arrow syntax and implicit formal parameter list
 hello = -> { "Greetings!" }
@@ -31,9 +31,8 @@ if Job.count! > 10 {
 </textarea><p>Braces are optional for one liners and also an empty argument list can be omitted</p><textarea>run = -> ok(0)
 
 
-</textarea><h4>Binding arrow =></h4><p>In complex scripts, managing the value of this can become an issue. Kaffeine includes a convenience utility for binding an arrow function to the scope it is created in. </p><p>A common pattern in JavaScript is running a function in the current scope of this. Kaffeine has support for this through the fat arrow => </p><textarea>$(".heading").click => @remove()
-
-</textarea><p>The underlying binding operation is performed by a helper function called __bind which is appended to the end of the program (won't interfere with line numbering).</p></div><div class="section"><h3>Installation</h3></div><div class="section"><h3>Interpolated strings and multiline</h3><p>Kaffeine supports interpolation in the strings via the #{} operator</p><textarea>"my name is \#{Rohan}"
+</textarea><h4>Binding arrow =></h4><p>Kaffeine includes a convenience utility for binding a function to the current scope:</p><textarea>$(".heading").click => @remove()
+</textarea></div><div class="section"><h3>Interpolated strings and multiline</h3><p>Kaffeine supports interpolation in the strings via the #{} operator</p><textarea>"my name is \#{Rohan}"
 
 </textarea><p>Interpolation can be sutextareassed by a backslace, e.g. <code>"#{xx}"</code></p><p>... also supports multiline text</p><textarea>a = "English breakfast:
 * eggs
@@ -42,11 +41,11 @@ if Job.count! > 10 {
 
 </textarea><p>Kaffeine inserts newlines here to make the text output as it looks, but to prohibit the extra newlines - use the normal JavaScript backslash: </p><textarea>a = "English breakfast:\n* eggs\n* bacon\n* sausages"
 
-</textarea><h3>Ruby-style symbols</h3><p>Ruby style symbols get converted to strings. Symbols are useful for easily observing which values are _state_ and which are output such as HTML or logging. They don’t share Ruby’s immutabilty (i.e. you can still perform string operations on them).</p><textarea>if state is :end {
+</textarea><h3>Ruby-style symbols</h3><p>Ruby style symbols are converted to strings. Symbols are useful for easily observing which values are _state_ and which are output such as HTML or logging. They don’t share Ruby’s immutabilty (i.e. you can still perform string operations on them).</p><textarea>if state is :end {
   state = :start  
   run()
 }
-</textarea></div><div class="section"><h3>Unwrapping async calls with ! (bang)</h3><p>A ! postfix to a function call signals to Kaffeine that this is an unwrapped async call masquerading as a normal function call. Kaffeine will recompile it into a normal function call with the follow code wrapping into an async callback.</p><h4>Example</h4><textarea>// simple call
+</textarea></div><div class="section"><h3>Unwrapping async calls with ! (bang)</h3><p>A ! postfix to a function call signals to Kaffeine that this is an unwrapped async call masquerading as a normal function call. Kaffeine will recompile it into a normal function call with the follow code wrapping into an async callback:</p><textarea>// simple call
 fish = $.get! '/fish'     
 $("stomach").append fish
 
@@ -54,18 +53,7 @@ $("stomach").append fish
 ok = stomach.save!        
 meal.complete = ok
 
-</textarea><This>is super useful for simplifying nested asynchronous calls (esp with nodejs) and works nicely in a number of scenarios:</This><textarea>// create convenient sleep function
-sleep = -> { setTimeout #1, #0 }
-
-// use it
-test_check = -> {
-  if !@chess.isCheck() {  
-    sleep! 400  
-  alert "STALEMATE"  
-  }
-}
-
-</textarea><p>When does the function unwrapping ‘stop’?</p><ul><li>At an unmatched right bracket (e.g. the end of a function or arg list)</li><li>The end of the file</li><li>Or the —– operator – added for completeness, but I have never actually needed it</li></ul><textarea>x = -> {
+</textarea><This>is super useful for simplifying nested asynchronous calls (esp with nodejs) and works nicely in a number of scenarios.</This><p>When does the function unwrapping ‘stop’?</p><ul><li>At an unmatched right bracket (e.g. the end of a function or arg list)</li><li>The end of the file</li><li>Or at the <code>—–</code> operator</li></ul><textarea>x = -> {
   result = shoot! user1  
   if result, user1.die!  
   ---  
@@ -77,13 +65,13 @@ test_check = -> {
   ---
 }
 
-</textarea><h4>@ in bang function calls</h4><p>In the case of unwrapped async calls via the bang postfix, @ will actually refer to the outer this.</p><p>Since we can refer to both via this method, binding becomes unnecessary.</p><h4>Example</h4><textarea>Class.cacheData = -> {
+</textarea><h4>@ in bang function calls</h4><p>In the case of unwrapped async calls via the bang postfix, @ will actually refer to the outer this.</p><p>Since we can refer to both via this method, binding becomes unnecessary:</p><textarea>Class.cacheData = -> {
   d = $.get! "/"   
   @data = d      // outer this  
   this.data = d  // inner this  
   return @
 }
-</textarea></div><div class="section"><h3>for loop extensions</h3><p>This module adds additional functionality to the for loop:</p><p>of operator for looping through arrays. The first parameter will refer to the element itself, and an optional 2nd paramter will refer to the index:</p><textarea>A = [7,3,4]
+</textarea></div><div class="section"><h3>for loop extensions</h3><p>Kaffeine adds the extra keywords <code>of</code> for looping through arrays and the <code>from</code> keyword to avoid methods that are not direct members.</p><textarea>A = [7,3,4]
 
 // will log 14
 for x of A
@@ -95,18 +83,19 @@ for x, i of A
   sum += i
 log sum
 
-</textarea><p>Kaffeine also provides a second optional second parameter for the in keyword, containing the value:</p><textarea>A = [7,3,4]
+</textarea><p>Kaffeine also provides a second optional second parameter for the in, of and from keywords, containing the current value:</p><textarea>A = [7,3,4]
 z = ""
 
 // will log 734
 for key, val in A
   zip += val
 
-</textarea></div><div class="section"><h3>Optional brackets</h3><p>Kaffeine provides support for optional Brackets In Function Calls</p><textarea>remove eggs.shell
+</textarea></div><div class="section"><h3>Optional brackets</h3><p>Kaffeine provides support for optional Brackets In Function Calls and for certain keywords</p><textarea>remove eggs.shell
 mix eggs, milk.off ? milk : null
 outer inner innermost
 
-</textarea><p>Optional Brackets For Keywords</p><p>keywords such as for and if can omit their brackets (as long as the statement does not become amiguous). The brackets are inserted either before a newline, a left brace ‘{’ or a comma (for one liners)</p><textarea>for i in A
+
+</textarea><p>keywords such as <code>for</code> and <code>if</code> can omit their brackets (as long as the statement does not become amiguous). The brackets are inserted either before a newline, a left brace ‘{’ or a comma (for one liners)</p><textarea>for i in A
   run A[i]  
 
 if name == "john", return false
@@ -114,56 +103,43 @@ if name == "john", return false
 while we_have_time { 
   run tasks 
 }
-</textarea></div><div class="section"><h3>this, this.constructor</h3><p>This module provides an Ruby style aliases for:</p><ul><li>this in the form of @</li><li>this.constructor in the form of @@</li></ul><h4>Example</h4><textarea>Animal = -> (type, color) {
+</textarea></div><div class="section"><h3>this, this.constructor</h3><p>This module provides an Ruby style aliases for:</p><ul><li><code>this</code> in the form of @</li><li><code>this.constructor</code> in the form of @@</li></ul><textarea>Animal = (type, color) -> {
   @type = type  
   @@count += 1  
   @@all.push @
 }
-</textarea></div><div class="section"><h3>Block scope</h3><p>Kaffeine provides support for block scope (Harmony-style) via closures</p><textarea>x = 100
-pairs = {
-  var x = "a:b"  
-  x.split ":"
-}
-
-</textarea><h4>caveat</h4><p>Since this feature uses a closure, you cannot return from the outer scope from within the block. I.e</p><textarea>test = -> {
-  { return 100 }  
-  200
-}
-// test() will return 200
-</textarea></div><div class="section"><h3>Hash Alias</h3><p>Kaffeine provides # shortcut for referring to the first argument in a function. Useful for terse function definitions:</p><textarea>square = -> #*# 
+</textarea></div><div class="section"><h3>Hash Alias</h3><p># is a shortcut for referring to the first argument in a function. Useful for terse function definitions:</p><textarea>square = -> #*# 
 
 </textarea><p>Additionally, #n refers to the nth argument (n >= 0).</p><textarea>times = -> #*#1 
-
-</textarea><h3>.= (dot equals) and ||= (OR equals)</h3><p>2 extra assignment operators, ||= and .=. They work in a similar method as += etc.</p><textarea>location.href .= replace "?old", "?new"
+</textarea></div><div class="section"><h3>.= (dot equals) and ||= (OR equals)</h3><p>2 extra assignment operators, ||= and .=. They work in a similar method as += etc.</p><textarea>location.href .= replace "?old", "?new"
 name .= toUpperCase()
 opts ||= {}
-</textarea></div><div class="section"><h2>OVERVIEW</h2><p>Kaffeine is a set of extensions to the JavaScript syntax that attempt to make it nicer to use. It compiles directly into JavaScript that is very similar, readable and line for line equivalent to the input (so it debugs just as easily*).</p><p>Kaffeine can be compiled to JavaScript offline, or as needed in a browser. Offline compiler support is provided via Node, and you can also use Kaffeine to power Node server apps.</p><h3>How does it compare with CoffeeScript?</h3><p>Kaffeine and CoffeeScript are similar in that they both compile to plain JavaScript code that runs in a browser or JS server environment. However, the design decisions underpinning Kaffeine are different to CoffeeScript and therefore Kaffeine may be usable in situations where CoffeeScript is not.</p><h4>Kaffeine’s major differences</h4><ul><li>compiles line-for-line</li><li>accepts standard JavaScript (easier learning curve)</li><li>comments are preserved</li><li>can simplify asynchronous programming</li><li>outputs JavaScript that is very similar to input</li><li>whitespace rules are the same as javascript (meaning you can structure your program as you wish)</li></ul><h3>Why is line-for-line important?</h3><p>Not all JavaScript compilers respect the line numbering of your original source code. When the result runs perfectly, no problem, but this change in vertical layout has a dire effect on debugging. For instance, if something goes wrong on Line 475 of a randomly compiled program, how would anyone know where the problem was? Kaffeine addresses this by maintaining a strict 1:1 line ratio.</p><p>Saves time. Helps you stay immersed.</p><p>The overall benefit of a true 1:1 conversion is that you can concentrate on coding in one language, and not have to worry about a) the conversion patterns used by the compiler, or b) figuring what the same thing might look like in "plain" JS. Fewer context switches and longer flow states mean better productivity.</p><p>Oh, and don't you dare let us catch you using FitText on paragraph text. This is for gigantic display text only!</p></div><div class="section"><h3>Using keyword</h3><p>The using keyword imports functions from an object into the current scope. For example if we have a library called "ninja" which exposes two methods jump and kick.</p><textarea>using * from require "ninja"
+</textarea></div><div class="section"><h3>Using keyword</h3><p>The using keyword imports functions from an object into the current scope. For example if we have a library called "ninja" which exposes two methods jump and kick.</p><textarea>N = require "ninja"
+using * from N
 jump "high"
 kick()
 
-</textarea><p>If we only wanted to import jump, we could write: </p><textarea>using jump from require "ninja"
+</textarea><p>If we only wanted to import jump, we could write: </p><textarea>N = require "ninja"
+using jump from N
 jump "high"
 
 </textarea><p>Note: that the * form uses eval, so it won’t work with ES5 strict, and also be careful putting it in sections of code that are often called.</p></div><div class="section"><h3>Classes </h3><p>Kaffeine provides support for simple class inheritence, super and friends</p><h4>:: Operator</h4><p>:: provides a shortcut to the prototype. For brevity, the :: operator on its own will reference the most recently assigned function:</p><textarea>Animal = -> {}
 ::fast = -> { return this.speed > 100 }
 ::alive = true
 
-</textarea></div><div class="section"><h3>Unix-style function calling via | (pipe)</h3><p>This is probably one of the most unusual features of Kaffeine. It provides an alternative calling method than can be used for chaining (UNIX style passing).</p><p>It also automatically loads a stdlib utility pipe_utils by default.</p><h4>Examples</h4><textarea>result = input | fn args
+</textarea></div><div class="section"><h3>Unix-style function calling via | (pipe)</h3><p>This is probably one of the most unusual features of Kaffeine. It provides an alternative calling method than can be used for chaining (UNIX style passing). The _ variable must be set to a object of functions, which is used as a lookup.</p><textarea>result = input | fn args
+//chaining Input To Output
+result = input | fn a, b | fn2 c | fn3 d
 
-</textarea><p>Chaining Input To Output</p><textarea>result = input | fn a, b | fn2 c | fn3 d
-
-</textarea><p>For example, it is very useful for ruby style enumeration chaining without using prototypes, and other utilities</p><textarea>People | map -> { #.name } | detect -> #.length > 3
-opts = opts | extend defaults
-5 | times -> { if(!send()) return false }
-names | asyncMap (name, fn) -> {
-  user = User.find! {name: name}  
-  fn(user)
-}, complete
+</textarea><p>It is very useful for ruby style enumeration chaining without using prototypes, and other utilities, particuliarily <the><a href=http://documentcloud.github.com/underscore/ target=_new>underscore</a> library: </the></p><textarea>_ = require "underscore"
+People | map -> { #.name } | detect -> #.length > 3
+opts = opts | defaults { x: 1}
+5 | times -> send()
 </textarea></div><div class="section"><h3>Default arguments</h3><p>This feaure allows support for ruby-syle defaults for null or undefined arguments. Note, this uses non strict comparison with null, meaning falsy values such as 0 or "" can be used as defaults.</p><textarea>fn = (x=1, a=0) -> {
   log x, a
 }
-fn 5  // => 5, 0
-</textarea></div><div class="section"><h3>Implicit return</h3><p>Usually, the completion value of a function is undefined, unless you explicitly return something different. Kaffeine's arrow function syntax juices up the function-calling process by determining a completion value based on the last statement in the block, and returning that automatically.</p><h4>What's the advantage?</h4><p>Completion value return helps promote the writing of functions that operate on and return data, rather than simply being there to produce side-effects. This is a core aspect of the functional programming style, but it also has benefits for object-oriented designs as well.</p><p>The last statement of a function will be automagically returned (Ruby style). For example</p><textarea>getName = -> @name
+fn 5  // will log 5, 0
+</textarea></div><div class="section"><h3>Implicit return</h3><p>Kaffeine's arrow function syntax juices up the function-calling process by determining a completion value based on the last statement in the block, and returning that automatically.</p><p>The last statement of a function defined with <code>-></code> will be automagically returned. For example</p><textarea>getName = -> @name
 
 </textarea><p>This will only work for returnable statements, i.e. variables, objects and functions. So an final if statement will result no return value</p><textarea>getName = -> { 
   if truthy   
@@ -171,12 +147,7 @@ fn 5  // => 5, 0
 
 }
 
-</textarea><p>Note: this will be added in a future version. See Roadmap</p><h4>Gotcha: don't use function arrow syntax for constructors</h4><p>A constructor function won't work properly if it returns an array or an object. To avoid mistakenly creating a dud constructor, you can either fall back to using the function keyword, or opt-in to Kaffeine's class keyword, which offers enhanced inheritance support.</p></div><div class="section"><h3>Ideas going forward</h3><h4>Array comprehensions </h4><textarea>x = for y of myArray {
-  if y > 10, break   
-  x += y
-}
-
-</textarea><h4>auto-slice arguments</h4><p>Within any function, a reference to arguments will be auto-converted to a sliced version (meaning it can be used as a proper array object).</p><h4>Existential ? operator</h4><p>extend implicit return through if blocks</p></div><div class="section"><h3>English comparison operators</h3><p>The english words is, or, not, and, isnt are converted to the keywords ===, ||, !, && !== respecively.</p><p>Note that the conversion will not occur if they occur next to an operator, meaning that these keywords can still be used as variable identifiers, although it's not recommended. For examples, you can still write:</p><textarea>if x is 100 or y isnt run(), return
+</textarea><p>Note: this will be added in a future version. See Roadmap</p><h4>Gotcha: be careful with using function arrow syntax with constructors</h4><p>A constructor function won't work properly if it returns an array or an object. To avoid mistakenly creating a dud constructor, you can either fall back to using the function keyword, or opt-in to Kaffeine's class keyword, which offers enhanced inheritance support.</p></div><div class="section"><h3>English comparison operators</h3><p>The english words is, or, not, and, isnt are converted to the keywords ===, ||, !, && !== respecively.</p><p>Note that the conversion will not occur if they occur next to an operator, meaning that these keywords can still be used as variable identifiers, although it's not recommended. For examples, you can still write:</p><textarea>if x is 100 or y isnt run(), return
 is = require "assert"
 </textarea></div><div class="section"><h3>Implicit variable declaration</h3><p>This module provides support for omitting the var keyword: the variables will be automagically defined in the closest relevant closure.</p><h4>Examples</h4><textarea>x = 1, a = 3
 -> {
@@ -189,30 +160,17 @@ is = require "assert"
   var x
 }
 
-</textarea><h4>Explicit assigment</h4><p>It’s possible to explicity declare a variable to a function scope if you don’t want to trample over a variable in outer scope:</p><textarea>state = "running"
-run = ->
+</textarea><h4>Explicit assigment with var</h4><p>It’s possible to explicity declare a variable to a function scope if you don’t want to trample over a variable in outer scope:</p><textarea>state = "running"
+run = -> {
   var state = {}
+}
 run()
+</textarea></div><div class="section"><h3>Installation and Use</h3><p>npm install kaffeine</p><Use></Use></div><div class="section"><h3>Ideas going forward</h3><h4>Array comprehensions </h4><textarea>x = for y of myArray {
+  if y > 10, break   
+  x += y
+}
 
-</textarea></div><footer><p>FitText is brought to you by 
-<a href="http://paravelinc.com">Paravel</a>, as is 
-<a href="http://letteringjs.com">>Lettering.js</a>. Follow 
-<a href="http://twitter.com/trentwalton" class="trent">Trent</a>, 
-<a href="http://twitter.com/davatron5000" class="dave">Dave</a>and 
-<a href="http://twitter.com/raygunray" class="reagan">Reagan</a>on Twitter.
-</p></footer></div><script>$("h1").fitText(0.38);
-</script><script>$(".download").fitText(3);
-</script><script>var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-xxxx-xx']);
-_gaq.push(['_trackPageview']);
-
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;  
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';  
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-
-</script><script src="http://include.reinvigorate.net/re_.js"></script><script>try {
-  reinvigorate.track("33333333");
-} catch(err) {}
+</textarea><h4>auto-slice arguments</h4><p>Within any function, a reference to arguments will be auto-converted to a sliced version (meaning it can be used as a proper array object).</p><h4>Existential ? operator</h4><p>extend implicit return through if blocks</p></div><footer><p>Kaffeine is brought to you by 
+<a href="http://github.com/weepy">weepy</a></p></footer></div><script>$("h1").fitText(0.38)
+$(".download").fitText(3)
 </script></body></head></html>

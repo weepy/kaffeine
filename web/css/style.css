@@ -1,10 +1,10 @@
 /* @override http://localhost:8888/css/style.css */
 
 body {
-	background: #c44032;
-	color: #f4f1de;
+	background: #fff;
+	color: #04010e;
 	font-size: 100%;
-	font-family: "proxima-nova-1", "proxima-nova-2", sans-serif;
+	font-family: arial, "proxima-nova-1", "proxima-nova-2", sans-serif;
 	line-height: 1.4em;
 }
 
@@ -28,7 +28,7 @@ body {
  	margin-bottom: 0px;}
 
 a{
-	color: #f4f1de;
+	color: #863087;
  	text-decoration: underline;
  	-webkit-transition: color 0.15s ease-out;
 	-moz-transition: color 0.15s ease-out;
@@ -48,7 +48,7 @@ a:hover{
 	text-decoration: none;}
 
 .download a:hover{
-	color: #f4f1de;
+	color: #04010e;
 	margin-left: .6em;
 	margin-right: -.2em;}
  	
@@ -58,10 +58,11 @@ p{
 	margin: 0 0 1.5em 0;}
 
 h3 {
-  font-size: 1.2em;
+  padding-top: 1em;
+  font-size: 2em;
 }
 .container {
-	width: 80%;
+	width: 600px;
 	max-width: 1500px;
 	margin: 0 auto;
 /*  background-colord: #da4838;*/
@@ -89,7 +90,7 @@ footer{
 h1 {
 /*  text-align: center;*/
 	text-indent: -.04em;
-	color: #f4f1de;
+	color: #FfB0Ee;
 	font: 100px "HirukoBlackAlternate", sans-serif;
 /*  font-weight: 900;*/
 	display: inline-block;
@@ -185,12 +186,12 @@ h1 {
 /*******/
 pre {
  border-left: 5px solid #863027;
- font: 12px/1.4 monaco,"helvetica neue",helvetica;
- padding: 3px 0 3px 12px;
+ font: 13px/1.4 monaco,"helvetica neue",helvetica;
+ padding: 10px;
  white-space: pre-wrap;
  word-wrap: break-word;
  float: left;
- background: #F4F1DE;
+ background: #FFF1FC;
 }
 
 .code {
@@ -203,7 +204,7 @@ pre, textarea {
 /*  color: black;*/
 color: black;
   margin: 10px 10px 15px 0;
-  width: 448px;
+  width: 600px;
   overflow: hidden;
 }
 

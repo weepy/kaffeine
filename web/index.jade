@@ -31,8 +31,6 @@ html(lang="en")
         .section
           !=partial("./sections/arrow")
         .section
-          !=partial("./sections/installation")
-        .section
           !=partial("./sections/strings")
         .section
           !=partial("./sections/bang")
@@ -43,11 +41,9 @@ html(lang="en")
         .section
           !=partial("./sections/this")
         .section
-          !=partial("./sections/block_scope")
-        .section
           !=partial("./sections/hash")
         .section
-          !=partial("./sections/overview")
+          !=partial("./sections/operators")
         .section
           !=partial("./sections/using")
         .section
@@ -59,29 +55,14 @@ html(lang="en")
         .section
           !=partial("./sections/implicit_return")
         .section
-          !=partial("./sections/roadmap")
-        .section
           !=partial("./sections/english")
         .section
           !=partial("./sections/implicit_vars")
+        .section
+          !=partial("./sections/installation")
+        .section
+          !=partial("./sections/roadmap")
         !=partial("./sections/footer")
       script
-        $("h1").fitText(0.38);
-      script
-        $(".download").fitText(3);
-      script
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-xxxx-xx']);
-        _gaq.push(['_trackPageview']);
-
-        (function() {
-          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-      script(src="http://include.reinvigorate.net/re_.js")
-      script
-        try {
-          reinvigorate.track("33333333");
-        } catch(err) {}
+        $("h1").fitText(0.38)
+        $(".download").fitText(3)

@@ -3,13 +3,11 @@ h3 this, this.constructor
 p This module provides an Ruby style aliases for:
 
 ul
-  li this in the form of @
-  li this.constructor in the form of @@
-
-h4 Example
+  li <code>this</code> in the form of @
+  li <code>this.constructor</code> in the form of @@
 
 textarea
-  Animal = -> (type, color) {
+  Animal = (type, color) -> {
     @type = type
     @@count += 1
     @@all.push @
