@@ -178,3 +178,21 @@ function __extends(child, parent) {
   return child;
 }
 
+compiles:
+
+class Rook extends require("../piece").piece
+
+to:
+
+function Rook(){ Rook.__super__.constructor.apply(this, arguments);}; __extends(Rook, require("../piece").piece); 
+
+function __extends(child, parent) {
+  var __hasProp = Object.prototype.hasOwnProperty;
+  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+  function ctor() { this.constructor = child; }
+  ctor.prototype = parent.prototype;
+  child.prototype = new ctor;
+  child.__super__ = parent.prototype;
+  return child;
+}
+

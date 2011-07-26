@@ -1,4 +1,13 @@
+compiles: 
+
+(1/2 + (1/2))
+
+to:
+
+(1/2 + (1/2))
+
 compiles:
+
 
 for i of 10|range
   100

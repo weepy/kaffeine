@@ -1,5 +1,16 @@
-String::splice ||= (i, del, str) -> {
-  chars = @split ""
-  Array::splice.apply chars, arguments
-  return chars.join ""
-} 
+compiles:
+
+
+-> {
+  $ {
+    html: { class: "highlights"}
+  }
+}
+
+
+
+
+
+to:
+
+x
