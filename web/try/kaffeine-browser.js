@@ -131,15 +131,38 @@ function Kaffeine(options) {
 }
 
 Kaffeine.fn = Kaffeine.prototype;
-Kaffeine.VERSION = "0.0.6";
+Kaffeine.VERSION = "0.1.6";
 Kaffeine.plugins = {};
 
 //unless brackets_for_keywords reverse_blocks indented_blocks
 var jsp = require("./uglify/parse-js")
 var pro = require("./uglify/process")
 
-var defaultDirective = "using multiline_strings string_interpolation arrow ruby_symbols englify hash at class brackets_for_keywords operators block_scope pre_pipe implicit_brackets extend_for prototype super implicit_return pipe bang default_args implicit_vars undouble_brackets"
-//class implicit_functions super prototype implicit_return
+var defaultDirective = [
+  "using",
+  "multiline_strings",
+  "string_interpolation", 
+  "arrow", 
+  "ruby_symbols", 
+  "englify", 
+  "hash", 
+  "at", 
+  "class", 
+  "brackets_for_keywords", 
+  "operators", 
+//  "block_scope",  // removed
+  "pre_pipe", 
+  "implicit_brackets", 
+  "extend_for", 
+  "prototype", 
+  "super",
+  "implicit_return", 
+  "pipe", 
+  "bang", 
+  "default_args", 
+  "implicit_vars", 
+  "undouble_brackets"
+].join(" ")
 
 Kaffeine.fn.compile = function(text, uglify_opts, filename) {
   this.filename = filename
@@ -659,7 +682,9 @@ module.exports = function(stream) {
     Token.current_token = this
     
     if(token.blockType != "object") return
+
     if(token.next == token.matching) return // empty object    
+    if(token.nextNW() == token.matching) return // added to allow for empty objects with comments
     if(token.nextNW().next.text == ":") return // must be an object
           
     var pair =  Token.bracket.pair("()")
@@ -792,12 +817,14 @@ var Token = require("../token");
 module.exports = function(stream) {
   var insert = false
 
-//    console.log(stream.collectText())
-
   stream.each(function() {
     Token.current_token = this
     
     if(this.text != "class") return 
+    if(this.nextNW().text == ":") {
+      this.text = "'class'"
+      return
+    }
     
     this.text = "function"
      
@@ -815,19 +842,22 @@ module.exports = function(stream) {
 
     var next = x.next.matching.nextNW()
 
-
-    // console.log(next.text, next.next.next.text)
     var super_class_name = null
 
     if(next.text == "extends") {
       insert = insert_extends = true
 
       var super_class = next.next.next
-      super_class_name = super_class.text
-      //console.log("super_class.text", super_class.text)
-
-      var after = super_class.nextNW()
-      next.remove(super_class)
+      var end = super_class.expressionEnd()
+      
+      var after = end.nextNW()
+      super_class_name = super_class.collectText(end)
+      // console.log(super_class.text, end.text, "XXXXXXXXXXXXXX")
+      // console.log(super_class_name)
+      var expr = super_class.remove(end)
+      
+      next.next.remove()
+      next.remove()
       next = after
     }
     
@@ -842,7 +872,7 @@ module.exports = function(stream) {
 
     if(!curly.matching.next.semi) curly.matching.after(";")
     if(insert_extends)
-      curly.matching.next.after(" __extends(" + class_name + ", "+ super_class.text + ");")
+      curly.matching.next.after(" __extends(" + class_name + ", "+ super_class_name + ");")
 
     curly.updateBlock()
     curly.class_name = class_name;
@@ -1908,7 +1938,7 @@ function postprocess(stream) {
   
   // match brackets
   var stack = []
-  stream.each(function() { 
+  stream.each(function() {  
     if(this.bracket)  
       if(this.lbracket) 
         stack.push(this)
