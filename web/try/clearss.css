@@ -1,18 +1,18 @@
 /*
  * ClearSS
- * 
+ *
  * Use this as a starter CSS file. It will save time and headaches if you provide sensible defaults for your styles.
- * 
+ *
  * Author: Andrei Eftimie
  * Contact: andrei@eftimie.com
- * 
+ *
  * Creative Commons License http://creativecommons.org/licenses/by/3.0/
- * 
+ *
  */
 
 /*
  * Reset
- * Loosely based on Eric Meyer's CSS Reset http://meyerweb.com/eric/tools/css/reset/ 
+ * Loosely based on Eric Meyer's CSS Reset http://meyerweb.com/eric/tools/css/reset/
  */
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { margin: 0; padding: 0; }
 fieldset, img { border: none; vertical-align: middle; }
@@ -89,9 +89,9 @@ textarea { padding: .425em .3em; }
 [type=submit] { padding: 0; margin: .55em 0; }
 fieldset { border: 1px solid #999; padding: 1.20em 2.5em; }
 
-form ol { margin: 0; }  
-form li { list-style: none; margin-bottom: 1.25em; }  
-form li label { display: block; }  
+form ol { margin: 0; }
+form li { list-style: none; margin-bottom: 1.25em; }
+form li label { display: block; }
 form li input { margin: .225em 0; }
-form .inline label { display: inline; }  
+form .inline label { display: inline; }
 form .inline input { margin-right: 1em; }

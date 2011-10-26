@@ -6,7 +6,7 @@ var greet = "hello", bye = "bye", name = "james", age = 20
 var obj = {x:{x:1}}
 
 eq "${greet}
-$name 
+$name
 ${bye}
 $name
 ".split("\n").length, 5

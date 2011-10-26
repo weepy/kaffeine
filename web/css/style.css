@@ -37,11 +37,11 @@ a{
  	-webkit-transition: color 0.15s ease-out;
 	-moz-transition: color 0.15s ease-out;
  	}
- 	
+
 a:hover{
  	color: #707;}
 
- 	
+
 .download a{
  	padding: .095em .8em;
  	background: url(../img/arrow.png) no-repeat;
@@ -55,9 +55,9 @@ a:hover{
 	color: #04010e;
 	margin-left: .6em;
 	margin-right: -.2em;}
- 	
 
-p{	
+
+p{
 	font-size: 1em;
 	margin: 0 0 1.5em 0;}
 
@@ -106,7 +106,7 @@ h1 {
 			#863027 .04em .04em 0,
 			#863027 .05em .05em 0,
 			#863027 .06em .06em 0,
-			#863027 .07em .07em 0,			
+			#863027 .07em .07em 0,
 			#863027 .08em .08em 0,
 			#863027 .09em .09em 0,
 			#863027 .1em .1em 0;
@@ -135,33 +135,33 @@ h1 span.char4 {
 }
 
 ::-moz-selection{ background: rgba(0,255,255, .3); color:#744;  }
-::selection { background: rgba(0,255,255, .3); color: #744;  } 
+::selection { background: rgba(0,255,255, .3); color: #744;  }
 
 
 /*@media screen and (min-width: 700px) and (max-width:1500px) {*/
 /*@media screen and (max-width:480px) {
-  p{  
+  p{
   font-size: .9em;
   }
 }
 
 
 @media screen and (min-width: 700px) and (max-width:1199px) {
-  p{  
+  p{
   font-size: 1.4em;
   }
 }
 
 
 @media screen and (min-width: 1200px) {
-  p{  
+  p{
   font-size: 2em;
   }
 }
 */
 
 
-            
+
 body {
   overflow-y: scroll;
 }

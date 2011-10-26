@@ -2,7 +2,7 @@
 
 var b = 3
 
-a = x: 
+a = x:
        a: 1
        b
 

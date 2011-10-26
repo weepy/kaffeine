@@ -4,11 +4,11 @@ p A ! postfix to a function call signals to Kaffeine that this is an unwrapped a
 
 textarea
   // simple call
-  fish = $.get! '/fish'     
+  fish = $.get! '/fish'
   $("stomach").append fish
 
   // another simple call with implied ()
-  ok = stomach.save!        
+  ok = stomach.save!
   meal.complete = ok
 
 This is super useful for simplifying nested asynchronous calls (esp with nodejs) and works nicely in a number of scenarios.
@@ -40,7 +40,7 @@ p Since we can refer to both via this method, binding becomes unnecessary:
 
 textarea
   Class.cacheData = -> {
-    d = $.get! "/" 
+    d = $.get! "/"
     @data = d      // outer this
     this.data = d  // inner this
     return @

@@ -1,4 +1,4 @@
-#arrow class prototype super implicit_return 
+#arrow class prototype super implicit_return
 compiles:
 
 UI::render = -> {
@@ -15,7 +15,7 @@ UI.prototype.render = function() {
 
 compiles:
 class UI {
-  
+
 }
 
 to:
@@ -31,17 +31,17 @@ class UI(x, y) {
 to:
 function UI(x, y) {
   x = 1
-}; 
+};
 
 compiles:
 class UI(x, y) extends Parent {
   x = 1
-}; 
+};
 
 to:
 function UI(x, y)  {
   x = 1
-}; __extends(UI, Parent);  
+}; __extends(UI, Parent);
 
 function __extends(child, parent) {
   var __hasProp = Object.prototype.hasOwnProperty;
@@ -62,7 +62,7 @@ class UI(x, y) extends X {
 to:
 function UI(x, y)  {
   UI.__super__.constructor.call(this, x, y)
-}; __extends(UI, X);  
+}; __extends(UI, X);
 
 function __extends(child, parent) {
   var __hasProp = Object.prototype.hasOwnProperty;
@@ -85,7 +85,7 @@ class UI(x, y) extends Parent {
 to:
 function UI(x, y)  {
   x = 1
-}; __extends(UI, Parent); 
+}; __extends(UI, Parent);
 
 function __extends(child, parent) {
   var __hasProp = Object.prototype.hasOwnProperty;
@@ -145,13 +145,13 @@ to:
 function Z(key) {
   @head = null
   @key = key
-}; 
+};
 
 compiles:
 class Z
 
 to:
-function Z(){;}; 
+function Z(){;};
 
 
 compiles:
@@ -184,7 +184,7 @@ class Rook extends require("../piece").piece
 
 to:
 
-function Rook(){ Rook.__super__.constructor.apply(this, arguments);}; __extends(Rook, require("../piece").piece); 
+function Rook(){ Rook.__super__.constructor.apply(this, arguments);}; __extends(Rook, require("../piece").piece);
 
 function __extends(child, parent) {
   var __hasProp = Object.prototype.hasOwnProperty;

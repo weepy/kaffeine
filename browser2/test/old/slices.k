@@ -22,6 +22,6 @@ function getNextNode() {
   return [1,2,3,4]
 }
 
-same( getNextNode()[1..3], [2,3]) 
+same( getNextNode()[1..3], [2,3])
 
-same( getNextNode()[0..], [1,2,3,4]) 
+same( getNextNode()[0..], [1,2,3,4])

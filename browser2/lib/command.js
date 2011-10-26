@@ -37,26 +37,26 @@ var SWITCHES = [
 
 function parseOptions() {
   oparser = new optparse.OptionParser(SWITCHES, "kaffeine compiles .k files to Kaffeine. run 'kaffeine help' for more info")
-  //var o = options =  
-  
+  //var o = options =
+
   // options.run = false //  !(o.compile || o.print || o.lint)
   // options.print = false // !!(o.print || (o.eval || o.stdio && o.compile))
   //console.log(process.argv)
   //sources = options.slice(2, options.length)
-  
+
   oparser.on('compile', function(o, s) {
     sources = s.split(",")
     options.compile = true
   });
-  
+
   oparser.on('help', function(sources) {
     options.help = true
   });
-  
+
   oparser.on('watch', function(sources) {
     options.watch = true
   });
-  
+
   oparser.on('output', function(o, dir) {
     options.output = dir
   })
@@ -66,9 +66,9 @@ function parseOptions() {
 exports.run = function() {
   parseOptions()
   loadPlugins(__dirname + "/plugins")
-  
-  if(options.help) return usage()                              
-  if(options.version) return version()                            
+
+  if(options.help) return usage()
+  if(options.version) return version()
   /*var separator = sources.indexOf('--')
   var flags = []
   if(separator >= 0) {
@@ -91,14 +91,14 @@ function version() {
 
 
 function compileScripts() {
-  
+
   for(var i =0; i < sources.length; i++) {
     var source = sources[i]
     var base = source
     var compile = function(source, topLevel) {
-      
+
       path.exists(source, function (exists) {
-        if(!exists) throw(new Error("File not found = " + source)) 
+        if(!exists) throw(new Error("File not found = " + source))
         fs.stat( source, function(err, stats) {
           if(stats.isDirectory()) {
             fs.readdir(source, function(err, files) {
@@ -128,11 +128,11 @@ function compileScript(source, code, base) {
     var js = new Kaffeine().compile(code)
     if(o.print)         print(js)
     else if(o.compile)  writeJs(source, js, base)
-  } 
+  }
   catch(err) {
     if(!o.watch) {
       console.log(err.stack)
-      process.exit(1) 
+      process.exit(1)
     }
     console.log(err.message)
   }
@@ -149,12 +149,12 @@ function writeJs(source, js, base) {
   var jsPath   = path.join(dir, filename)
   var compile  = function() {
     fs.writeFile(jsPath, js, function(err) {
-      if(options.compile && options.watch) console.log("Compiled " + source) 
+      if(options.compile && options.watch) console.log("Compiled " + source)
     })
   }
   path.exists(dir, function(exists) {
     exists ? compile() : exec("mkdir -p " + dir, compile)
-  })    
+  })
 }
 
 function watch(source, base) {

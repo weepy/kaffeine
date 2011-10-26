@@ -1,13 +1,13 @@
 #multiline_strings implicit_brackets
 
 ok "this
-occurs 
-over 
-several 
+occurs
+over
+several
 lines
 ".split("\n").length > 1
 
 ok "this is a \
-single \ 
+single \
 line\
 ".split("\n").length == 1

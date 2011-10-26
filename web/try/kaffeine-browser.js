@@ -14,18 +14,18 @@ require.modules = {};
 
 require.resolve = function(path) {
   if(require.modules[path]) return path
-  
+
   if(!path.match(/\.js$/)) {
     if(require.modules[path+".js"]) return path + ".js"
     if(require.modules[path+"/index.js"]) return path + "/index.js"
-    if(require.modules[path+"/index"]) return path + "/index"    
+    if(require.modules[path+"/index"]) return path + "/index"
   }
 }
 
 require.bind = function(path) {
   return function(p) {
     if(!p.match(/^\./)) return require(p)
-  
+
     var fullPath = path.split('/');
     fullPath.pop();
     var parts = p.split('/');
@@ -61,7 +61,7 @@ require.register = function(path, fn) {
       }
     };
     try {
-     xhr.send(null); 
+     xhr.send(null);
     } catch(e) {
       console.log("failed loading: " + url)
     }
@@ -70,8 +70,8 @@ require.register = function(path, fn) {
 
   function run(src, text) {
     var K = new kaffeine()
-    var js = K.compile(text, { brequire_module: src.replace(/\.k/, "") });    
-    eval(js)    
+    var js = K.compile(text, { brequire_module: src.replace(/\.k/, "") });
+    eval(js)
     //(Function(js))()
   }
 
@@ -93,7 +93,7 @@ require.register = function(path, fn) {
       for(var i=0; i< attr.length;i++) {
         if(attr[i].nodeName == "src")
           var src = attr[i].value
-      } 
+      }
       load(src)
     }
   }
@@ -141,64 +141,64 @@ var pro = require("./uglify/process")
 var defaultDirective = [
   "using",
   "multiline_strings",
-  "string_interpolation", 
-  "arrow", 
-  "ruby_symbols", 
-  "englify", 
-  "hash", 
-  "at", 
-  "class", 
-  "brackets_for_keywords", 
-  "operators", 
+  "string_interpolation",
+  "arrow",
+  "ruby_symbols",
+  "englify",
+  "hash",
+  "at",
+  "class",
+  "brackets_for_keywords",
+  "operators",
 //  "block_scope",  // removed
-  "pre_pipe", 
-  "implicit_brackets", 
-  "extend_for", 
-  "prototype", 
+  "pre_pipe",
+  "implicit_brackets",
+  "extend_for",
+  "prototype",
   "super",
-  "implicit_return", 
-  "pipe", 
-  "bang", 
-  "default_args", 
-  "implicit_vars", 
+  "implicit_return",
+  "pipe",
+  "bang",
+  "default_args",
+  "implicit_vars",
   "undouble_brackets"
 ].join(" ")
 
 Kaffeine.fn.compile = function(text, uglify_opts, filename) {
   this.filename = filename
-  
+
   if(!text.match(/\n$/)) text += "\n"; // trailing newline
   var directive = text.match(/^#\s*([^\n]*)\s*\n/) || [1,defaultDirective];
   var plugins = directive[1].replace(/\s+/g," ").replace(/ $/,"").split(" ");
   text = text.slice(directive[0].length);
   // console.log(text)
   var ret =  this.runPlugins(text, plugins);
-  
+
   if(uglify_opts) {
     try {
       var ast = jsp.parse(ret) // parse code and get the initial AST
-  
+
       if(uglify_opts == "uglify") {
         ast = pro.ast_mangle(ast); // get a new AST with mangled names
         ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
         ret = pro.gen_code(ast) // compressed code here
       }
-      else if (uglify_opts == "beautify") 
+      else if (uglify_opts == "beautify")
         ret = pro.gen_code(ast, {beautify: true})
-      
+
     } catch(err) {
       console.log("error found in output javascript")
       throw(err)
     }
   }
-  
+
   return ret
 };
 
 function setTokenPositions(stream) {
   var line = -1 // because of the extra line we insert
   var chr = 0
-  
+
   stream.each(function(token) {
     token.position = [line, chr]
     var text = token.myText()
@@ -214,27 +214,27 @@ function setTokenPositions(stream) {
 
 Kaffeine.fn.runPlugins = function(text, plugins, options) {
   text = "function(){ " + text + "\n}"; // wrap in closure so we have a global closure and also no problems with start and end of text
-  
+
   var lines = text.split(/\n/g)
-  
+
   var stream = Token.ize(text);
-  
+
   setTokenPositions(stream)
-  
+
   //stream = Token.postprocess(stream);
-  
+
   this.currentStream = stream
-  
-  stream.global = stream.find(function() { 
+
+  stream.global = stream.find(function() {
     if(this.curly) {
       return true;
     }
   });
   stream.global.global = true;
-  
+
 
   options = options || {};
-  
+
   for(var i=0; i<plugins.length; i++) {
     var name = plugins[i];
     var plugin = require("./plugins/"+name) //Kaffeine.plugins[name];
@@ -242,16 +242,16 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
       throw(name + " - not loaded");
     }
     try {
-      plugin.call(this, stream, Token, options[name] || {});     
-      //stream.normalize() 
-    } 
+      plugin.call(this, stream, Token, options[name] || {});
+      //stream.normalize()
+    }
     catch(err) {
       var token = Token.current_token
       if(!token.position) {
         token = token.findRev(function() { if(this.position)  return true })
       }
       var text = "Error at position: " + token.position + "in plugin: " + name
-      
+
       if(this.filename) text += "\nof file: " + this.filename
       text += "\n" + lines[token.position[0]]
       text += "\n" + ((new Array(token.position[1])).join(" ") + "^")
@@ -261,7 +261,7 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
       throw(text)
     }
   }
-  
+
   // declare variables ...
   stream.each(function() {
     if(this.vars) {
@@ -270,12 +270,12 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
       //text.push(vars)
     }
   })
-  
+
   return stream.head().collectText().replace(/^function\(\)\{/,"").replace(/\n\}$/,"");
 };
 
 // Kaffeine.fn.validate = function(text) {
-//   try { 
+//   try {
 //     new Function(text)
 //   }
 //   catch (err) {
@@ -328,42 +328,42 @@ module.exports = function(stream) {
       var from = token.prev.matching
 //    if(from.prev.word) from = from.prev
       args = from.remove(token.prev).collectText()
-        
+
     }
-        
+
     var x = token.myText().replace(/->/, "function" + (args || "()") )
-    
+
     if(args) x = x.replace(/ *function/, "function")
     this.prev.after(x)
 
-  
+
     var next = this.nextNW()
     var block = next
-    
+
     if(!next.curly) {
-      
+
       var pair = Token.bracket.pair("{}")
-      
+
       if(this.myRightEatenText().match(/\n/)) {
         var brack = this.prev.lbracket ? this.prev : this.prev.prev
         brack.after(pair.L).after(pair.R)
       } else {
         next.before(pair.L)
-        var newline = next.find(function(token) { 
+        var newline = next.find(function(token) {
           if(token.newline) return true
         })
         newline.before(pair.R).before(" ")
         pair.L.after(" ")
       }
-      
+
       pair.L.updateBlock()
       block = pair.L
     }
     token.remove()
-    
+
     block.updateBlock()
     block._was_arrow = true
-    
+
     if(fat) {
       var pair = Token.bracket.pair("()")
       block.blockTypeNode.before(pair.L)
@@ -371,7 +371,7 @@ module.exports = function(stream) {
       pair.L.before("__bind")
       pair.R.before(", this")
     }
-    
+
     return block
   })
 
@@ -398,19 +398,19 @@ module.exports = function(stream) {
 
   stream.each(function() {
     Token.current_token = this
-    
+
     if(this.unknown && this.text == "@") {
       var word = "this"
 
       if(this.next.text == "@") {
-        this.next.remove()  
+        this.next.remove()
         word = "this.constructor"
       }
 
       var token = new Token.word(word)
       token.was_at_symbol = true
       this.replaceWith(token)
-      if(token.next.word && !token.next.lbracket) 
+      if(token.next.word && !token.next.lbracket)
         token.after(new Token.operator("."))
       return token
     }
@@ -433,40 +433,40 @@ module.exports = function(stream) {
 
   stream.each(function(token) {
     Token.current_token = this
-    
-    if(!token.bang) return    
-    
+
+    if(!token.bang) return
+
     var lbracket = token.next;
-    
-    
-    
+
+
+
     if(!lbracket || !lbracket.lbracket || !lbracket.round) {
 
       var pair = Token.bracket.pair("()")
       token.after(pair.L)
       pair.L.after(pair.R)
       lbracket = token.next;
-    
+
     }
 
-    
+
     var indent = token.indent();
-    
+
     var func = token.expressionStart(function() { if(this.operator && this.text != ".") return true}) // break on operators
     var func_before = func.prev
-    
+
 
     var rbracket = lbracket.matching
-    
+
     var before_start = func.lineStart ()
     var vars = []
-    
+
     // console.log("before_start", before_start.collectText())
 
     var fn = token.findClosure()
     var x = fn.asyncBangCount || 0
     var args = "_" + x
-    
+
     if(func_before && func_before.assign) {
       var vars = before_start.collectText(func_before.prev).split(", ")
       var v = []
@@ -479,24 +479,24 @@ module.exports = function(stream) {
     // debugger
     var brackets = 0
     var before = null
-    
+
     if(func == before_start) {
       var brackets = 0
     }
     else {
       var before = before_start.remove(func.prev)
-    
+
       before.each(function() {
         if(this.lbracket) brackets++
-        if(this.rbracket) brackets--      
+        if(this.rbracket) brackets--
       })
-      
+
     }
-    
-    var start_after_fn = rbracket.next        
+
+    var start_after_fn = rbracket.next
 
     var end_after_fn = start_after_fn.find(function() {
-     
+
       if(this.lbracket) return this.matching.next
       if(this.rbracket) {
         if(brackets == 0) return true
@@ -509,33 +509,33 @@ module.exports = function(stream) {
         this.next.replaceWith(text.replace("---", "   "))
         this.next.__break = true
       }
-      
+
       // if(this.text == "---") {
       //   var text = this.myText();
       //   this.replaceWith(text.replace("---", "   "))
       //   return true
       // }
     })
-    
-    var after    
+
+    var after
     if(start_after_fn == end_after_fn) {
       // debugger
-      // if(!start_after_fn.rbracket ) 
+      // if(!start_after_fn.rbracket )
       //         after = start_after_fn.remove(end_after_fn)
       // console.log("start_after_fn", start_after_fn.text)
     } else {
-      after = start_after_fn.remove(end_after_fn.prev)      
+      after = start_after_fn.remove(end_after_fn.prev)
     }
-    
+
     var before_text = before ? before.collectText() : ""
-    
+
 
     if(before_text.match(/^[ \n]*$/)) {
       args = ""
       if(before_text) func.before(before_text)
-    } 
-    
-    
+    }
+
+
     if(lbracket.next == rbracket) {
       num_func_args = 0
     } else {
@@ -557,35 +557,35 @@ module.exports = function(stream) {
 
 
 
-    
+
 
     if(args == "" && after && !after.myTextNoComments().match(/^[ \n]*$/)) {
       args = "_" + (x); x++
     }
-        
+
     if(vars.length > 1) {
       var a = []
       for(var i=0; i<vars.length ; i++, x++) {
         a.push(vars[i] + " = " + "_" + x)
       }
-      before_text = a.join(", ")    
-        
+      before_text = a.join(", ")
+
     } else {
       x++
-      before_text += args 
+      before_text += args
     }
-    
+
     var funct = before_text + (after ? after.collectText() : "")
-    
+
     var body = Token.ize("function(" + (args) + ") { " + funct + " }")
-    
-    
+
+
     if(num_func_args > 0) rbracket.before(", ")
 
     rbracket.before(body)
 
     token.text = token.text.replace(/!/,"")
-    
+
     body.next.matching.nextNW().updateBlock()  // implicit vars etc
 
     body.block.asyncBangCount = x
@@ -594,18 +594,18 @@ module.exports = function(stream) {
 }
 
 // var Token = require("../token");
-// 
+//
 // module.exports = function(stream) {
 //   stream.each(function(token) {
-// 
-//     if(!token.bang) return    
-//     
+//
+//     if(!token.bang) return
+//
 //     var lbracket = token.next
-//     
+//
 //     var func = token.expressionStart()
-//     
+//
 //     var indent = token.indent()
-//     
+//
 //     var vars = ""
 //     if(func.prev.assign) {
 //       var e = func.prev.prev
@@ -613,17 +613,17 @@ module.exports = function(stream) {
 //       vars = s.remove(e).collectText()
 //       func.prev.remove()
 //     }
-//     
+//
 //     var rbracket = lbracket.matching
-//     
+//
 //     var start_fn = rbracket.next
 //     var end_fn = start_fn.find(function() {
 //       if(this.lbracket) return this.matching.next
 //       if(this.rbracket) return true
 //     })
-//     
+//
 //     var body = start_fn.remove(end_fn.prev)
-//     
+//
 //     var fn = this.findClosure()
 //     body.find(function() {
 //       if(this.was_at_symbol) {
@@ -634,7 +634,7 @@ module.exports = function(stream) {
 //         }
 //       }
 //     })
-//     
+//
 //     body = body.collectText()
 //     var endsWithNL = body.match(/\n *$/)
 //     body = body.replace(/\n/g, "\n  ")
@@ -642,22 +642,22 @@ module.exports = function(stream) {
 //     //       body += "\n"
 //     //     body += indent
 //     body += " "
-//     
-//     body = body.replace(/\s*\n( *)$/, function(a, b) { 
+//
+//     body = body.replace(/\s*\n( *)$/, function(a, b) {
 //       return "\n" + b;
 //     })
-//     
-// 
+//
+//
 //     if(!endsWithNL)
-//       body = body.replace(/\n *$/, " ") 
+//       body = body.replace(/\n *$/, " ")
 //     var text = "function(" + vars + ") {"  + body + "}"
-//     
+//
 //     if(lbracket.next != rbracket)
 //       text = ", " + text
-//     
+//
 //     var tokens = Token.ize(text)
 //     tokens.banged_function = true
-//     
+//
 //     rbracket.before(tokens)
 //     // if(!rbracket.next.newline)
 //     //   rbracket.after("\n")
@@ -680,13 +680,13 @@ var Token = require("../token");
 module.exports = function(stream) {
   stream.each(function(token) {
     Token.current_token = this
-    
+
     if(token.blockType != "object") return
 
-    if(token.next == token.matching) return // empty object    
+    if(token.next == token.matching) return // empty object
     if(token.nextNW() == token.matching) return // added to allow for empty objects with comments
     if(token.nextNW().next.text == ":") return // must be an object
-          
+
     var pair =  Token.bracket.pair("()")
 
     token.before(pair.L)
@@ -711,21 +711,21 @@ require.register('kaffeine/plugins/brackets_for_keywords.js', function(module, e
 var Token = require("../token");
 
 module.exports = function(stream) {
-  var ks = ["if", "for", "while", "catch"]  
+  var ks = ["if", "for", "while", "catch"]
 
   stream.tail().prev.each(function() {
     Token.current_token = this
-    
+
     if(ks.indexOf(this.text) < 0 ) return
-    
-    
+
+
     var n = this.nextNW()
     if(n.lbracket && n.round) return
-    
+
     var pair = Token.bracket.pair("()")
-    
+
     var tok = this
-    
+
     var end = this.find(function(token) {
       if(token.lbracket && token.curly) return true
       if(token.lbracket) return token.matching
@@ -736,13 +736,13 @@ module.exports = function(stream) {
         }
       }
     })
-    
+
 
     // console.log("end", end.text)
     // var end = this.nextNW().expressionEnd(function() {
     //   if(this.text == ",") return true
     // }).next
-    
+
     if(end.text == ",") {
       end.spitRight()
       end = end.next
@@ -752,43 +752,43 @@ module.exports = function(stream) {
     if(end.operator && !end.unary_operator) {
       end = end.expressionEnd().next
     }
-        
+
     if(!end.whitespace)
       end.spitRight()
-    
+
     if(this.next.whitespace) this.next.remove()
     this.after(pair.L)
     var eaten = pair.L.next.eaten.left[0]
     if(eaten && eaten.space)
       pair.L.next.spitLeft().remove()
-  
+
     var eaten = this.eaten.right[0]
     if(eaten && eaten.space)
       this.spitRight().remove()
-    
+
     var curly = end.curly ? end : null;
-    
+
     if(end.prev.whitespace) end = end.prev
     if(end.operator) {
       end.spit(function() { return this.whitespace})
       end = end.next
     }
     end.before(pair.R)
-    
+
     var eaten = pair.R.prev.eaten.right[0]
     if(eaten && eaten.space) {
       pair.R.prev.spitRight().remove()
       pair.R.after(" ")
     }
-    
+
     if(curly)
       curly.updateBlock()
     //if(end.operator) end.replaceWith(new Token.whitespace(" "))
-    
+
     if(!is_while_after_do(this))
       this.addImpliedBraces()
   }, "prev")
-  
+
 
 }
 
@@ -819,15 +819,15 @@ module.exports = function(stream) {
 
   stream.each(function() {
     Token.current_token = this
-    
-    if(this.text != "class") return 
+
+    if(this.text != "class") return
     if(this.nextNW().text == ":") {
       this.text = "'class'"
       return
     }
-    
+
     this.text = "function"
-     
+
     var x = this.next.next
 
     if(x.curly) {
@@ -837,7 +837,7 @@ module.exports = function(stream) {
     var insert_extends = false
     var class_name = x.text
 
-   
+
     if(!x.next.lbracket || !x.next.round) x.after("()")
 
     var next = x.next.matching.nextNW()
@@ -849,18 +849,18 @@ module.exports = function(stream) {
 
       var super_class = next.next.next
       var end = super_class.expressionEnd()
-      
+
       var after = end.nextNW()
       super_class_name = super_class.collectText(end)
       // console.log(super_class.text, end.text, "XXXXXXXXXXXXXX")
       // console.log(super_class_name)
       var expr = super_class.remove(end)
-      
+
       next.next.remove()
       next.remove()
       next = after
     }
-    
+
     if(next.curly && next.lbracket) {
       curly = next
     }
@@ -876,7 +876,7 @@ module.exports = function(stream) {
 
     curly.updateBlock()
     curly.class_name = class_name;
-    if(super_class_name) curly.super_class = super_class_name 
+    if(super_class_name) curly.super_class = super_class_name
 
 
   })
@@ -915,13 +915,13 @@ module.exports = function(stream) {
 
   stream.each(function() {
     Token.current_token = this
-    
-    if(this.text != "function") return 
+
+    if(this.text != "function") return
     var block = this.block
     var bracket = this.block.prevNW().matching
-    
+
     var inserts = []
-    this.find(function() {    
+    this.find(function() {
       if(this == bracket.matching) return true
       if(this.text == "=") {
         var v = this.prev.text
@@ -931,15 +931,15 @@ module.exports = function(stream) {
         var val = this.next.remove(e).collectText()
         var ret = this.prev
         this.remove()
-        
+
         inserts.push(v +" = " + v + "==null ? " + val + " : " + v)
         return ret
       }
     })
-    
+
     if(inserts.length)
       this.block.after(" " + inserts.join(", ") + ";")
-    
+
     block.args = block.findArgs()
   })
 }
@@ -960,9 +960,9 @@ module.exports = function(stream) {
 
   stream.each(function() {
     Token.current_token = this
-    
+
     var op = mapping[this.text]
-    
+
     if(!op) return
     if(this.prev && this.prev.operator && this.text != "not") return
     if(this.next && this.next.operator && this.next.text != "!") return
@@ -970,10 +970,10 @@ module.exports = function(stream) {
     var token = this.replaceWith(op)
     if(token.text == "!" && token.next.whitespace)
       token.next.remove()
-    
+
     token.eat(function() { return this.whitespace })
     token.eat(function() { return this.whitespace })
-      
+
     return token // skip to this token in the stream
   })
 
@@ -990,47 +990,47 @@ require.register('kaffeine/plugins/extend_for.js', function(module, exports, req
 
 var Token = require("../token");
 module.exports = function(stream) {
-  
+
   stream.each(function() {
     Token.current_token = this
-    
-    if(this.keyword && this.text == "for") { 
+
+    if(this.keyword && this.text == "for") {
       var text = "",
           bracket = this.next,
           skip = false,
           toks = [], var2, var1, loopWord,
           complex
-          
+
       var closingBracket = bracket.matching
 
-      bracket.next.find(function() {      
+      bracket.next.find(function() {
         if(this.next == closingBracket) return true
         if(this.semi) { skip = true; return true }
         if(this.word && (this.text == "in" || this.text == "of" || this.text == "from") ) loopWord = this
         if(this.round) complex = true
         toks.push(this)
       })
-      
+
       var var1 = toks[0]
       if(toks[1].text == ",") var2 = toks[2]
       if(skip) return closingBracket.next
-      
+
       if(complex) {
         loopWord.next.next.cacheExpression()
       }
 
-      var expressionText = loopWord.next.next.collectText(closingBracket.prev)          
+      var expressionText = loopWord.next.next.collectText(closingBracket.prev)
       if(expressionText.match(/ /)) expressionText = "(" + expressionText +")"
       var iter, val
       var closure = this.findClosure()
-      
+
       /*function wrapSingleLineBlock() {
         if(!this.block) {
           var pair = Token.bracket.pair("{}")
           closingBracket.after(" ").after(pair.L)
           var nl = 2
           var indent = brace.indent()
-          
+
           var next = pair.L.nextNW()
           if(next.block) {
             var tok = next.block.matching
@@ -1048,7 +1048,7 @@ module.exports = function(stream) {
               if(nl == 0) return true
             })
           }
-          
+
           tok.after(pair.R)
           if(indent)
             pair.R.before(indent)
@@ -1056,65 +1056,65 @@ module.exports = function(stream) {
           pair.L.updateBlock()
         }
       }*/
-      
+
       var brace = bracket.matching.find(function() { if(this.curly) return true })
-      
-      if(loopWord.text == "in") { 
+
+      if(loopWord.text == "in") {
         if(!var2) return // nothing to do !
-        
+
         brace.implied = false
         brace.matching.implied = false
-        
-        var2.prev.remove(var2) 
+
+        var2.prev.remove(var2)
         iter = var1.text
         val = var2.text
         closure.vars[iter] = true
         closure.vars[val] = true
-        
+
       } else if (loopWord.text == "of") {
         brace.implied = false
         brace.matching.implied = false
 
         bracket.next.remove(closingBracket.prev)
         iter = var2 ? var2.text : closure.getUnusedVar()
-        
+
         val = var1.text
         closure.vars[iter] = true
         closure.vars[val] = true
-        
+
         var length;
         closure.vars[length = closure.getUnusedVar()] = true
-        
+
         var string = iter + " = 0, " + length + " = " + expressionText + ".length; " + iter + " < " + length + "; " + iter + "++"
         bracket.after(string)
-        
+
       } else {
         brace.implied = false
         brace.matching.implied = false
-        
+
         bracket.next.remove(closingBracket.prev)
-        
+
         if (var2)
           var2.prev.remove(var2)
         iter = var1.text
         closure.vars[iter] = true
-        
+
         if (var2) {
           val = var2.text
           closure.vars[val] = true
         }
-        
+
         var string = iter + " in " + expressionText
         bracket.after(string)
       }
-      
+
       var text = ''
       text += loopWord.text == "from" ? "if (!" + (complex ? "_xpr" : expressionText) + ".hasOwnProperty(" + iter + ")) continue;" : ''
       text += val ? " "/* + this.indent()*/ + val + " = " + (complex ? "_xpr" : expressionText) + "[" + iter + "];" : ''
-            
+
       this.block.after(text)
-     
-      return 
+
+      return
     }
   })
 }
@@ -1132,12 +1132,12 @@ module.exports = function(stream) {
 
   stream.each(function() {
     Token.current_token = this
-    
+
     if(this.text == "#") {
 
       if(this.prev.word && !this.myText().match(/^ /)) return // no whitepsace next to a word
-      
-      
+
+
       if(this.next.word) {
         if(this.myText().match(/ $/) || !this.next.text.match(/^[0-9]+$/)) {
           return
@@ -1146,7 +1146,7 @@ module.exports = function(stream) {
 //        if() return // no whitepsace next to a word
       }
       var word = "arguments"
-      
+
       if(!this.next.word)
         word += "[0]"
       else {
@@ -1172,10 +1172,10 @@ var Token = require("../token");
 
 module.exports = function(stream) {
   var nobrackets_keywords = {"for":1, "if":1, "while": 1, "new":1,"return":1,"var":1,"throw":1, "in":1,"of":1,"from":1, "typeof":1, "instanceof":1, "else": 1, "try":1, "catch": 1, "class": 1}
-    
+
   stream.tail().each(function() {
     Token.current_token = this
-    
+
 
     var ws = this.next
     if(!ws || !ws.space || !ws.next) return
@@ -1186,20 +1186,20 @@ module.exports = function(stream) {
       var prev = this.matching.prevNW()
       if(["for", "if", "while", "else", "catch"].indexOf(prev.text) >= 0)
         return
-    } 
-    
+    }
+
     var nn = ws.next
-    var match = (this.word || this.rbracket) && (nn.word || nn.lbracket || nn.string) && (nn.blockType != "function")  
-    
+    var match = (this.word || this.rbracket) && (nn.word || nn.lbracket || nn.string) && (nn.blockType != "function")
+
     if(!match) return
-    
-    
+
+
     var end = nn.expressionEnd(function() {
 	    if(this.text == "," && this.next.next.text == ":") return true
-	  }) 
+	  })
 
     if(end == null) return
-    
+
     var pair = Token.bracket.pair("()")
 
     ws.replaceWith(pair.L)
@@ -1221,60 +1221,60 @@ module.exports = function(stream) {
   stream.each(function() {
     Token.current_token = this
 
-    
+
     if(!this.blockType || this.blockType != "function" || this.class_name || !this._was_arrow) return
-    
+
     if(this.global) return
 
     var end = this.matching.prev.findRev(function(tok) {
        return (tok.whitespace || tok.semi) ? null : true
     })
-    
+
     if(end == this || end.text == "return") return  // probably an empty function
 
-    
+
     // sure this could be a bit neater
     var start = end.findRev(function(tok) {
       if(tok.rbracket) {
-        return tok.matching        
+        return tok.matching
       }
       else if(tok.lbracket && tok.curly) {
         var type = tok.blockType
         if(type == "function") {
-          return tok.prev.findRev(function(t) { 
-              if(t.text == "function") return true 
+          return tok.prev.findRev(function(t) {
+              if(t.text == "function") return true
              })
         }
         else if(type == "object") {
-          if(tok.prev.whitespace || tok.prev.semi || tok.prev.lbracket) 
+          if(tok.prev.whitespace || tok.prev.semi || tok.prev.lbracket)
             return true
         }
-        else return false          
+        else return false
       }
       else if(tok.prev.whitespace) {
-        var t = tok.prev.prev.text 
+        var t = tok.prev.prev.text
         if(t == "new" || t == "typeof" || t=="var") return tok.prev.prev
         else return true
       }
-      else if(tok.prev.semi  || tok.prev.lbracket) 
+      else if(tok.prev.semi  || tok.prev.lbracket)
         return true
-      else 
+      else
         return null
     })
-    
+
     if(!start) return
     if(start.text == "return") return
-    
-    
+
+
     if(start.prev.prev) {
       var t = start.prev.prev.text
-      if(t == "throw" || t == "return") return 
+      if(t == "throw" || t == "return") return
     }
-    
+
     start
       .before(new Token.whitespace(" "))
       .before(new Token.word("return"))
-    
+
   })
 }
 
@@ -1289,12 +1289,12 @@ require.register('kaffeine/plugins/implicit_vars.js', function(module, exports, 
 var Token = require("../token");
 module.exports = function(stream) {
   var stack = [], variable, current, closure
- 
-  
+
+
   // remove vars
-  stream.each(function(token) {  
+  stream.each(function(token) {
     Token.current_token = this
-    
+
     var ret = token.prev
     if(token.text != "var") return
     if(token.next.space)
@@ -1305,23 +1305,23 @@ module.exports = function(stream) {
     return ret
   })
 
-  stream.each(function(token) {  
+  stream.each(function(token) {
     Token.current_token = this
 
     if(token.assign) {}
     else if (token.prev && token.prev.prev && token.prev.prev.text == "for") {
       token = token.next
     }
-    else return 
-    
+    else return
+
     variable = token.prev.text
-    
+
     if(!/^[A-Za-z0-9$_]*$/.test(variable)) return
     if(token.prev.prev.operator && token.prev.prev.text != ",") return
     if(token.prev.prev.prev.text == "var") return
     current = closure = this.findClosure()
     var found = false
-    
+
 
     while(current) {
       if(current.vars[variable] || (current.args && current.args[variable])) {
@@ -1330,7 +1330,7 @@ module.exports = function(stream) {
       }
       current = current.parent
     }
-    
+
     if(!found) {
       // console.log("current", variable)
       closure.vars[variable] = true
@@ -1353,9 +1353,9 @@ module.exports = function(stream) {
 
   stream.each(function() {
     Token.current_token = this
-    
+
     if(!this.string || !reg.test(this.text)) return
-    
+
     this.text = this.text.replace(/(\\)?\n/g, function(str, escape) {
       return escape ? "\\\n" : "\\n\\\n"
     })
@@ -1373,36 +1373,36 @@ var Token = require("../token");
 module.exports = function(stream) {
   stream.each(function(token) {
     Token.current_token = this
-    
+
     if(!token.operator) return
-    
+
     if(token.text == "||=")
       var op = "|| "
     else if(token.text == ".=")
       var op = "."
     else return
-    
-    optoken = token.after(op)  
+
+    optoken = token.after(op)
     token.text = "="
 
-    var lhs = "" 
+    var lhs = ""
     token.prev.findRev(function(token) {
       if(token.whitespace || token.unknown) return true
       lhs = token.text + lhs
     })
 
-    var tokens = Token.ize(lhs)    
+    var tokens = Token.ize(lhs)
     if(op != "." ) tokens.tail().eaten.right.push(Token.ize(" "))
     token.after(tokens, tokens.tail())
-    
+
   })
-  
+
   // extend
   var inserted_merge = false
   stream.each(function(token) {
     Token.current_token = this
-    
-    if(token.text != "<-" ) return 
+
+    if(token.text != "<-" ) return
     var arrow = this
     var L = this.expressionStart()
     var lhs = L.remove(arrow.prev).collectText()
@@ -1414,7 +1414,7 @@ module.exports = function(stream) {
 
     // if(token.text == "=>") {
     //   arrow.replaceWith("__merge(" + lhs + ", " + rhs + ")")
-      
+
     //   if(inserted_merge) {
     //     var g = stream.block
     //     if(!g.global) throw "WTF!"
@@ -1467,21 +1467,21 @@ module.exports = function(stream) {
 
   stream.each(function() {
     Token.current_token = this
-    
+
     if(this.text != "|") return
     var pipe = this
 	  var L = this.expressionStart()
-    var lhs = L.remove(pipe.prev) 
-    
+    var lhs = L.remove(pipe.prev)
+
     var R = pipe.next.expressionEnd(function() {
      return this.text == "|"
     })
 
-    
+
     var rhs = pipe.next.remove(R) //.collectText()
     var ret = pipe.prev
     pair = Token.bracket.pair("()")
-    
+
     var t = pipe.myText().replace("|", "_").replace(/ /g, "")
 
     tokens = Token.ize(t + "." + pipe.pipe_function)
@@ -1502,9 +1502,9 @@ module.exports = function(stream) {
       tokens.append(rhs)
     }
     tokens.append(pair.R)
-    
+
     pipe.replaceWith(tokens) //"__." + pipe.pipe_function + ".call(this, " + lhs + ", " + rhs + ")")
-    
+
     return ret
   })
 
@@ -1526,24 +1526,24 @@ module.exports = function(stream) {
 
   stream.each(function() {
     Token.current_token = this
-    
+
     if(this.text == "|") {
       referenced = true
 
       var L = this.expressionStart()
-      
+
       // if(this.text=="|." || this.next.assign) {
       //   this.text = "_" + this.text.slice(1)
-      //   delete this.operator 
+      //   delete this.operator
       //   this.word = true
-      // 
-      //   if(!assigned && this.next.assign) assigned = true 
-      //   return 
+      //
+      //   if(!assigned && this.next.assign) assigned = true
+      //   return
       // }
-      
+
       if(this.text != "|")
         throw("unknown pipe operation")
-      
+
       //var fn = this.next
       this.pipe_function = this.next.text
 
@@ -1553,7 +1553,7 @@ module.exports = function(stream) {
 	    return this.next
     }
   })
-  // if(assigned && referenced) stream.global.vars["_"] = true 
+  // if(assigned && referenced) stream.global.vars["_"] = true
 
 }
 
@@ -1571,8 +1571,8 @@ module.exports = function(stream) {
   var klass = ""
   stream.each(function() {
     Token.current_token = this
-    
-    
+
+
     // if(this.namedFunction) {
     //   klass = this.namedFunction.text
     //   return
@@ -1587,15 +1587,15 @@ module.exports = function(stream) {
     //     klass = this.prev.prev.text
     //   return
     // }
-    
+
     var ret = this.next
-    
+
     if(    this.text == "::" ) {
 
       this.spit(function() { return this.whitespace})
-      
+
       var text = (this.next.word && !this.myRightEatenText().match(/\n/)) ? ".prototype." : ".prototype"
-      
+
       if(this.prev.word) {
         klass = this.prev.text
         this.prev.prototype_klass_name = klass
@@ -1627,10 +1627,10 @@ module.exports = function(stream) {
 
   stream.each(function(token) {
     Token.current_token = this
-       
+
     if(this.text != ":" || !this.next.word) return
     var text = this.myText()
-    
+
     if(!text.match(/^[ \n]:$/) && this.prev && !this.prev.lbracket && !this.prev.operator) return
     //   {
     //   // var text = this.prev.text
@@ -1657,9 +1657,9 @@ var Token = require("../token");
 module.exports = function(stream) {
   stream.each(function() {
     Token.current_token = this
-    
+
     if(!this.string) return
-    
+
     // combine nested
     if(/#{"$/.test(this.text)) {
       var text = ""
@@ -1671,7 +1671,7 @@ module.exports = function(stream) {
       this.text += text
       this.next.remove(end)
     }
-    
+
     if(/^".*[#]/.test(this.text)) {
       var ret = this.next
       var string = expandOnce(this.text)
@@ -1680,7 +1680,7 @@ module.exports = function(stream) {
     }
     return
   })
-  
+
   // remove double brackets
   stream.each(function() {
     if(this.lbracket && this.round && this.next.lbracket && this.next.round) {
@@ -1691,7 +1691,7 @@ module.exports = function(stream) {
       }
     }
   })
-    
+
 }
 
 // partially borrowed from visionmedia's Jade
@@ -1701,12 +1701,12 @@ var regComplex = /(\\)?#{(.*?)}/g
 function expandOnce(text) {
   var changed = false
   var interp = text.replace(regComplex, function(str, esc, code) {
-           if(!esc) changed = true 
-           return esc ? str.slice(1) : '" + (' + code.replace(/\\"/g,'"') + ') + "';      
+           if(!esc) changed = true
+           return esc ? str.slice(1) : '" + (' + code.replace(/\\"/g,'"') + ') + "';
          })
-  if(changed) 
+  if(changed)
     interp = "(" + interp + ")"
-  
+
   //interp = interp.replace('"" + ', "")
   interp = interp.replace(' + ""', "")
   return interp
@@ -1725,8 +1725,8 @@ var Token = require("../token");
 module.exports = function(stream) {
   stream.each(function() {
     Token.current_token = this
-    
-    if(this.blockType != "function") return 
+
+    if(this.blockType != "function") return
 
     var class_name = this.class_name
     var super_class = this.super_class
@@ -1755,7 +1755,7 @@ module.exports = function(stream) {
         brack = _super.nextNW()
         brack.before(".apply")
       }
-      
+
       if(this.class_name) {
         _super.replaceWith(this.class_name + ".__super__.constructor")
       } else {
@@ -1763,7 +1763,7 @@ module.exports = function(stream) {
         var eq = curly.blockTypeNode.prevNW()
         if(!eq.assign) throw "don't know which method to call for super"
         var method = eq.prevNW()
-        
+
         var start = method.expressionStart()
         var text = start.collectText(method)
         var caller
@@ -1799,7 +1799,7 @@ var Token = require("../token");
 module.exports = function(stream) {
   stream.each(function() {
     Token.current_token = this
-    
+
     if(this.lbracket && this.round && this.next.lbracket && this.next.round) {
       var n = this.matching.prev
       if(n.rbracket && n.round) {
@@ -1827,17 +1827,17 @@ module.exports = function(stream) {
     Token.current_token = this
     var ret = this.prev
     if(token.text != "using") return
-    
+
 //    if(!token.prev.newline) return // && (token.prev.whitespace && !token.prev.prev.newline)) return
-    
+
     var methods = ""
     var from = this.next.find(function() {
       if(this.text == "from") return true
       methods += this.myText()
     })
-    
+
     methods = trim(methods)
-    var end = from.find(function() { 
+    var end = from.find(function() {
       if(this.newline) return true
     })
     var expr = from.next.collectText(end)
@@ -1848,18 +1848,18 @@ module.exports = function(stream) {
       var text = "var _i = " + expr + "; for(var _j in _i) eval('var ' + _j + ' = _i[\\'' + _j + '\\'];');"
     } else {
       methods = methods.split(",")
-      var text = "var _i = " + expr + ";" 
+      var text = "var _i = " + expr + ";"
       for(var i=0;i<methods.length; i++) {
         var m = trim(methods[i])
         text += " var " + m + " = _i[" + m+ "];"
       }
     }
-    
+
     this.before(text + "\n")
     this.remove(end)
     return ret
   })
-  
+
 }
 
 
@@ -1875,14 +1875,14 @@ require.register('kaffeine/token.js', function(module, exports, require) {
 var inherits = function(child, parent) {
   var ctor = function(){ };
   ctor.prototype = parent.prototype;
-  child.__super__ = parent.prototype;  
+  child.__super__ = parent.prototype;
   child.prototype = new ctor();
   child.prototype.constructor = child;
   child.fn = child.prototype
 };
 
-function base(text) { 
-  this.text = text; 
+function base(text) {
+  this.text = text;
   this.id = base.id++;
   this.eaten = {left:[], right:[]}
 }
@@ -1892,7 +1892,7 @@ base.fn = base.prototype
 base.klasses = [whitespace, comment, regex, operator, word, string, bracket, semi]
 
 function preprocess(text) {
-  text = text.replace(/\t/g, "  ").replace(/ *\n/g, "\n").replace(/\r\n|\r/g,"") 
+  text = text.replace(/\t/g, "  ").replace(/ *\n/g, "\n").replace(/\r\n|\r/g,"")
   return text
 }
 
@@ -1914,20 +1914,20 @@ function /*Token*/ize(input) {
       index += match.length
     } else {
       emit(new unknown(input.charAt(index)))
-      index += 1 
+      index += 1
     }
   }
-  
+
   function emit(token) {
-    
-    //log(token.klass, ": ", token.text)    
-    
+
+    //log(token.klass, ": ", token.text)
+
     if(tail) {
       tail.next = token
       token.prev = tail
       tail = token
     }
-    else 
+    else
       head = tail = token
   }
   head = postprocess(head)
@@ -1935,27 +1935,27 @@ function /*Token*/ize(input) {
 }
 
 function postprocess(stream) {
-  
+
   // match brackets
   var stack = []
-  stream.each(function() {  
-    if(this.bracket)  
-      if(this.lbracket) 
+  stream.each(function() {
+    if(this.bracket)
+      if(this.lbracket)
         stack.push(this)
       else
        this.matchWith(stack.pop())
   })
-  
+
   if(stack.length) {
     throw "missing bracket"
   }
 
   // sort out block types
-  stream.each(function() {   
+  stream.each(function() {
     if(this.curly && this.lbracket) this.updateBlock()
   })
-  
-    // remove comments & hungry operators & hungry left round brackets  
+
+    // remove comments & hungry operators & hungry left round brackets
   stream.normalize()
   return stream
 }
@@ -1964,25 +1964,25 @@ function postprocess(stream) {
 // it ensures various assumptions are true ...
 base.fn.normalize = function() {
   this.each(function() {
-    var next = this.next    
-  
+    var next = this.next
+
     // there are never 2 space tokens next to each other
     if(this.next && this.next.whitespace && ["for"].indexOf(this.text) >= 0 ) {
       this.eatRight()
     }
-    
+
     if(this.space) {
       if(next && next.space) {
         this.eatRight(function() { return this.space })
       }
-    } 
+    }
     else if(this.comment) {
       // comments are eaten by their next..
       next.eatLeft()
-      return next.prev    
+      return next.prev
     }
     else if(this.operator) {
-      // operators are never adjacent to whitespace 
+      // operators are never adjacent to whitespace
       this.eat(function() { return this.whitespace })
       this.eat(function() { return this.whitespace })
     }
@@ -1994,7 +1994,7 @@ base.fn.normalize = function() {
 
     }
   })
-  
+
   // now let's assign code blocks to keywords without {}'s
   this.each(function() {
     this.addImpliedBraces()
@@ -2002,9 +2002,9 @@ base.fn.normalize = function() {
 }
 
 base.fn.addImpliedBraces = function() {
- 
+
   if(this.block || ["do", "if", "for", "while", "try", "else", "catch"].indexOf(this.text) < 0) return
-  
+
   var closingBracket = this.next.matching
   // require's brackets
   if(!closingBracket) return
@@ -2019,26 +2019,26 @@ base.fn.addImpliedBraces = function() {
       if(this.next.rbracket && this.next.curly) return true
     })
   }
-    
+
   var pair = bracket.pair("{}")
   pair.L.implied = true
   pair.R.implied = true
-  
+
   var next = closingBracket.nextNW()
 
   end(next).after(pair.R)
   closingBracket.after(" ").after(pair.L)
-  
+
   var indent = this.indent()
-  
+
   pair.R.before(" ")
-  //pair.R.before(pair.L.next.newline ? "\n" + indent : " ")  
+  //pair.R.before(pair.L.next.newline ? "\n" + indent : " ")
   pair.L.updateBlock()
   pair.L.eatLeft()
   pair.R.eatLeft()
   if(pair.R.prev.whitespace)
     pair.R.eatLeft()
-  return 
+  return
 }
 
 base.fn.after = function(head) {
@@ -2053,10 +2053,10 @@ base.fn.after = function(head) {
   return tail
 }
 
-    
+
 base.fn.before = function(head) {
   if(typeof head == "string") head = /*Token.*/ize(head)
- 
+
   tail = head.tail()
   if(this.prev) {
     this.prev.next = head
@@ -2070,7 +2070,7 @@ base.fn.before = function(head) {
 base.fn.head = function() {
   var tok = this
   while(tok.prev) tok = tok.prev
-  return tok   
+  return tok
 }
 
 base.fn.tail = function() {
@@ -2081,7 +2081,7 @@ base.fn.tail = function() {
 
 base.fn.remove = function(tail) {
   tail = tail || this
-  if(tail.next) tail.next.prev = this.prev  
+  if(tail.next) tail.next.prev = this.prev
   if(this.prev) this.prev.next = tail.next
   tail.next = null
   this.prev = null
@@ -2113,7 +2113,7 @@ base.fn.find = function(fn, skip) {
       else skip--
     }
     if(result === false) return null
-    token = result ? result : token.next    
+    token = result ? result : token.next
   }
 }
 
@@ -2144,7 +2144,7 @@ base.fn.nextNW = function() {
 }
 
 
-  
+
 base.fn.lineStart = function(breakFn) {
   var s = this.findRev(function() {
     var x = this
@@ -2152,7 +2152,7 @@ base.fn.lineStart = function(breakFn) {
     if(this.rbracket) return this.matching
     x = x.prev
     y = x.prev
-    
+
     if(x.lbracket && x.curly && x.blockType != "object") {
       return true
     }
@@ -2165,11 +2165,11 @@ base.fn.lineStart = function(breakFn) {
       if(y.rbracket) return true
       // if(y.whitespace) return true
     }
-    
-    
+
+
     // if(breakFn && breakFn.call(x,x)) return true
   })
-  
+
   if(s.whitespace) s = s.nextNW()
   return s
 }
@@ -2198,14 +2198,14 @@ base.fn.expressionEnd = function(breakFn) {
 base.getMatch = function(klass, index, input) {
   if(klass.match === false) return
 
-  if(!klass.match || klass.match.index < index) {  
+  if(!klass.match || klass.match.index < index) {
     klass.match = null
     klass.regex.lastIndex = index
     klass.match = klass.regex.exec(input)
-    if(!klass.match) klass.match = false 
+    if(!klass.match) klass.match = false
   }
 
-  if(klass.match && klass.match.index == index) 
+  if(klass.match && klass.match.index == index)
     return klass.extract ? klass.extract(index, input) : klass.match[0]
 }
 
@@ -2227,16 +2227,16 @@ base.fn.eat = function(test) {
 }
 
 base.fn.eatLeft = function(test) {
-  var token = this.prev  
+  var token = this.prev
   if(token && (!test || test.call(token))) {
     token.remove()
     this.eaten.left.unshift(token)
-    this.newline = this.myText().match(/\n/) 
+    this.newline = this.myText().match(/\n/)
   }
 }
 
 base.fn.eatRight = function(test) {
-  var token = this.next  
+  var token = this.next
   if(token && (!test || test.call(token))) {
     token.remove()
     this.eaten.right.push(token)
@@ -2276,7 +2276,7 @@ base.fn.myLeftEatenText = function() {
   var text = ""
   for(var i=0; i<this.eaten.left.length; i++)
     text += this.eaten.left[i].myText()
-    
+
   return text
 }
 
@@ -2290,11 +2290,11 @@ base.fn.myRightEatenText = function() {
 base.fn.myText = function() {
   var text = [], vars
   if(this.implied) return ""
-  
+
 
   text.push(this.myLeftEatenText())
   text.push(this.text)
-  
+
 
   text.push(this.myRightEatenText())
 
@@ -2338,10 +2338,10 @@ base.fn.prevNewline = function(includeThis, skipBrackets) {
     if(tok.newline) return true
     if(skipBrackets && tok.rbracket) return tok.matching.prev // skip behind
   })
-  return nl 
-} 
+  return nl
+}
 
-base.fn.nextNewline = function(includeThis, skipBrackets) {  
+base.fn.nextNewline = function(includeThis, skipBrackets) {
   var start = includeThis ? this : this.next
   var nl = start.find(function(tok) {
     if(tok.newline) return true
@@ -2350,7 +2350,7 @@ base.fn.nextNewline = function(includeThis, skipBrackets) {
   return nl
 }
 
-base.fn.nextNewlineOrRbracket = function() {  
+base.fn.nextNewlineOrRbracket = function() {
   return this.next.find(function(tok) {
     if(tok.rbracket) return true
     if(tok.newline) return true
@@ -2398,16 +2398,16 @@ base.fn.cacheExpression = function(name) {
 }
 
 
-function unknown(text) { 
+function unknown(text) {
   base.call(this, text)
 }
 inherits(unknown, base)
 unknown.fn.unknown = true
 unknown.fn.klass = "unknown"
 
-function whitespace(text) { 
+function whitespace(text) {
   base.call(this, text)
-  this.newline = /\n/.test(text);  
+  this.newline = /\n/.test(text);
   this.space = !this.newline
 }
 inherits(whitespace, base)
@@ -2419,11 +2419,11 @@ whitespace.regex = / +|\n/g
 
 var keywords = "if do for while else try catch function return var".split(" ")
 
-function word(text) { 
+function word(text) {
   base.call(this, text)
   if(keywords.indexOf(text) >= 0)
     this.keyword = true
-  
+
   if(text.match(/!$/))
     this.bang = true
 }
@@ -2433,7 +2433,7 @@ word.fn.word = true
 word.regex = /[A-Za-z0-9_$]+!?/g
 word.fn.klass = "word"
 
-function string(text) { 
+function string(text) {
   base.call(this, text)
 }
 inherits(string, base)
@@ -2441,7 +2441,7 @@ string.fn.string = true
 string.regex = /['"]/g
 string.fn.klass = "string"
 
-function regex(text) { 
+function regex(text) {
   base.call(this, text)
 }
 inherits(regex, base)
@@ -2450,7 +2450,7 @@ regex.fn.string = true
 regex.regex = /\/[^*/ ][^/\n]*\//g ///\/[^/ ][^\n]*\//g
 regex.fn.klass = "regex"
 
-function comment(text) { 
+function comment(text) {
   base.call(this, text)
   this.single = this.text.match(/^\/\//)
 }
@@ -2462,20 +2462,20 @@ comment.fn.klass = "comment"
 var comparisonOperators = ["<=","<",">=", ">", "==", "!=", "===", "!==", "||", "&&"]
 var unaryOperators = ["++", "--", "!", "~", "&", "|"]
 
-function operator(text) { 
+function operator(text) {
   base.call(this, text)
-  //this.op = this.text 
-  this.assign = /^=$/.test(text)  
+  //this.op = this.text
+  this.assign = /^=$/.test(text)
   this.comparison = comparisonOperators.indexOf(this.text) >= 0
   this.unary_operator = unaryOperators.indexOf(this.text) >= 0
 }
 inherits(operator, base)
 operator.fn.operator = true
-operator.regex = /instanceof|[!%^&*\-=+:,.|\\~<>\?]+|\/|\/=/g 
+operator.regex = /instanceof|[!%^&*\-=+:,.|\\~<>\?]+|\/|\/=/g
 operator.fn.klass = "operator"
 // we dont support operators containing forward slash other than '/' and '/='  (too difficult to compare with // and /*)
 
-function semi(text) { 
+function semi(text) {
   base.call(this, text)
 }
 inherits(semi, base)
@@ -2483,11 +2483,11 @@ semi.fn.semi = true
 semi.regex = /;/g
 semi.fn.klass ="semi"
 
-function bracket(text) { 
+function bracket(text) {
   base.call(this, text)
-  this.lbracket = text.match(/[\(\[\{]/)  
+  this.lbracket = text.match(/[\(\[\{]/)
   this.rbracket = !this.lbracket
-  
+
   if(text == "{" || text == "}")
     this.curly = true
   else if(text == "(" || text == ")")
@@ -2525,14 +2525,14 @@ bracket.fn.updateBlock = function() {
     name: false
   }
   var type
-  
+
   if(this.prev) {
     type = this.prev.findRev(function(token) {
       if(token.whitespace)            return null  // skip whitespace
       else if(token.rbracket && token.rbracket) {
         state.bracket = token.matching
         return token.matching.prev // skip before matching bracket
-      }   
+      }
       else if(token.word) {
         if(blockKeywords.indexOf(token.text) >= 0)
           return true  // found it!
@@ -2540,12 +2540,12 @@ bracket.fn.updateBlock = function() {
           state.name = token
           return null  // skip variables
         }
-        else return false 
+        else return false
       }
       else return false // fail no keyword found
     })
   }
-  
+
   if(type) {
     this.blockType = type.text
     this.blockTypeNode = type
@@ -2561,24 +2561,24 @@ bracket.fn.updateBlock = function() {
     this.args = this.findArgs()
     this.vars = {}
   }
-  
-  
+
+
 }
 
 bracket.fn.findArgs = function() {
   if(!this.prev) return {}
   var args = {}
   var prev = this.prev.whitespace ? this.prev.prev : this.prev
-  
+
   if(!prev.matching) return
-  
+
   var text = prev.matching.collectText(prev).replace(/[\(\) ]/g, "")
-  
+
   var words = text.split(",")
-  
+
   if(text.length)
     for(var i=0;i<words.length;i++)
-      args[words[i]] = true  
+      args[words[i]] = true
   return args
 }
 
@@ -2586,12 +2586,12 @@ bracket.fn.declareVariables = function() {
   var vars = []
   for(var j in this.vars) {
     var text = j
-    if(typeof this.vars[j] == "string") 
+    if(typeof this.vars[j] == "string")
       text += " = " + this.vars[j]
     vars.push(text)
   }
   if(!vars.length) return ""
-  
+
   var string = "var " + vars.join(", ") + "; "
   var space = this.global ? "" : " "
   string = string // should find current indent really
@@ -2622,7 +2622,7 @@ comment.extract = function(index, input) {
   while(index < input.length) {
     var ch = input.charAt(index)
     if(type == "/" && ch == "\n") return comment
-    if(type == "*" && ch == "/" && prev == "*") 
+    if(type == "*" && ch == "/" && prev == "*")
       return comment + "/"
     comment += ch
     index += 1
@@ -2631,7 +2631,7 @@ comment.extract = function(index, input) {
 }
 
 regex.extract = function(index, input) {
-  
+
   var regex = "/", prev = "", esc, inSQ, start = index
   var backslash_in_a_row = 0
   while(index < input.length) {
@@ -2641,8 +2641,8 @@ regex.extract = function(index, input) {
       backslash_in_a_row++
     else
       backslash_in_a_row = 0
-    esc = backslash_in_a_row % 2 
-    
+    esc = backslash_in_a_row % 2
+
     if(ch == "/" && !esc && !inSQ) {
       var next = input.charAt(index+2)
       if(next == "m" || next == "g" || next == "i") regex += next
@@ -2655,18 +2655,18 @@ regex.extract = function(index, input) {
   }
 }
 
-module.exports = { 
-  whitespace: whitespace, 
-  operator: operator, 
-  string: string, 
-  word: word, 
+module.exports = {
+  whitespace: whitespace,
+  operator: operator,
+  string: string,
+  word: word,
   regex: regex,
-  comment: comment, 
-  bracket: bracket, 
-  unknown: unknown, 
-  semi: semi, 
-  ize: ize, 
-  postprocess: postprocess, 
+  comment: comment,
+  bracket: bracket,
+  unknown: unknown,
+  semi: semi,
+  ize: ize,
+  postprocess: postprocess,
   base: base
 }
 

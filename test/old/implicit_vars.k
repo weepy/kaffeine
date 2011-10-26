@@ -10,9 +10,9 @@ function a() {
 function c() {
   y = 3, z = 2
   t = x = function e() {
-  
+
   }
-  
+
   function d() {
     x = 13
     w = 2
@@ -26,7 +26,7 @@ try {
   ok(hello)
   ok(false)
 } catch(e) {
-  ok(true)    
+  ok(true)
 }
 
 /* not quite sure how to test best */

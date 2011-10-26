@@ -1,7 +1,7 @@
 #arrow
 
 
-compiles: 
+compiles:
 
 initialize = ->
 Base.klass = "Base"
@@ -24,7 +24,7 @@ inactive = function()
 x
 
 compiles:
-inactive = ->  
+inactive = ->
 
 x
 
@@ -37,43 +37,43 @@ x
 
 
 
-compiles: 
+compiles:
 
-x = -> { x } 
-
-to:
-
-x = function() { x } 
-
-compiles: 
-
-x = -> { 
-  x 
-} 
+x = -> { x }
 
 to:
 
-x = function() { 
-  x 
-} 
+x = function() { x }
 
-compiles: 
+compiles:
 
-x = -> 
-{ 
-  x 
-} 
+x = -> {
+  x
+}
 
 to:
 
-x = function() 
-{ 
-  x 
-} 
+x = function() {
+  x
+}
+
+compiles:
+
+x = ->
+{
+  x
+}
+
+to:
+
+x = function()
+{
+  x
+}
 
 
 
-compiles: 
+compiles:
 
 (x) -> {}
 
@@ -97,7 +97,7 @@ to:
 
 x = function() { return x*x }
 
-compiles: 
+compiles:
 
 x = => x
 

@@ -5,25 +5,25 @@ function() {
   x instanceof y
 }
 
-to: 
-function() { 
+to:
+function() {
   x instanceof y
 }
 
-compiles: 
+compiles:
 
 -> {
   return x instanceof y
 }
 
-to: 
+to:
 
-function() { 
+function() {
   return x instanceof y
 }
 
 
-compiles: 
+compiles:
 function A() { 1*1+1 }
 
 to:
@@ -57,15 +57,15 @@ function() {
   ;return 1234;
 }
 
-  
+
 compiles:
 (-> {
-  {a: 1}  
+  {a: 1}
 })()
 
 to:
 (function() {
-  return {a: 1}  
+  return {a: 1}
 })()
 
 compiles:
@@ -82,7 +82,7 @@ function() {
     1+1
   }
 }
-compiles: 
+compiles:
 (-> {
   (-> {123})
 })()()
@@ -99,7 +99,7 @@ compiles:
 }
 
 
-to: 
+to:
 function() {
   if(true)
      123
@@ -110,17 +110,17 @@ compiles:
   new K()
 }
 
-to: 
+to:
 function() {
   return new K()
 }
 
 compiles:
 
--> { return !x }  
+-> { return !x }
 
 to:
-function() { return !x }  
+function() { return !x }
 
 compiles:
 
@@ -129,7 +129,7 @@ gello
 !ch
 }
 
-to: 
+to:
 
 function() {
 return gello
@@ -146,15 +146,15 @@ function() {
   throw "hello"
 }
 
-compiles: 
+compiles:
 
 -> {
   return typeof step === 'string';
 }
 
-to: 
+to:
 
-function() { 
+function() {
   return typeof step === 'string';
 }
 

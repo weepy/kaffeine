@@ -1,6 +1,6 @@
 #arrow hash pre_pipe pipe implicit_return
 
-compiles: 
+compiles:
 
 @poly | times | map -> @create_proto()
 
@@ -8,7 +8,7 @@ to:
 
 _.map(_.times(@poly), function() { return @create_proto() })
 
-compiles: 
+compiles:
 
 (@[key] = o.default | clone)
 
@@ -16,7 +16,7 @@ to:
 
 (@[key] = _.clone(o.default))
 
-      
+
 compiles:
 klass.properties = klass.properties | clone | extend props
 
@@ -24,7 +24,7 @@ klass.properties = klass.properties | clone | extend props
 to:
 klass.properties = _.extend(_.clone(klass.properties), props)
 
-compiles: 
+compiles:
 a | map x
 
 to:
@@ -62,7 +62,7 @@ compiles:
 a
 x |
   detect -> {;}
-b  
+b
 to:
 a
 _

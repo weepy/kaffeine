@@ -3,17 +3,17 @@ $().ready(function() {
     var x = $(this).html()
     $(this).replaceWith($("<pre>" + x + "</pre>"))
   })
-  
+
   // $(window).sausage({page: ".section"});
-  
+
 })
 
 $(function(){
-  
+
   $("pre")
     .each(function() {
       var x = $(this).html()
-      x = x.replace(/\n\s*\n/g, "\n") 
+      x = x.replace(/\n\s*\n/g, "\n")
       x = x.replace(/\n\/\//g, "\n\n//")
       x = x.replace(/\n\/\*/g, "\n\n/*")
       x = x.replace(/\n*$/,"")
@@ -23,13 +23,13 @@ $(function(){
       $(this).addClass("javascript")
     })
     .wrap("<div class=code></div>")
-  
+
 })
 
-// 
+//
 // $(function() {
 //   Kaffeine = require("kaffeine")
-//   
+//
 //   $(".code")
 //     .each(function() {
 //       var kaf = $(this).find("pre").text()
@@ -39,9 +39,9 @@ $(function(){
 //       text = text.replace(/^\s+/,"")
 //       $(this).append("<pre class='javascript rhs'>" + text + "</pre>")
 //     })
-//     
+//
 //      CodeHighlighter.init()
-//      
+//
 // })
 
 
@@ -51,23 +51,23 @@ $(function() {
 
   function compile() {
     $(".rhs").remove()
-    
+
     $(".code")
       .each(function() {
         var K = new Kaffeine()
         var text = K.compile($(this).find("pre").text(), $(":radio:checked").val() )
         text = text.replace(/^\s+/,"")
         $(this).find("pre").addClass("lhs")
-        
+
         var rhs = $("<pre class='javascript rhs'>" + text + "</pre>")
         rhs.hide()
         $(this).append(rhs)
-        
+
       })
-    
+
     CodeHighlighter.init()
   }
-  
+
   $(":radio").click(compile)
   compile()
 
@@ -75,12 +75,12 @@ $(function() {
     $(this).next().show()
     $(this).hide()
   })
-  
+
   $(".rhs").bind("mouseout", function() {
     $(this).prev().show()
     $(this).hide()
   })
-  
+
 })
 
 

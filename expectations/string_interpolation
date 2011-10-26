@@ -10,12 +10,12 @@ compiles:
 to:
 ("" + (name))
 
-compiles: 
+compiles:
 "a#{b}c"
 to:
 ("a" + (b) + "c")
 
-compiles: 
+compiles:
 "a#{b}"
 to:
 ("a" + (b))
