@@ -2,21 +2,21 @@ for(var i in Plugins) { document.write("<script src='lib/plugins/" + Plugins[i]+
 
 $().ready(function() {
   Kaffeine = require("./kaffeine")
-  
+
   var stream
 
-//  for(var i in Plugins) { 
+//  for(var i in Plugins) {
 //    var p = Plugins[i]
 //    Kaffeine.plugins[p] = require("./plugins/"+p)[p]
 //  }
-  
-  var timer 
+
+  var timer
   $("#kaffeine").keyup(function(e) {
     //console.log(e.keyCode)
     if(timer) clearTimeout(timer)
-    timer = setTimeout(compile, 200)    
+    timer = setTimeout(compile, 200)
   })
-  
+
   function compile(string) {
     var K = new Kaffeine()
     try {
@@ -25,7 +25,7 @@ $().ready(function() {
     catch(e) {
       if(e.plugin)
         var text = "Error in plugin " + e.plugin + ":\n"  + e.toString() +"\n Current Stream: \n" + K.currentStream.collectText()
-      else 
+      else
         var text = e.toString() //console.log(e) // ignore ...
     }
     return text
@@ -36,7 +36,7 @@ $().ready(function() {
     $("#javascript").val(compile(string))
   }
   $("#kaffeine").focus()
-  
+
   $("pre").each(function() {
     var text = $(this).html().replace("&lt;-", "<-", "g")
     var pre = $("<pre>")
@@ -47,7 +47,7 @@ $().ready(function() {
     var arrow = $("<div class=arrow>-></div>")
     arrow.css({position: "absolute", right: 0, top: h/2, marginRight: -24, fontSize: 14, fontWeight: "bold", color: "red"})
     $(this).append(arrow)
-    
+
   })
 })
 

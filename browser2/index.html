@@ -5,7 +5,7 @@
   <script src='lib/token.js'></script>
   <script src='plugins.js'></script>
   <script src='index.js'></script>
-  <script src='lib/kaffeine.js'></script> 
+  <script src='lib/kaffeine.js'></script>
   <style>
   pre      { width: 400px; padding: 10px; font-size: 12px; font-family: monaco, monospace; float: left; background: #effaff; margin-right: 30px;}
   .clear { clear: both;;}
@@ -29,7 +29,7 @@ pre {
 body { position: relative; }
 iframe { display: none;}
  </style>
-  <link href="http://fonts.googleapis.com/css?family=Lobster:regular&subset=latin" rel="stylesheet" 
+  <link href="http://fonts.googleapis.com/css?family=Lobster:regular&subset=latin" rel="stylesheet"
 type="text/css" >
 
 <script>
@@ -83,7 +83,7 @@ meal.complete = ok
 </pre>
 
 <p>This is super useful for simplifying nested asynchronous calls (esp with nodejs)</p>
-  
+
 <h3>at</h3>
 
 <p>Provide the @ alias for 'this'. E.g:</p>
@@ -115,7 +115,7 @@ x = null
   y = 2
 }
 </pre>
-  
+
 <h3>implicit brackets</h3>
 
 <p>Provide optional brackets for function calls. E.g.</p>
@@ -125,7 +125,7 @@ remove eggs.shell
 mix eggs, milk.off ? milk : null
 outer inner innermost
 </pre>
-  
+
 <h3>implicit brackets for keywords</h3>
 <p>keywords such as "for", or "if" can omit their brackets (as long as the statement doesn't become amiguous). The brackets are inserted either before a newline, a left brace '{' or a comma (for one liners)
 <pre>
@@ -198,7 +198,7 @@ Kind Regards
 <p>the last statement of a function will be automagically returned. E.g.</p>
 
 <pre>
-getName = { @name } 
+getName = { @name }
 </pre>
 
 <p>This will only work for variables, objects and functions. I.e. an final if statement will result no return value</p>
@@ -224,7 +224,7 @@ ok = (timeout) {
   return true
 }
 </pre>
-	
+
 <p>Note {} could be a function or an object, so to avoid ambiguity, it's defined to be an object. To express an empty function, use one of the following forms:</p>
 
 <pre>
@@ -235,7 +235,7 @@ function() { }
 
 
 <h3>pipe</h3>
-<p>Provides an alternative calling method than can be used for easily chaining (UNIX style passing). </p>	
+<p>Provides an alternative calling method than can be used for easily chaining (UNIX style passing). </p>
 
 <pre>
 result = input | fn args
@@ -272,7 +272,7 @@ opts ||= {}
 </pre>
 <p>Also an extend operator <b><-</b>
 <pre>
-a <- b 
+a <- b
 options = options <- { size: "small", num: 10}
 </pre>
 

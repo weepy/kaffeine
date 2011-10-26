@@ -12,9 +12,9 @@
             // ### page `string`
             //
             // Sets the string to be used to select page elements.
-            // 
+            //
             // Example:
-            // 
+            //
             //      $(window)
             //          .sausage({
             //              page: '.my-page-selector'
@@ -23,11 +23,11 @@
             //
             page: '.page',
             // ### content `function`
-            // 
+            //
             // Sets the content of the sausage elements. Use `i` and `$page` to render content dynamically.
-            // 
+            //
             // Example:
-            // 
+            //
             //      $(window)
             //          .sausage({
             //              content: function (i, $page) {
@@ -164,9 +164,9 @@
                         o = self.$inner.find(self.options.page).eq(val).offset().top;
                     self._scrollTo(o);
                     // Trigger the `onClick` event.
-                    // 
+                    //
                     // Example:
-                    // 
+                    //
                     //      $(window)
                     //          .sausage({
                     //              onClick: function (e, o) {
@@ -215,7 +215,7 @@
         },
         _handleClick: function () {
             var self = this
-            
+
             return;
         },
         // ## `._update()`
@@ -240,8 +240,8 @@
             return;
         },
         // ### `._getHandleHeight()`
-        // 
-        // 
+        //
+        //
         _getHandleHeight: function ($outer, $inner) {
             var h_outer = $outer.height(),
                 h_inner = $inner.height();
@@ -251,7 +251,7 @@
         //
         //
         // ### draw `.sausage("draw")`
-        // 
+        //
         // Creates the sausage UI elements.
         draw: function () {
             var self = this,
@@ -288,7 +288,7 @@
             return;
         },
         // ### block `.sausage("block")`
-        // 
+        //
         // Blocks the UI to prevent users from interacting with the sausage UI. Useful when loading data and updating the DOM.
         block: function () {
             var self = this,
@@ -301,7 +301,7 @@
             return;
         },
         // ### unblock `.sausage("unblock")`
-        // 
+        //
         // Unblocks the UI once loading and DOM manipulation are complete.
         unblock: function () {
             var self = this,
@@ -313,7 +313,7 @@
             return;
         },
         // ### destroy `.sausage("destroy")`
-        // 
+        //
         // Removes the sausage instance from the DOM.
         destroy: function () {
             var self = this;

@@ -1,4 +1,4 @@
-compiles: 
+compiles:
 
 (1/2 + (1/2))
 
@@ -11,22 +11,22 @@ compiles:
 
 for i of 10|range
   100
-  
+
 to:
 
-compiles: 
+compiles:
 
 a = 1
-for i of z * z() 
+for i of z * z()
 {
   xx
 }
 
-to: 
+to:
 
 x
 
-compiles: 
+compiles:
 
 -> {
   fn = arguments | last
@@ -38,20 +38,20 @@ to:
 
 x
 
-compiles: 
+compiles:
 
-Poly::find_for_key = (key) -> {  
+Poly::find_for_key = (key) -> {
   @units | select -> #._poly.key is key
          | sortBy -> -#._poly.time
          | first
 }
 
-to: 
+to:
 
  Poly.prototype.find_for_key = function(key) {
   return _.first(_.sortBy(_.select(this.units, function() { return arguments[0]._poly.key === key }), function() { return -arguments[0]._poly.time }))
-  
-  
+
+
 }
 
 
@@ -78,21 +78,21 @@ to:
 (__.map.call(this, x, function() {;})).join()
 
 compiles:
-x | map a 
+x | map a
   | detect b
-  
 
-__.detect.call(this, 
+
+__.detect.call(this,
   __.map.call(this, x, a), b)
 
 compiles:
-x | map a 
+x | map a
   | detect b
   | times 2
 to:
 
-__.times.call(this, 
-  __.detect.call(this, 
+__.times.call(this,
+  __.detect.call(this,
   __.map.call(this, x, a), b ) )
 
 compiles:
@@ -154,11 +154,11 @@ to:
   return callback(_this._puzzle) })
 }
 
-compiles: 
+compiles:
 
 ok !failed
 
-to: 
+to:
 
 x
 
@@ -166,7 +166,7 @@ compiles:
 
 game.add new Player()
 
-to: 
+to:
 
 x
 

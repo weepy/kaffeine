@@ -7,7 +7,7 @@ var file = process.ARGV[x]
 
 if(!file)  {
   console.log("missing source file?")
-  return 
+  return
 }
 var abs = path.join(process.cwd(), "./", file).replace(/.k$/, "")
 

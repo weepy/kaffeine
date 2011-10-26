@@ -4,98 +4,98 @@ Grid Width:   825px
 Column Width: 55px
 Gutter Width: 15px
 -------------------------------*/
- 
- 
- 
+
+
+
 .section 		{margin-bottom: 18px;
 }
 .section:after	{content: ".";display: block;height: 0;clear: both;visibility: hidden;}
 .section 		{*zoom: 1;}
- 
+
 .section .firstcolumn,
 .section .firstcol {margin-left: 0;}
- 
- 
+
+
 /* Border on left hand side of a column. */
 .border {
   padding-left: 7px;
   margin-left: 7px;
   border-left: 1px solid #eee;
 }
- 
+
 /* Border with more whitespace, spans one column. */
 .colborder {
     padding-left: 42px;
   margin-left: 42px;
   border-left: 1px solid #eee;
 }
- 
 
- 
+
+
 /* The Grid Classes */
 .grid1, .grid1_2cols, .grid1_3cols, .grid1_4cols, .grid2, .grid2_3cols, .grid2_4cols, .grid3, .grid3_2cols, .grid3_4cols, .grid4, .grid4_3cols, .grid5, .grid5_2cols, .grid5_3cols, .grid5_4cols, .grid6, .grid6_4cols, .grid7, .grid7_2cols, .grid7_3cols, .grid7_4cols, .grid8, .grid8_3cols, .grid9, .grid9_2cols, .grid9_4cols, .grid10, .grid10_3cols, .grid10_4cols, .grid11, .grid11_2cols, .grid11_3cols, .grid11_4cols, .grid12
 {margin-left: 15px;float: left;display: inline; overflow: hidden;}
- 
- 
+
+
 .width1, .grid1, .span-1 {width: 55px;}
 .width1_2cols,.grid1_2cols {width: 20px;}
 .width1_3cols,.grid1_3cols  {width: 8px;}
 .width1_4cols,.grid1_4cols  {width: 2px;}
 .input_width1 {width: 49px;}
- 
+
 .width2, .grid2, .span-2 {width: 125px;}
 .width2_3cols,.grid2_3cols  {width: 31px;}
 .width2_4cols,.grid2_4cols  {width: 20px;}
 .input_width2 {width: 119px;}
- 
+
 .width3, .grid3, .span-3 {width: 195px;}
 .width3_2cols,.grid3_2cols {width: 90px;}
 .width3_4cols,.grid3_4cols  {width: 37px;}
 .input_width3 {width: 189px;}
- 
+
 .width4, .grid4, .span-4 {width: 265px;}
 .width4_3cols,.grid4_3cols  {width: 78px;}
 .input_width4 {width: 259px;}
- 
+
 .width5, .grid5, .span-5 {width: 335px;}
 .width5_2cols,.grid5_2cols {width: 160px;}
 .width5_3cols,.grid5_3cols  {width: 101px;}
 .width5_4cols,.grid5_4cols  {width: 72px;}
 .input_width5 {width: 329px;}
- 
+
 .width6, .grid6, .span-6 {width: 405px;}
 .width6_4cols,.grid6_4cols  {width: 90px;}
 .input_width6 {width: 399px;}
- 
+
 .width7, .grid7, .span-7 {width: 475px;}
 .width7_2cols,.grid7_2cols {width: 230px;}
 .width7_3cols,.grid7_3cols  {width: 148px;}
 .width7_4cols,.grid7_4cols  {width: 107px;}
 .input_width7 {width: 469px;}
- 
+
 .width8, .grid8, .span-8 {width: 545px;}
 .width8_3cols,.grid8_3cols  {width: 171px;}
 .input_width8 {width: 539px;}
- 
+
 .width9, .grid9, .span-9 {width: 615px;}
 .width9_2cols,.grid9_2cols {width: 300px;}
 .width9_4cols,.grid9_4cols  {width: 142px;}
 .input_width9 {width: 609px;}
- 
+
 .width10, .grid10, .span-10 {width: 685px;}
 .width10_3cols,.grid10_3cols  {width: 218px;}
 .width10_4cols,.grid10_4cols  {width: 160px;}
 .input_width10 {width: 679px;}
- 
+
 .width11, .grid11, .span-11 {width: 755px;}
 .width11_2cols,.grid11_2cols {width: 370px;}
 .width11_3cols,.grid11_3cols  {width: 241px;}
 .width11_4cols,.grid11_4cols  {width: 177px;}
 .input_width11 {width: 749px;}
- 
+
 .width12, .grid12, .span-12 {width: 825px;}
 .input_width12 {width: 819px;}
- 
+
 /* Subdivided grid spaces */
 .emptycols_left1, .prepend-1 {padding-left: 70px;}
 .emptycols_right1, .append-1 {padding-right: 70px;}

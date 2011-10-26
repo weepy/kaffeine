@@ -1,10 +1,10 @@
 #brackets_for_keywords
 
-compiles: 
+compiles:
 
 if key in json, @[key] = expand o
 
-to: 
+to:
 
 if(key in json) @[key] = expand o
 
@@ -16,7 +16,7 @@ to:
 if(true)// hello
   ok(true)
 
-compiles:  
+compiles:
 for x in [1,2,3,2*2] {
   ok(true)
 }
@@ -76,11 +76,11 @@ if !false
 to:
 if(!false)
   ok(true)
-  
+
 compiles:
 function() {
   for i=0; i < n; i++
-    fn.call(this, i) 
+    fn.call(this, i)
 }
 to:
 function() {
@@ -102,7 +102,7 @@ to:
 if(x) y += 1
 x
 
-compiles: 
+compiles:
 for i, v in A, i++
 
 to:
@@ -116,9 +116,9 @@ if (x) y()
 x
 
 compiles:
-if x 
+if x
    || y {}
-    
+
 to:
 if(x
    || y) {}

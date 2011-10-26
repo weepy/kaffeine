@@ -6,8 +6,8 @@ var Kaffeine = require("../lib")
 var util = require("util")
 
 function loadPlugins(source) {
-  var rel = "../lib/plugins/"    
-  var files = fs.readdirSync(source) 
+  var rel = "../lib/plugins/"
+  var files = fs.readdirSync(source)
   for(var i =0; i< files.length;i++) {
     var file = files[i]
     if(!file.match(/\.js$/)) continue
@@ -35,15 +35,15 @@ function loadExpectations(path) {
 
 function runExpectations(path, exs) {
   var passed = [], failed = []
-  
+
   util.print(path+": ")
   for(var i=0; i< exs.length;i++) {
     var ex = exs[i]
-    
+
     var js = new Kaffeine().compile(ex.input)
     js = trim(js)
     ex.output = trim(ex.output)
-    
+
     if(js != ex.output) {
       failed.push(ex)
       util.print('X');
@@ -56,7 +56,7 @@ function runExpectations(path, exs) {
           console.log("input: " + ex.input.replace(/\n/g,"\\n\n"))
           console.log("expect: " + ex.output)//.replace(/ /g, "."))
           console.log("actual: " + js)//.replace(/ /g, "."))
-          
+
           return //break
         }
       }
@@ -81,10 +81,10 @@ function runAllExpectations() {
       to_run.push(file)
     }
   }
-  
+
   for(var j=0; j< to_run.length; j++) {
     var exs = loadExpectations("./expectations/" + to_run[j])
-    runExpectations(to_run[j], exs) 
+    runExpectations(to_run[j], exs)
   }
 }
 

@@ -1,11 +1,11 @@
 compiles:
 -> {
   for var i=0; i < n; i++
-    fn.call @, i 
+    fn.call @, i
 }
 
 to:
-function() { 
+function() {
   var i; for(i=0; i < n; i++)
     fn.call(this, i)
 }
@@ -33,7 +33,7 @@ compiles:
 
 -> x is y
 
-to: 
+to:
 
 function() { return x === y }
 
@@ -50,23 +50,23 @@ compiles:
 exports.testAddEdge = (is, done) -> {
   client.select 15
   client.FLUSHDB()
-  
+
   u = User.create! {id: "jonah"}
   p = Puzzle.create! {id: 2}
-  
+
   err, data = User.client.get! "User:jonah:love:n"
   is.equal data, null
-  
+
   ok = u.link! p.id, "love"
   is.ok ok
 
   //logKeys()
   err, data = User.client.sismember! "User:jonah:love","2"
   is.equal data, 1
-  
+
   err, data = User.client.get! "User:jonah:love:n"
   is.equal data, "1"
-  
+
   done()
 }
 to:
@@ -109,7 +109,7 @@ var x; x = function() {
 }
 
 compiles:
-for x of row.split "" 
+for x of row.split ""
   log letter
 to:
 var _xpr, _a, x, _b; for(_a = 0, _b = (_xpr=row.split("")).length; _a < _b; _a++) { x = _xpr[_a];
@@ -123,7 +123,7 @@ to:
 if(side == 1) letter = letter.toLowerCase()
 
 
-compiles: 
+compiles:
 function() {
   if User.find! @id, @error "already exists"
   done()
@@ -138,14 +138,14 @@ function() {
 compiles:
 
 do {
-  // stuff 
+  // stuff
 } while true
 
 
 to:
 
 do {
-  // stuff 
+  // stuff
 } while(true)
 
 compiles:
@@ -157,7 +157,7 @@ x = -> {
  };
 
 
-to: 
+to:
 
 var x; x = function() {
    x = y(/\\/g, '\\\\');
@@ -167,12 +167,12 @@ var x; x = function() {
 
 
 
-compiles: 
+compiles:
 
 Unit::initialize = -> {
   super o
 }
-to: 
+to:
 
 Unit.prototype.initialize = function() {
   return Unit.__super__.initialize.call(this, o)
@@ -182,7 +182,7 @@ Unit.prototype.initialize = function() {
 compiles:
 
 class B extends A {
-  x = 1 
+  x = 1
 }
 
 

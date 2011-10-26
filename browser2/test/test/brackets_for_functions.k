@@ -1,6 +1,6 @@
 #implicit_brackets
-function div(x, y) { return x / y} 
-function sq(x) { return x * x} 
+function div(x, y) { return x / y}
+function sq(x) { return x * x}
 
 
 if(true)
@@ -27,7 +27,7 @@ if(true) {
 }
 ok(pass)
 
-x = [ok,0][0] true 
+x = [ok,0][0] true
 
 
 function Outer() {

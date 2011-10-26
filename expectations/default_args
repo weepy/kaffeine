@@ -22,10 +22,10 @@ function(a, x) { x = x==null ? {} : x;
 
 compiles:
 function(x=1, r=[], a=3) {
-  
+
 }
 
-to: 
+to:
 function(x, r, a) { x = x==null ? 1 : x, r = r==null ? [] : r, a = a==null ? 3 : a;
 
 }

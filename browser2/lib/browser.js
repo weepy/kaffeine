@@ -19,7 +19,7 @@ require.module('./browser', function(module, exports, require) {
       }
     };
     try {
-     xhr.send(null); 
+     xhr.send(null);
     } catch(e) {
       console.log("failed loading: " + url)
     }
@@ -28,8 +28,8 @@ require.module('./browser', function(module, exports, require) {
 
   function run(src, text) {
     var K = new kaffeine()
-    var js = K.compile(text, { brequire_module: src.replace(/\.k/, "") });    
-    eval(js)    
+    var js = K.compile(text, { brequire_module: src.replace(/\.k/, "") });
+    eval(js)
     //(Function(js))()
   }
 
@@ -51,7 +51,7 @@ require.module('./browser', function(module, exports, require) {
       for(var i=0; i< attr.length;i++) {
         if(attr[i].nodeName == "src")
           var src = attr[i].value
-      } 
+      }
       load(src)
     }
   }

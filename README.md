@@ -1,7 +1,7 @@
 <pre>
-  _  __      __  __     _           
- | |/ /__ _ / _|/ _|___(_)_ _  ___  
- | ' &lt;/ _` |  _|  _/ -_) | ' \/ -_) 
+  _  __      __  __     _
+ | |/ /__ _ / _|/ _|___(_)_ _  ___
+ | ' &lt;/ _` |  _|  _/ -_) | ' \/ -_)
  |_|\_\__,_|_| |_| \___|_|_||_\___|
 </pre>
 
@@ -48,14 +48,14 @@ Building tests for the browser
 
 bin/build
 
-depends on brequire (http://github.com/weepy/brequire). 
+depends on brequire (http://github.com/weepy/brequire).
 
 Install
 =======
 
 npm install kaffeine
 
-requires node >= 0.3.1 
+requires node >= 0.3.1
 
 Use
 ===
@@ -79,4 +79,4 @@ TODO
 ====
 
 * need --- operator for delimiting bangs!
-* nested for loops - is there a problem ? 
+* nested for loops - is there a problem ?

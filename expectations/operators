@@ -61,7 +61,7 @@ function __merge(a,b) {
 }
 compiles:
 a <- b
-to: 
+to:
 __merge(a, b)
 
 function __merge(a,b) {
@@ -83,9 +83,9 @@ function __merge(a,b) {
   return a;
 }
 
-compiles: 
+compiles:
 
-a <- (b <- c) 
+a <- (b <- c)
 to:
 __merge(a, (__merge(b, c)))
 

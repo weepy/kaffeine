@@ -30,7 +30,7 @@ Mammal::legs = function() { return # }
 to:
 
 function Mammal() {}
-Mammal.prototype.legs = function() { return arguments[0] } 
+Mammal.prototype.legs = function() { return arguments[0] }
 Mammal.prototype.lungs = true
 
 

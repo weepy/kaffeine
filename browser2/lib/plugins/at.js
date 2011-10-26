@@ -10,14 +10,14 @@ module.exports = function(stream) {
       var word = "this"
 
       if(this.next.text == "@") {
-        this.next.remove()  
+        this.next.remove()
         word = "this.constructor"
       }
 
       var token = new Token.word(word)
       token.was_at_symbol = true
       this.replaceWith(token)
-      if(token.next.word && !token.next.lbracket) 
+      if(token.next.word && !token.next.lbracket)
         token.after(new Token.operator("."))
       return token
     }

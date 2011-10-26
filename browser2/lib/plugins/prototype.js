@@ -6,7 +6,7 @@ module.exports = function(stream) {
 
   var klass = ""
   stream.each(function() {
-    
+
     if(this.namedFunction) {
       klass = this.namedFunction.text
       return
@@ -17,9 +17,9 @@ module.exports = function(stream) {
         klass = this.prev.prev.text
       return
     }
-    
+
     var ret = this.next
-    
+
     if(this.text == "::") {
       this.spit(function() { return this.whitespace})
       var text = ".prototype."

@@ -2,13 +2,13 @@ h3 Unix-style function calling via | (pipe)
 
 p This is probably one of the most unusual features of Kaffeine. It provides an alternative calling method than can be used for chaining (UNIX style passing). The _ variable must be set to a object of functions, which is used as a lookup.
 
-textarea 
+textarea
   result = input | fn args
   //chaining Input To Output
   result = input | fn a, b | fn2 c | fn3 d
 
-p It is very useful for ruby style enumeration chaining without using prototypes, and other utilities, particuliarily 
- the <a href=http://documentcloud.github.com/underscore/ target=_new>underscore</a> library: 
+p It is very useful for ruby style enumeration chaining without using prototypes, and other utilities, particuliarily
+ the <a href=http://documentcloud.github.com/underscore/ target=_new>underscore</a> library:
 
 textarea
   _ = require "underscore"

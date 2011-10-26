@@ -1,6 +1,6 @@
 @import url('grid_12-825-55-15.css');
 
-/*  
+/*
 	CSS Reset by Eric Meyer - Released under Public Domain
     http://meyerweb.com/eric/tools/css/reset/
 */
@@ -10,8 +10,8 @@ a, abbr, acronym, address, big, cite, code,
 del, dfn, em, font, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
 b, u, i, center, dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend, table, 
-caption, tbody, tfoot, thead, tr, th, td 
+fieldset, form, label, legend, table,
+caption, tbody, tfoot, thead, tr, th, td
                   {margin: 0;padding: 0;border: 0;outline: 0;
                   font-size: 100%;vertical-align: baseline;
                   background: transparent;}
@@ -113,7 +113,7 @@ h2{
 
 
 div.huge {
-	
+
 	font-size: 300px;
 	line-height: 1em;
 	padding: 0;
@@ -218,10 +218,10 @@ code {
 
 .bottom,.last 	{margin-bottom:0 !important; padding-bottom:0 !important;}
 
-.box  { 
-  padding: 18px; 
-  margin-bottom: 18px; 
-  background: #eee; 
+.box  {
+  padding: 18px;
+  margin-bottom: 18px;
+  background: #eee;
 }
 
 .reverse,.reversed { background:  #000 !important;color:  #fff !important; border: none !important;}

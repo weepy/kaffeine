@@ -32,7 +32,7 @@ to:
 var _a, x, _b; for(_a = 0, _b = [1,2,3,4].length; _a < _b; _a++) { x = [1,2,3,4][_a];
   ok() }
 
-compiles: 
+compiles:
 for (var i = 0; i < nodes.length; i++) {
 
 }
@@ -74,7 +74,7 @@ var k, y; for(k in o) { y = o[k];
     return true }
 
 compiles:
-for(i, x in a) 
+for(i, x in a)
   for(j, y in a)
     x
 to:
@@ -85,7 +85,7 @@ var i, x, j, y; for(i in a) { x = a[i];
 compiles:
 for (a from n)
   fn()
-	
+
 to:
 var a; for (a in n) {if (!n.hasOwnProperty(a)) continue;
   fn() }

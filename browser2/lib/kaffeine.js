@@ -21,7 +21,7 @@ Kaffeine.fn.compile = function(text, o) {
   var plugins = directive[1].replace(/\s+/g," ").replace(/ $/,"").split(" ");
   text = text.slice(directive[0].length);
   var ret =  this.runPlugins(text, plugins);
-  
+
   o = o || {}
   if(o.brequire_module) {
     ret =  "require.module('" + o.brequire_module + "', function(module, exports, require) { \n" + ret + "\n});\n"
@@ -35,10 +35,10 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
   text = "function(){ " + text + "\n}"; // wrap in closure so we have a global closure and also no problems with start and end of text
   var stream = Token.ize(text);
   //stream = Token.postprocess(stream);
-  
+
   this.currentStream = stream
-  
-  stream.global = stream.find(function() { 
+
+  stream.global = stream.find(function() {
     if(this.curly) {
       return true;
     }
@@ -46,7 +46,7 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
   stream.global.global = true;
 
   options = options || {};
-  
+
   for(var i=0; i<plugins.length; i++) {
     var name = plugins[i];
     var plugin = require("./plugins/"+name) //Kaffeine.plugins[name];
@@ -54,9 +54,9 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
       throw(name + " - not loaded");
     }
     try {
-      plugin.call(this, stream, Token, options[name] || {});     
-      //stream.normalize() 
-    } 
+      plugin.call(this, stream, Token, options[name] || {});
+      //stream.normalize()
+    }
     catch(err) {
       err.plugin = name
       throw(err)
@@ -66,7 +66,7 @@ Kaffeine.fn.runPlugins = function(text, plugins, options) {
 };
 
 Kaffeine.fn.validate = function(text) {
-  try { 
+  try {
     new Function(text)
   }
   catch (err) {
