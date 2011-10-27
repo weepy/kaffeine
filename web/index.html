@@ -24,7 +24,7 @@ if Job.count! > 10 {
   process data
 }
 </textarea></div><div class="section"><h3>arrow function alias</h3><p>Kaffeine supports a simple arrow as an alias to a function call. </p><textarea>ok = (timeout) -> {
-  sendNote()  
+  sendNote()
 }
 
 </textarea><p>Braces are optional for one liners and also an empty argument list can be omitted</p><textarea>run = -> ok(0)
@@ -45,11 +45,11 @@ if Job.count! > 10 {
   run()
 }
 </textarea></div><div class="section"><h3>Unwrapping async calls with ! (bang)</h3><p>A ! postfix to a function call signals to Kaffeine that this is an unwrapped async call masquerading as a normal function call. Kaffeine will recompile it into a normal function call with the follow code wrapping into an async callback:</p><textarea>// simple call
-fish = $.get! '/fish'     
+fish = $.get! '/fish'
 $("stomach").append fish
 
 // another simple call with implied ()
-ok = stomach.save!        
+ok = stomach.save!
 meal.complete = ok
 
 </textarea><This>is super useful for simplifying nested asynchronous calls (esp with nodejs) and works nicely in a number of scenarios.</This><p>When does the function unwrapping ‘stop’?</p><ul><li>At an unmatched right bracket (e.g. the end of a function or arg list)</li><li>The end of the file</li><li>Or at the <code>—–</code> operator</li></ul><textarea>x = -> {
@@ -65,7 +65,7 @@ meal.complete = ok
 }
 
 </textarea><h4>@ in bang function calls</h4><p>In the case of unwrapped async calls via the bang postfix, @ will actually refer to the outer this.</p><p>Since we can refer to both via this method, binding becomes unnecessary:</p><textarea>Class.cacheData = -> {
-  d = $.get! "/" 
+  d = $.get! "/"
   @data = d      // outer this
   this.data = d  // inner this
   return @
@@ -75,7 +75,7 @@ meal.complete = ok
 // will log 14
 for x of A
   sum += x
-log sum     
+log sum
 
 // will log 3
 for x, i of A
@@ -99,17 +99,17 @@ outer inner innermost
 
 if name == "john", return false
 
-while we_have_time { 
-  run tasks 
+while we_have_time {
+  run tasks
 }
 </textarea></div><div class="section"><h3>this, this.constructor</h3><p>This module provides an Ruby style aliases for:</p><ul><li><code>this</code> in the form of @</li><li><code>this.constructor</code> in the form of @@</li></ul><textarea>Animal = (type, color) -> {
   @type = type
   @@count += 1
   @@all.push @
 }
-</textarea></div><div class="section"><h3>Hash Alias</h3><p># is a shortcut for referring to the first argument in a function. Useful for terse function definitions:</p><textarea>square = -> #*# 
+</textarea></div><div class="section"><h3>Hash Alias</h3><p># is a shortcut for referring to the first argument in a function. Useful for terse function definitions:</p><textarea>square = -> #*#
 
-</textarea><p>Additionally, #n refers to the nth argument (n >= 0).</p><textarea>times = -> #*#1 
+</textarea><p>Additionally, #n refers to the nth argument (n >= 0).</p><textarea>times = -> #*#1
 </textarea></div><div class="section"><h3>.= (dot equals) and ||= (OR equals)</h3><p>2 extra assignment operators, ||= and .=. They work in a similar method as += etc.</p><textarea>location.href .= replace "?old", "?new"
 name .= toUpperCase()
 opts ||= {}
@@ -140,9 +140,9 @@ opts = opts | defaults { x: 1}
 fn 5  // will log 5, 0
 </textarea></div><div class="section"><h3>Implicit return</h3><p>Kaffeine's arrow function syntax juices up the function-calling process by determining a completion value based on the last statement in the block, and returning that automatically.</p><p>The last statement of a function defined with <code>-></code> will be automagically returned. For example</p><textarea>getName = -> @name
 
-</textarea><p>This will only work for returnable statements, i.e. variables, objects and functions. So an final if statement will result no return value</p><textarea>getName = -> { 
-  if truthy 
-    @name 
+</textarea><p>This will only work for returnable statements, i.e. variables, objects and functions. So an final if statement will result no return value</p><textarea>getName = -> {
+  if truthy
+    @name
 
 }
 
@@ -165,11 +165,11 @@ run = -> {
 }
 run()
 </textarea></div><div class="section"><h3>Installation and Use</h3><p>npm install kaffeine</p><Use></Use></div><div class="section"><h3>Ideas going forward</h3><h4>Array comprehensions </h4><textarea>x = for y of myArray {
-      if y > 10, break 
+      if y > 10, break
       x += y
 }
 
-</textarea><h4>auto-slice arguments</h4><p>Within any function, a reference to arguments will be auto-converted to a sliced version (meaning it can be used as a proper array object).</p><h4>Existential ? operator</h4><p>extend implicit return through if blocks</p></div><footer><p>Kaffeine is brought to you by 
+</textarea><h4>auto-slice arguments</h4><p>Within any function, a reference to arguments will be auto-converted to a sliced version (meaning it can be used as a proper array object).</p><h4>Existential ? operator</h4><p>extend implicit return through if blocks</p></div><footer><p>Kaffeine is brought to you by
 <a href="http://github.com/weepy">weepy</a></p></footer></div><script>$("h1").fitText(0.38)
 $(".download").fitText(3)
 </script></body></head></html>

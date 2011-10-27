@@ -45,7 +45,7 @@ margin-right:14px;}
 
 .CodeMirror-wrapping { float: left; width: 600px; margin-right: 40px;margin-bottom: 20px;}
 
-pre.hijs { color: #FFF8DC; font-family: Verdana; background: #222; width: 600px; float: left; margin: 0;padding: 0 5px; overflow: auto;margin-bottom:20px;}  
+pre.hijs { color: #FFF8DC; font-family: Verdana; background: #222; width: 600px; float: left; margin: 0;padding: 0 5px; overflow: auto;margin-bottom:20px;}
 .keyword { color: #00FFFF;}
 .string { color: #FFA500;}
 .comment { color: #666;}

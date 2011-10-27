@@ -33,7 +33,7 @@ else if(false)
 else
   var i = 1
   ok(false)
-  
+
 class Animal(alive)
   this.alive = alive
 

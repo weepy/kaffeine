@@ -8,20 +8,20 @@ eq( A(), 1 )
 eq( (function() {
   ;1234;
 })(), 1234)
-  
+
 same( (function() {
-  {a: 1}  
+  {a: 1}
 })(), {a: 1})
 
 ok( (function() {
   if(false) {
   } else {
-  
+
   }
 })() == null)
 
 eq((function() {
-  return 1234  
+  return 1234
 }
 )(), 1234)
 

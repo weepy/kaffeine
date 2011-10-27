@@ -6,7 +6,7 @@ x = 1
   ret = []
   for(i in A) {
     ret.push(fn.call(A[i], A[i], i))
-  }  
+  }
   ret
 }
 |.detect = ->(A, fn) {

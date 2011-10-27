@@ -6,8 +6,8 @@ class Animal {
 
 class Mammal(legs) extends Animal {
   super
-  this.legs = legs  
-  
+  this.legs = legs
+
   this.isBiped = function() {
     return this.legs == 2
   }

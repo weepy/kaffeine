@@ -8,7 +8,7 @@ module.exports = function(stream) {
   stream.each(function() {
     if(this.unknown && this.text == "#") {
       var word = "arguments"
-      
+
       if(!this.next.word)
         word += "[0]"
       else {

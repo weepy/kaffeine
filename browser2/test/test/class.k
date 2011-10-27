@@ -3,7 +3,7 @@
 class Animal {}
 
 class Mammal(legs) extends Animal {
-  this.legs = legs  
+  this.legs = legs
 }
 
 Mammal.prototype.isBiped = function() {

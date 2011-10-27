@@ -17,5 +17,5 @@ x = -> (a) {
 
 
 -> namedFn(ohyeah) {
-  
+
 }

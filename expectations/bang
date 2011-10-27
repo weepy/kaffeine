@@ -6,21 +6,21 @@ function() {
   err, data = get_it!
 }
 
-to: 
+to:
 function() {
   get_it(function(_0, _1) { err = _0, data = _1 })
 }
 compiles:
 function() {
   x = {
-    count: User.count!, 
-    puzzles: User.puzzles!("today") 
+    count: User.count!,
+    puzzles: User.puzzles!("today")
   }
 }
 
 to:
 function() {
-  User.count(function(_0) { User.puzzles("today", function(_1) { x = { 
+  User.count(function(_0) { User.puzzles("today", function(_1) { x = {
     count: _0,
     puzzles: _1
   } }) })
@@ -31,15 +31,15 @@ function() {
 compiles:
 function() {
   res.send({
-    count: User.count!, 
-    puzzles: User.puzzles!("today") 
+    count: User.count!,
+    puzzles: User.puzzles!("today")
   })
 }
 
 to:
 function() {
-  User.count(function(_0) { User.puzzles("today", function(_1) { res.send({ 
-    count: _0, 
+  User.count(function(_0) { User.puzzles("today", function(_1) { res.send({
+    count: _0,
     puzzles: _1
   }) }) })
 }
@@ -55,7 +55,7 @@ function() {
 
 to:
 function() {
-  User.count(function(_0) { res.send({ 
+  User.count(function(_0) { res.send({
     count: _0
   }) })
 }
@@ -64,15 +64,15 @@ function() {
 compiles:
 function() {
   res.send({
-    count: User.count!, 
-    puzzles: User.puzzles("yesterday") 
+    count: User.count!,
+    puzzles: User.puzzles("yesterday")
   })
 }
 
 to:
 function() {
-  User.count(function(_0) { res.send({ 
-    count: _0, 
+  User.count(function(_0) { res.send({
+    count: _0,
     puzzles: User.puzzles("yesterday")
   }) })
 }
@@ -104,7 +104,7 @@ function() {
 }
 
 
- 
+
 
 
 compiles:
@@ -145,7 +145,7 @@ function() {
 
 to:
 function() {
-  get(function(_0, _1) { x = _0, y = _1 
+  get(function(_0, _1) { x = _0, y = _1
   alert(x) })
 }
 
@@ -179,7 +179,7 @@ function() {
   get(function(_0) { x = _0.length })
 }
 
-compiles: 
+compiles:
 function() {
   puzzle1.users!("played").length.should.eql(0)
 }
@@ -270,7 +270,7 @@ function() {
   x = 20 })
 }
 
-compiles: 
+compiles:
 function() {
   if(User.find!(id)) {
     error("already exists")

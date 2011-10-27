@@ -6,7 +6,7 @@ var x = 1
   var ret = []
   for(var i in A) {
     ret.push(fn.call(A[i], A[i], i))
-  }  
+  }
   return ret
 }
 |.detect = function(A, fn) {
@@ -16,7 +16,7 @@ var x = 1
     if(fn.call(a, a, i)) {
       return a
     }
-  }  
+  }
 }
 
 var x = [2] | map `#*#`

@@ -3,7 +3,7 @@ compiles:
   a "b"
 }
 
-to: 
+to:
 function() {
   return a("b")
 }

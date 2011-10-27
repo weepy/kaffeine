@@ -16,9 +16,9 @@ module.exports = function(stream) {
 
     var rhs = pipe.next.remove(R) //.collectText()
     var ret = pipe.prev
-    
+
     pair = Token.bracket.pair("()")
-    
+
     tokens = Token.ize("__." + pipe.pipe_function + ".call")
     tokens.append(pair.L)
     tokens.append("this, ")
@@ -26,7 +26,7 @@ module.exports = function(stream) {
     tokens.append(", ")
     tokens.append(rhs)
     tokens.append(pair.R)
-    
+
     pipe.replaceWith(tokens) //"__." + pipe.pipe_function + ".call(this, " + lhs + ", " + rhs + ")")
     return ret
   })

@@ -10,9 +10,9 @@ function a() {
 function c() {
   y = 3, z = 2
   t = x = function e() {
-  
+
   }
-  
+
   function d() {
     x = 13
     w = 2

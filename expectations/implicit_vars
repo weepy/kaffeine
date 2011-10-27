@@ -14,7 +14,7 @@ function() {
   var x; x = 2
 }
 
-compiles: 
+compiles:
 x = 100
 function() {
   var x = 200
@@ -43,12 +43,12 @@ function a() {
   a = 2
 }
 
-to: 
+to:
 function a() {
   var a; a = 2
 }
 
-compiles: 
+compiles:
 z = 0
 function(a) {
   z = 1
@@ -60,7 +60,7 @@ function(a) {
   z = 1
 }
 
-compiles: 
+compiles:
 z = 0
 function(a) {
   y = 1, z = 1
@@ -72,13 +72,13 @@ function(a) {
   var y; y = 1, z = 1
 }
 
-compiles: 
+compiles:
 var z = 0
 function(a) {
   z = 1
 }
 
-to: 
+to:
 var z; z = 0
 function(a) {
   z = 1
@@ -117,7 +117,7 @@ function() {
   }
 }
 
-compiles: 
+compiles:
 function() {
   x = 1, y = 2
 }

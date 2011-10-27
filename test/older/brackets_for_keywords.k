@@ -3,7 +3,7 @@
 if true// hello
   ok(true)
 
-  
+
 for x in [1,2,3,2*2] {
   ok(true)
 }
@@ -30,4 +30,4 @@ while I == 1 {
 
 if !false
   ok(true)
-  
+

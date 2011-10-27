@@ -11,7 +11,7 @@ function Mammal() {
 
 }
 
-::legs = function() { return 4 } 
+::legs = function() { return 4 }
 Mammal::lungs = true
 
 var m = new Mammal()

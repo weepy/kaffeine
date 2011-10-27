@@ -2,8 +2,8 @@
 
 this.val = 2
 
-y = -> { 
-  return this.val + 1 
+y = -> {
+  return this.val + 1
 }
 
 nofat = -> {
