@@ -106,7 +106,7 @@ function compileScripts() {
               }
             })
           }
-          else if(topLevel || path.extname(source) == '.k') {
+          else if(topLevel || path.extname(source) == '.js') {
             fs.readFile(source, function(err, code) { compileScript(source, code.toString(), base) })
             if(options.watch) watch(source, base)
           }
