@@ -97,7 +97,7 @@ function compileScripts() {
     var base = source
     var compile = function(source, topLevel) {
 
-      path.exists(source, function (exists) {
+      fs.exists(source, function (exists) {
         if(!exists) throw(new Error("File not found = " + source))
         fs.stat( source, function(err, stats) {
           if(stats.isDirectory()) {
@@ -152,7 +152,7 @@ function writeJs(source, js, base) {
       if(options.compile && options.watch) console.log("Compiled " + source)
     })
   }
-  path.exists(dir, function(exists) {
+  fs.exists(dir, function(exists) {
     exists ? compile() : exec("mkdir -p " + dir, compile)
   })
 }
