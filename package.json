@@ -14,5 +14,8 @@
   },
   "repository": "http://github.com/weepy/kaffeine",
   "engines" : { "node": ">= 0.3.0" },
-  "main": "./lib/index.js"
+  "main": "./lib/index.js",
+  "dependencies" : {
+    "optparse" : "*"
+  }
 }
