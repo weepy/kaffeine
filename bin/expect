@@ -47,7 +47,7 @@ function runExpectations(path, exs) {
     if(js != ex.output) {
       failed.push(ex)
       util.print('X');
-      //require("sys").puts("expecting:\n" + ex.output.replace(/ /g, ".") + "\nfound:\n" + js.replace(/ /g, "."))
+      //require('util').puts("expecting:\n" + ex.output.replace(/ /g, ".") + "\nfound:\n" + js.replace(/ /g, "."))
       var output = js.split("\n")
       var expected = ex.output.split("\n")
       for(var j=0; j < output.length; j++) {
