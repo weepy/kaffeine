@@ -2,20 +2,33 @@
   "name": "kaffeine",
   "version": "0.1.6",
   "description": "Enhanced Syntax for Javascript",
-  "keywords": ["javascript", "language", "compiler", "coffeescript", "altjs"],
+  "keywords": [
+    "javascript",
+    "language",
+    "compiler",
+    "coffeescript",
+    "altjs"
+  ],
   "author": "weepy",
-  "licenses":     [{
-    "type":       "MIT",
-    "url": "http://github.com/weepy/kaffeine/raw/master/LICENSE"
-  }],
-  "bin": { "kaffeine": "./bin/kaffeine", "knode": "./bin/knode" },
-  "directories" : {
-    "lib" : "./lib"
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/weepy/kaffeine/raw/master/LICENSE"
+    }
+  ],
+  "bin": {
+    "kaffeine": "./bin/kaffeine",
+    "knode": "./bin/knode"
+  },
+  "directories": {
+    "lib": "./lib"
   },
   "repository": "http://github.com/weepy/kaffeine",
-  "engines" : { "node": ">= 0.3.0" },
+  "engines": {
+    "node": ">= 0.3.0"
+  },
   "main": "./lib/index.js",
-  "dependencies" : {
-    "optparse" : "*"
+  "dependencies": {
+    "optparse": "^1.0.5"
   }
 }
